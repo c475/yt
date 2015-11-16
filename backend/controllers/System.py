@@ -42,3 +42,16 @@ class System(object):
             )
 
         return getRooms()
+
+    def joinRoom(self, room):
+        if self.user is None:
+            return None
+
+        room = Room.objects.filter(name=room)
+
+        if room.exists():
+            self.user.current_room = room[0]
+            self.user.save()
+
+        else:
+            self.user.current_room = Room.objects.all()[0]

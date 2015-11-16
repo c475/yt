@@ -42,6 +42,9 @@ class UserController(object):
         sessions = Session.objects.all()
         for session in sessions:
             if int(session.get_decoded().get("_auth_user_id")) == uid:
+                user = User.objects.get(pk=uid)
+                user.current_room = None
+                user.save()
                 session.delete()
                 break
 
