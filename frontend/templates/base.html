@@ -133,9 +133,9 @@ window.onload = function() {
                     console.info(endpoint + " error: ", error);
                 };
 
-                if(typeof args === 'object') {
+                if(typeof args === 'undefined' || args === null) {
                     args.room = State.room;
-                } else if(typeof args === 'undefined' || args === null) {
+                } else if(typeof args === 'object') {
                     args = {room: State.room}
                 }
 
