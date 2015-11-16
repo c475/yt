@@ -3,7 +3,7 @@ from social.apps.django_app.default.models import UserSocialAuth
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator
 
-from backend.models import User
+from backend.models import User, Room
 
 
 class UserController(object):

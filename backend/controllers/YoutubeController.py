@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 from django.db import models
 from django.core.paginator import Paginator
 
-from backend.models import Video, User
+from backend.models import Video, User, Room
 
 
 class YoutubeController(object):
