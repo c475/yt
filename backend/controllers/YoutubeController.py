@@ -63,6 +63,8 @@ class YoutubeController(object):
                     ret[field.name] = field_value.strftime("%Y-%m-%d %H:%M:%S")
             elif isinstance(getattr(model_instance, field.name), User):
                 ret[field.name] = self.serialize(getattr(model_instance, field.name))
+            elif isinstance(field, Room):
+                ret[field.name] = field.name
             else:
                 ret[field.name] = field_value
 
