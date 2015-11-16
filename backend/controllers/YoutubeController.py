@@ -17,7 +17,6 @@ class YoutubeController(object):
         else:
             raise Exception('Room %s does not exist' % (room,))
 
-
     @property
     def queuedVideos(self):
         return Video.objects.filter(

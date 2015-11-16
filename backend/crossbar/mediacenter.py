@@ -71,7 +71,7 @@ class Mediacenter(ApplicationSession):
 
             active_users = UserController(room).getActiveUsers()
 
-            self.publish(room + '.userJoined', active_users)
+            self.publish(room + '.users', 'list', active_users)
 
             return {
                 'users': active_users,
@@ -138,7 +138,8 @@ class Mediacenter(ApplicationSession):
             room = data['room']
             print(data)
             self.publish(
-                room + '.video', 'end',
+                room + '.video',
+                'end',
                 YoutubeController(room).endVideo(),
                 YoutubeController(room).getPlaylist()
             )
@@ -160,10 +161,10 @@ class Mediacenter(ApplicationSession):
 
         def logout(data):
             printendpoint('logout')
-            return self.User.logout(data)
+            self.publish(data['room'] + '.users', 'list', UserController().getActiveUsers())
 
-        def changeUsername(data):
-            return User.changeUsername(data)
+        # def changeUsername(data):
+        #     return User.changeUsername(data)
 
 
         yield self.register(initialize, 'initialize')
@@ -176,5 +177,5 @@ class Mediacenter(ApplicationSession):
         yield self.register(endVideo, 'endVideo')
         yield self.register(getVideoHistory, 'getVideoHistory')
         yield self.register(logout, 'logout')
-        yield self.register(changeUsername, 'changeUsername')
+        # yield self.register(changeUsername, 'changeUsername')
         yield self.register(createRoom, 'createRoom')

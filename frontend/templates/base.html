@@ -41,8 +41,18 @@ window.onload = function() {
                     UI.rooms.set('rooms', rooms);
                 });
 
-                self.subscribe("userJoined", function(users) {
-                    UI.users.set("users", users);
+                self.subscribe('users', function(args) {
+                    var type = args[0];
+                    var data = args[1];
+
+                    switch(type) {
+                        case 'list':
+                            UI.users.set("users", data);
+                            break;
+
+                        default:
+                            break;
+                    }
                 });
 
                 self.subscribe("chat", function(message) {
@@ -125,7 +135,7 @@ window.onload = function() {
 
                 if(typeof args === 'object') {
                     args.room = State.room;
-                } else if(typeof args === 'undefined') {
+                } else if(typeof args === 'undefined' || args === null) {
                     args = {room: State.room}
                 }
 
@@ -476,7 +486,7 @@ window.onload = function() {
             });
 
             this.navbar.on("logout", function() {
-                Crossbar.rpc("logout", User.uid, function() {
+                Crossbar.rpc("logout", null, function() {
                     window.location = "/";
                 });
             });
