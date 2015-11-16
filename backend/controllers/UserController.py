@@ -37,7 +37,7 @@ class UserController(object):
 
     @property
     def allUsers(self):
-        return User.objects.filter(room=room)
+        return User.objects.filter(room=self.room)
 
     def serialize(self, model_instance):
         ret = {}
