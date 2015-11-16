@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     url(r'^$', Index.as_view()),
     url(r'^index/$', Index.as_view()),
 
-    url(r'^rooms/$', Rooms.as_view()),
+    url(r'^rooms/$', RoomSelect.as_view()),
 
     # auth
     url('', include('social.apps.django_app.urls', namespace='social')),
