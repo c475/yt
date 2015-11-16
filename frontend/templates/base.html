@@ -347,6 +347,7 @@ window.onload = function() {
         navigate: function(page) {
             for(var p in this.pageRegistry) {
                 p = this.pageRegistry[p];
+                console.log(p);
                 if(p.get('activeOn').indexOf(page) > -1) {
                     p.set('active', true);
                 } else {
