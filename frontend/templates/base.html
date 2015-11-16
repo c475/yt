@@ -463,6 +463,17 @@ window.onload = function() {
                     window.location = "/";
                 });
             });
+
+            this.pageRegistry = [
+                this.rooms,
+                this.profile,
+                this.history,
+                this.playlist,
+                this.search,
+                this.player,
+                this.users,
+                this.chat
+            ]
         },
 
         navbar: new Ractive({
@@ -564,16 +575,7 @@ window.onload = function() {
             }
         }),
 
-        pageRegistry: [
-            this.rooms,
-            this.profile,
-            this.history,
-            this.playlist,
-            this.search,
-            this.player,
-            this.users,
-            this.chat
-        ]
+        pageRegistry: null,
     };
 
     var State = {
