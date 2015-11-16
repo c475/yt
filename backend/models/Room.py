@@ -9,4 +9,4 @@ class Room(models.Model):
 
     class Meta:
         app_label = 'backend'
-        db_table = 'chat'
+        db_table = 'room'
