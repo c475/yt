@@ -17,8 +17,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             username=kwargs["username"],
             is_admin=True,
-            is_staff=True,
-            is_superuser=True
+            is_active=True,
         )
 
         user.save(using=self._db)
