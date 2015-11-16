@@ -589,10 +589,13 @@ window.onload = function() {
         room: '{{ room }}'
     };
 
+    alert(State.room);
+
     Youtube.initialize();
     UI.initialize();
 
     window.UI = UI;
+    window.State = State;
 
 };
 
