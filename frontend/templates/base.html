@@ -339,60 +339,32 @@ window.onload = function() {
 
         searchTimeout: null,
 
-        video: document.getElementById("video"),
-        leftColumn: document.getElementsByClassName("left-col")[0],
-        rightColumn: document.getElementsByClassName("right-col")[0],
-        middleColumn: document.getElementsByClassName("middle-col")[0],
-
         chatboxScroll: function() {
-            var chatbox = document.getElementById("chatbox");
+            var chatbox = document.getElementById('chatbox');
             chatbox.scrollTop = chatbox.scrollHeight;
         },
 
-        // refactor this...
-        toggleSearch: function(page) {
-            var self = this;
+        navigate: function(page) {
+            for(var p in this.pageRegistry) {
+                p = this.pageRegistry[p];
+                if(p.get('activeOn').indexOf(page) > -1) {
+                    p.set('active', true);
+                } else {
+                    p.set('active', false);
+                }
+            }
 
-            if(page === "search") {
-                this.chat.set("active", false);
-                this.users.set("active", false);
-                this.player.set("active", false);
-                this.playlist.set("active", false);
-                this.search.set("active", true);
-                this.history.set("active", false);
-                this.video.style.display = "none";
-                this.leftColumn.style.display = "none";
-                this.rightColumn.style.display = "none";
-                this.middleColumn.style.width = "100%";
-            } else if(page === "history") {
-                var page = this.history.get("currentPage")
-                Crossbar.rpc("getVideoHistory", {page: page}, function(response) {
-                    self.history.set("videos", response);
+            if(page === 'history') {
+                var page = this.history.get('currentPage')
+                Crossbar.rpc('getVideoHistory', {page: page}, function(response) {
+                    self.history.set('videos', response);
                 });
+            }
 
-                this.chat.set("active", false);
-                this.users.set("active", false);
-                this.player.set("active", false);
-                this.playlist.set("active", false);
-                this.search.set("active", false);
-                this.history.set("active", true);
-                this.video.style.display = "none";
-                this.leftColumn.style.display = "none";
-                this.rightColumn.style.display = "none";
-                this.middleColumn.style.width = "100%";
-            } else {
-                this.chat.set("active", true);
-                this.users.set("active", true);
-                this.player.set("active", true);
-                this.playlist.set("active", true);
-                this.search.set("active", false);
-                this.history.set("active", false);
-                this.video.style.display = "inline-block";
-                this.leftColumn.style.display = "inline-block";
-                this.rightColumn.style.display = "inline-block";
-                this.middleColumn.style.width = "50%";
+            if(page === 'home') {
                 this.chatboxScroll();
             }
+
         },
 
         initialize: function() {
@@ -412,7 +384,7 @@ window.onload = function() {
             });
 
             this.navbar.on("navigate", function(event, page) {
-                self.toggleSearch(page);
+                self.navigate(page);
             });
 
             this.chat.on("keydown", function(event, click) {
@@ -505,6 +477,7 @@ window.onload = function() {
             template: "#chat-template",
             data: {
                 active: true,
+                activeOn: ['home'],
                 chats: [],
                 message: "",
             }
@@ -514,7 +487,8 @@ window.onload = function() {
             el: "#users",
             template: "#users-template",
             data: {
-                active: true
+                active: true,
+                activeOn: ['users']
             }
         }),
 
@@ -523,6 +497,7 @@ window.onload = function() {
             template: "#video-template",
             data: {
                 active: true,
+                activeOn: ['home'],
                 currentlyPlaying: null
             }
         }),
@@ -532,6 +507,7 @@ window.onload = function() {
             template: "#search-template",
             data: {
                 active: false,
+                activeOn: ['search'],
                 query: "",
                 results: []
             }
@@ -542,6 +518,7 @@ window.onload = function() {
             template: "#playlist-template",
             data: {
                 active: true,
+                activeOn: ['home'],
                 videos: []
             }
         }),
@@ -551,6 +528,7 @@ window.onload = function() {
             template: "#history-template",
             data: {
                 active: false,
+                activeOn: ['history'],
                 pageLimit: 10,
                 currentPage: 1,
                 set: 1,
@@ -570,6 +548,7 @@ window.onload = function() {
             template: "#profile-template",
             data: {
                 active: false,
+                activeOn: ['profile'],
                 user: User
             }
         }),
@@ -579,9 +558,21 @@ window.onload = function() {
             template: '#rooms-template',
             data: {
                 active: false,
+                activeOn: ['rooms'],
                 rooms: []
             }
-        })
+        }),
+
+        pageRegistry: [
+            this.rooms,
+            this.profile,
+            this.history,
+            this.playlist,
+            this.search,
+            this.player,
+            this.users,
+            this.chat
+        ]
     };
 
     var State = {
