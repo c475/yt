@@ -12,9 +12,9 @@ class ChatController(object):
 
     def getChat(self, **kwargs):
         chats = []
-        last_50 = reversed(Chat.objects.filter(room=self.room).order_by("-id")[:20])
+        last_20 = reversed(Chat.objects.filter(room=self.room).order_by("-id")[:20])
 
-        for chat in last_50:
+        for chat in last_20:
             chats.append({
                 "content": chat.content,
                 "date": chat.date.strftime("%Y-%m-%d %H:%M:%S"),
