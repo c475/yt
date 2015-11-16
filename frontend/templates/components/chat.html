@@ -1,0 +1,24 @@
+{% verbatim %}
+
+{{ #if active }}
+
+    <div id="chat-wrapper">
+
+        <div id="chatbox">
+        {{ #each chats }}
+            <p><b>{{ user.username }}</b>: {{ content }}</p>
+        {{ /each }}
+        </div>
+
+        <div class="input-group">
+            <input type="text" class="form-control" value="{{ message }}" on-keydown="keydown">
+            <span class="input-group-btn">
+                <button class="btn btn-info" type="button" on-click="keydown:click">Yep</button>
+            </span>
+        </div>
+
+    </div>
+
+{{ /if }}
+
+{% endverbatim %}

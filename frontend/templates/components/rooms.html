@@ -1,0 +1,20 @@
+{% verbatim %}
+
+{{ #if active && rooms.length > 0 }}
+
+<ul id="playlist-ul" class="media-list">
+
+    {{ #each rooms }}
+    <li class="media playlist-item" on-click="joinRoom:{{ name }}">
+        <div class="media-body">
+            <h5 class="media-heading">{{ name }}</h5>
+            <p>{{ description }}</p>
+        </div>
+    </li>
+    {{ /each }}
+
+</ul>
+
+{{ /if }}
+
+{% endverbatim %}

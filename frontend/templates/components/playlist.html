@@ -1,0 +1,22 @@
+{% verbatim %}
+
+{{ #if active && videos.length > 0 }}
+
+<ul id="playlist-ul" class="media-list">
+
+    {{ #each videos:i }}
+    <li class="media playlist-item" on-click="deQueueVideo:{{ i }}">
+        <div class="media-left">
+            <img class="media-object" src="{{ thumbnail }}">
+        </div>
+        <div class="media-body">
+            <h5 class="media-heading">{{ title }}</h5>
+        </div>
+    </li>
+    {{ /each }}
+
+</ul>
+
+{{ /if }}
+
+{% endverbatim %}

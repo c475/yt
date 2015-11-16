@@ -1,0 +1,591 @@
+{% extends "index.html" %}
+
+{% block base %}
+
+<script type="text/javascript">
+
+window.onload = function() {
+
+    var Crossbar = {
+
+        connection: null,
+        session: null,
+
+        initialize: function() {
+            var self = this;
+
+            var wsuri = "wss://" + document.location.host + ":8080/ws";
+
+            this.connection = new autobahn.Connection({
+                url: wsuri,
+                realm: "mediacenter"
+            });
+
+            this.connection.onopen = function(session, details) {
+                console.info("Connection established:", details);
+                self.session = session;
+
+                self.rpc("initialize", null, function(response) {
+                    if(response) {
+                        UI.users.set("users", response.users);
+                        UI.chat.set("chats", response.chats);
+                        UI.playlist.set("videos", response.videos);
+                        UI.history.set("pages", response.historyPages);
+                        UI.rooms.set('rooms', response.rooms);
+
+                        Youtube.playVideo(response.playing);
+                    }
+                });
+
+                self.subscribe('rooms', function(rooms) {
+                    UI.rooms.set('rooms', rooms);
+                });
+
+                self.subscribe("userJoined", function(users) {
+                    UI.users.set("users", users);
+                });
+
+                self.subscribe("chat", function(message) {
+                    UI.chat.push("chats", message[0]);
+                    UI.chatboxScroll();
+                });
+
+                self.subscribe("video", function(args) {
+                    var type = args[0];
+                    var video = args[1];
+                    var playlist = args[2];
+
+                    switch(type) {
+                        case "play":
+                            Youtube.playVideo(video);
+                            break;
+
+                        case "end":
+                            Youtube.endVideo(video);
+                            UI.playlist.set("videos", playlist === null ? [] : playlist);
+                            break;
+
+                        case "pause":
+                            Youtube.player.pauseVideo();
+                            break;
+
+                        case "resume":
+                            Youtube.player.playVideo();
+                            break;
+
+                        default:
+                            console.error("self.subscribe('video') message type: " + type);
+                            break;
+                    }
+                });
+
+                self.subscribe("playlist", function(data) {
+                    var videos = data[0];
+                    var pages = data[1];
+
+                    var currentPage = UI.history.get("currentPage");
+
+                    if(!Youtube.player) {
+                        var video = videos[0];
+                        UI.playlist.set("videos", videos.slice(1));
+                        self.rpc("playVideo", {video: video, room: State.room});
+                    } else {
+                        UI.playlist.set("videos", videos);
+                    }
+
+                    UI.history.set("pages", pages);
+
+                    if(UI.history.get("active") && pages[pages.length-1] === currentPage) {
+                        UI.history._subs.getVideoHistory[0](null, UI.history.get("currentPage"));
+                    }
+
+                    UI.history.update();
+                });
+            };
+
+            this.connection.onclose = function(reason, details) {
+                console.info("CONNECTION CLOSED: ", reason, details);
+            };
+
+            this.connection.open();
+        },
+
+        rpc: function(endpoint, args, callback) {
+            if(this.session) {
+
+                success = function(response) {
+                    if(callback) {
+                        callback(response);
+                    }
+                };
+
+                error = function(error) {
+                    console.info(endpoint + " error: ", error);
+                };
+
+                if(typeof args === 'object') {
+                    args.room = State.room;
+                } else if(typeof args === 'undefined') {
+                    args = {room: State.room}
+                }
+
+                this.session.call(endpoint, [args]).then(success, error);
+
+            } else {
+                console.info("Attempted RPC call with no session.");
+            }
+        },
+
+        subscribe: function(endpoint, callback) {
+            if(this.session) {
+
+                success = function(subscription) {
+                    console.info("subscribed to " + endpoint + ": ", subscription);
+                };
+
+                error = function(error) {
+                    cosole.info("error subscribing to " + endpoint + ": " + error);
+                };
+
+                this.session.subscribe(State.room + '.' + endpoint, callback).then(success, error);
+            }
+        },
+
+        register: function(endpoint, procedure) {
+            if(this.session) {
+
+                success = function(registered) {
+                    console.info("procedure registered", registered);
+                };
+
+                error = function(error) {
+                    console.info("failed to register procedure", error);
+                };
+
+                this.session.register(endpoint, procedure).then(success, error);
+            }
+        },
+
+        publish: function(endpoint, args) {
+            this.session.publish(endpoint, args);
+        }
+    };
+
+
+    var Search = {
+
+        searchShowing: false,
+
+        initialize: function() {
+            gapi.client.setApiKey("AIzaSyBCq4bjDcsrw1S13ZAnQQ00THugEPeylcU");
+            gapi.client.load("youtube", "v3", function() {
+                // v3 API ready
+            });
+        },
+
+        search: function(query, random) {
+            var self = this;
+
+            var request = gapi.client.youtube.search.list({
+                part: "snippet",
+                type: "video",
+                q: query,
+                maxResults: 10,
+                order: "viewCount"
+            });
+
+            request.execute(function(response) {
+                if(!random) {
+                    UI.search.set("results", response.items);
+                } else {
+                    if(response.items.length) {
+                        var video = response.items[0];
+                        video.uid = User.uid;
+                        Crossbar.rpc("queueVideo", {video: video});
+                    } else {
+                        UI.navbar._subs.random[0]();
+                    }
+
+                    self.clearSearchResults();
+                    return response.items;
+                }
+            });
+        },
+
+        clearSearchResults: function() {
+            if(this.searchShowing) {
+                UI.search.set("results", []);
+                this.searchShowing = false;
+            }
+        }
+    };
+
+
+    var User = {
+        uid: {{ user.pk }},
+        username: "{{ user.username }}"
+    };
+
+
+    var Youtube = {
+
+        videoHeight: "100%",
+        videoWidth: "100%",
+        previousState: null,
+        player: null,
+
+        videoStart: 0,
+
+        initialize: function() {
+            window.onYouTubeIframeAPIReady = function () {
+                Crossbar.initialize();
+                Search.initialize();
+            };
+
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        },
+
+        // create a youtube video, replacing $("#player") with an iframe of it
+        createPlayer: function(settings) {
+            this.player = new YT.Player("player", settings);
+        },
+
+        onPlayerReady: function(event) {
+            this.player.seekTo(this.videoStart);
+            this.player.playVideo();
+            this.videoStart = 0;
+        },
+
+        // handle state changes in the video (play, pause, stop, volume, etc)
+        onPlayerStateChange: function(event) {
+
+            var self = this;
+
+            switch(event.data) {
+
+                case YT.PlayerState.PLAYING:
+                    if(this.previousState === YT.PlayerState.PAUSED) {
+                        Crossbar.rpc("resumeVideo");
+                    }
+                    break;
+
+                case YT.PlayerState.PAUSED:
+                    Crossbar.rpc("pauseVideo");
+                    break;
+
+                case YT.PlayerState.ENDED:
+                    Crossbar.rpc("endVideo");
+                    break;
+
+                case YT.PlayerState.CUED:
+                    break;
+
+                case YT.PlayerState.BUFFERING:
+                    break;
+
+                case YT.PlayerState.UNSTARTED:
+                    break;
+
+                default:
+                    break;
+            }
+
+            this.previousState = event.data;
+        },
+
+        playVideo: function(track) {
+            if(track && !this.player) {
+                var self = this;
+
+                this.videoStart = track.start_seconds;
+
+                this.createPlayer({
+                    height: this.videoHeight,
+                    width: this.videoWidth,
+                    videoId: track.video_id,
+                    events: {
+                        onReady: this.onPlayerReady.bind(self),
+                        onStateChange: this.onPlayerStateChange.bind(self)
+                    }
+                });
+            }
+        },
+
+        endVideo: function(track) {
+            this.player.destroy();
+            this.player = null;
+
+            if(track) {
+                this.playVideo(track);
+            }
+        }
+    };
+
+
+    var UI = {
+
+        searchTimeout: null,
+
+        video: document.getElementById("video"),
+        leftColumn: document.getElementsByClassName("left-col")[0],
+        rightColumn: document.getElementsByClassName("right-col")[0],
+        middleColumn: document.getElementsByClassName("middle-col")[0],
+
+        chatboxScroll: function() {
+            var chatbox = document.getElementById("chatbox");
+            chatbox.scrollTop = chatbox.scrollHeight;
+        },
+
+        // refactor this...
+        toggleSearch: function(page) {
+            var self = this;
+
+            if(page === "search") {
+                this.chat.set("active", false);
+                this.users.set("active", false);
+                this.player.set("active", false);
+                this.playlist.set("active", false);
+                this.search.set("active", true);
+                this.history.set("active", false);
+                this.video.style.display = "none";
+                this.leftColumn.style.display = "none";
+                this.rightColumn.style.display = "none";
+                this.middleColumn.style.width = "100%";
+            } else if(page === "history") {
+                var page = this.history.get("currentPage")
+                Crossbar.rpc("getVideoHistory", {page: page}, function(response) {
+                    self.history.set("videos", response);
+                });
+
+                this.chat.set("active", false);
+                this.users.set("active", false);
+                this.player.set("active", false);
+                this.playlist.set("active", false);
+                this.search.set("active", false);
+                this.history.set("active", true);
+                this.video.style.display = "none";
+                this.leftColumn.style.display = "none";
+                this.rightColumn.style.display = "none";
+                this.middleColumn.style.width = "100%";
+            } else {
+                this.chat.set("active", true);
+                this.users.set("active", true);
+                this.player.set("active", true);
+                this.playlist.set("active", true);
+                this.search.set("active", false);
+                this.history.set("active", false);
+                this.video.style.display = "inline-block";
+                this.leftColumn.style.display = "inline-block";
+                this.rightColumn.style.display = "inline-block";
+                this.middleColumn.style.width = "50%";
+                this.chatboxScroll();
+            }
+        },
+
+        initialize: function() {
+            var self = this;
+
+            this.search.observe("query", function(query) {
+                if(query.trim()) {
+                    clearTimeout(self.searchTimeout);
+                    self.searchTimeout = setTimeout(function() {
+                        Search.search(encodeURIComponent(query).replace(/%20/g, "+"));
+                        self.searchTimeout = null;
+                        self.search.set("query", "");
+                    }, 1000);
+                }
+
+                self.search.set("results", []);
+            });
+
+            this.navbar.on("navigate", function(event, page) {
+                self.toggleSearch(page);
+            });
+
+            this.chat.on("keydown", function(event, click) {
+                if(event.original.keyCode == "13" || click) {
+                    var content = self.chat.get("message");
+                    if(content.trim()) {
+                        Crossbar.rpc("sendChat", {
+                            uid: User.uid,
+                            content: content
+                        });
+
+                        self.chat.set("message", "");
+                        self.chat.update();
+                    }
+                }
+            });
+
+            this.search.on("queueVideo", function(event, index) {
+                var video = self.search.get("results")[index];
+                video.uid = User.uid;
+                self.toggleSearch();
+                Crossbar.rpc("queueVideo", {video: video});
+                self.search.set("results", []);
+            });
+
+            this.playlist.on("deQueueVideo", function(event, index) {
+                var video = self.playlist.get("videos")[index];
+                Crossbar.rpc("deQueueVideo", {video: video});
+            });
+
+            this.navbar.on("random", function(event) {
+                var randint = function(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                };
+
+                Search.search(
+                    encodeURIComponent(WORDS[randint(0, WORDS.length-1)]).replace(/%20/g, "+"),
+                    "random"
+                );
+            });
+
+            this.navbar.on("skip", function(event) {
+                Crossbar.rpc("endVideo");
+            });
+
+            this.history.on("getVideoHistory", function(event, page) {
+                self.history.set("currentPage", page);
+
+                Crossbar.rpc("getVideoHistory", {page: page}, function(response) {
+                    console.log("getHistory:", response);
+                    self.history.set("videos", response);
+                });
+            });
+
+            this.history.on("paginationGroup", function(event, num) {
+                var set = self.history.get("set");
+                var pageLimit = self.history.get("pageLimit");
+                var pages = self.history.get("pages");
+
+                if(num === -1 && set > 1 || num === 1 && pages.indexOf((set * pageLimit) + 1) !== -1) {
+                    var page = num === 1 ? (set * pageLimit) + 1 : ((set-1) * pageLimit) - pageLimit + 1;
+                    self.history.set("set", set + num);
+                    self.history.set("currentPage", page);
+
+                    Crossbar.rpc("getVideoHistory", {page: page}, function(response) {
+                        self.history.set("videos", response);
+                    });
+
+                    self.history.update();
+                }
+            });
+
+            this.navbar.on("logout", function() {
+                Crossbar.rpc("logout", User.uid, function() {
+                    window.location = "/";
+                });
+            });
+        },
+
+        navbar: new Ractive({
+            el: "#navbar",
+            template: "#navbar-template",
+            data: {
+                currentPage: "home"
+            }
+        }),
+
+        chat: new Ractive({
+            el: "#chat",
+            template: "#chat-template",
+            data: {
+                active: true,
+                chats: [],
+                message: "",
+            }
+        }),
+
+        users: new Ractive({
+            el: "#users",
+            template: "#users-template",
+            data: {
+                active: true
+            }
+        }),
+
+        player: new Ractive({
+            el: "#video",
+            template: "#video-template",
+            data: {
+                active: true,
+                currentlyPlaying: null
+            }
+        }),
+
+        search: new Ractive({
+            el: "#search",
+            template: "#search-template",
+            data: {
+                active: false,
+                query: "",
+                results: []
+            }
+        }),
+
+        playlist: new Ractive({
+            el: "#playlist",
+            template: "#playlist-template",
+            data: {
+                active: true,
+                videos: []
+            }
+        }),
+
+        history: new Ractive({
+            el: "#history",
+            template: "#history-template",
+            data: {
+                active: false,
+                pageLimit: 10,
+                currentPage: 1,
+                set: 1,
+                pages: [],
+                videos: [],
+
+                validPage: function(page) {
+                    var set = UI.history.get("set");
+                    var pageLimit = UI.history.get("pageLimit");
+                    return page > ((set-1) * pageLimit) && page < ((set * pageLimit) + 1);
+                }
+            }
+        }),
+
+        profile: new Ractive({
+            el: "#profile",
+            template: "#profile-template",
+            data: {
+                active: false,
+                user: User
+            }
+        }),
+
+        rooms: new Ractive({
+            el: '#rooms',
+            template: '#rooms-template',
+            data: {
+                active: false,
+                rooms: []
+            }
+        })
+    };
+
+
+    var State = {
+        room: '{{ room }}'
+    };
+
+    Youtube.initialize();
+    UI.initialize();
+
+    window.UI = UI;
+
+};
+
+</script>
+
+{% endblock %}

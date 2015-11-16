@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mediacenter login</title>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', '{{ google_analytics }}', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+</head>
+
+<body style="background-color: #000000;">
+
+    {% if google_plus != '' %}
+
+    <div style="margin: 0 auto; font-family: monospace; color: white; text-align: center; margin-top: 12%;">
+
+        <h1 style="font-size: 7em">Login</h1>
+
+    	<div id="signinButton" style="padding-top:20px;">
+    		<span id="signinButton">
+    			<span
+    				class="g-signin"
+    				data-callback="signInCallback"
+    				data-clientid="{{ google_plus }}"
+    				data-cookiepolicy="single_host_origin"
+    				data-requestvisibleactions="http://schemas.google.com/AddActivity"
+    				data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email">
+    			</span>
+    		</span>
+    	</div>
+
+    	<form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}">
+    		{% csrf_token %}
+    		<input id="at" type="hidden" name="access_token" value="" />
+    		<input id="code" type="hidden" name="code" value="" />
+    	</form>
+
+    </div>
+
+	{% endif %}
+
+</body>
+
+<script type="text/javascript">
+    function signInCallback(result) {
+        if (result.error) {
+            console.log('A Google Plus error occured: ', result.error);
+        } else {
+            if (result.status.method === 'PROMPT') {
+                document.getElementById("code").setAttribute("value", result.code);
+                document.getElementById("at").setAttribute("value", result.access_token);
+                document.getElementById("google-plus").submit();
+            } else {
+                gapi.auth.signOut();
+            }
+        }
+    }
+
+    window.onload = function () {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+    };
+</script>
+
+</html>

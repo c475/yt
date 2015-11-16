@@ -1,0 +1,5 @@
+python-social-auth
+requests_oauthlib
+gunicorn
+django
+requests

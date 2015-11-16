@@ -1,0 +1,13 @@
+[Unit]
+Description=crossbar
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/backend/crossbar/
+ExecStart=/usr/local/bin/crossbar start
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

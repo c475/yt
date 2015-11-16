@@ -1,0 +1,25 @@
+{% verbatim %}
+
+{{ #if active }}
+
+<input id="video-search" type="text" class="form-control" value="{{ query }}">
+
+<ul id="video-results" class="media-list">
+
+    {{ #each results:i }}
+    <li class="media playlist-item search-result" on-click="queueVideo:{{ i }}">
+        <div class="media-left">
+            <img class="media-object" src="{{ snippet.thumbnails.default.url }}">
+        </div>
+        <div class="media-body">
+            <h5 class="media-heading">{{ snippet.title }}</h5>
+            <p>{{ snippet.description }}</p>
+        </div>
+    </li>
+    {{ /each }}
+
+</ul>
+
+{{ /if }}
+
+{% endverbatim %}

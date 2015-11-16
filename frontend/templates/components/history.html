@@ -1,0 +1,49 @@
+{% verbatim %}
+
+{{ #if active }}
+
+<nav class="history-pagination">
+    <ul class="pagination">
+        <li>
+            <a href="#" aria-label="Previous" on-click="paginationGroup:-1">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        {{ #each pages }}
+            {{ #if validPage(this) }}
+            <li>
+                <a href="#" class="{{ this === currentPage ? 'pagination-active' : ''}}" on-click="getVideoHistory:{{ this }}">
+                    {{ this }}
+                </a>
+            </li>
+            {{ /if }}
+        {{ /each }}
+
+        <li>
+            <a href="#" aria-label="Next" on-click="paginationGroup:1">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<ul id="video-results" class="media-list">
+    {{ #each videos:i }}
+    <a href="https://youtube.com/watch?v={{ video_id }}" target="_blank">
+        <li class="media playlist-item search-result">
+            <div class="media-left">
+                <img class="media-object" src="{{ thumbnail }}">
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading">{{ title }}</h5>
+                <p>{{ description }}</p>
+            </div>
+        </li>
+    </a>
+    {{ /each }}
+</ul>
+
+{{ /if }}
+
+{% endverbatim %}

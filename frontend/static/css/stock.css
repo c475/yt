@@ -1,0 +1,54 @@
+.main-nav {
+    height: 100px;
+    background-color: #10282F;
+}
+
+.main-content {
+    background-color: #061A0D;
+}
+
+#player {
+    vertical-align: middle;
+    margin: 0 auto;
+    min-height: 300px;
+}
+
+/*#video-search {
+    background-color: rgb(35, 45, 44);
+    border: 1px solid darkcyan;
+    margin-top: 32px;
+}
+
+#search-results, #playlist {
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgb(39, 30, 30);
+    color: dimgray;
+    border: 1px solid rgb(107, 107, 119);
+    display: none;
+}
+*/
+#playlist-ul {
+    display: inline-block;
+}
+
+/*.result {
+    border-bottom: 1px solid rgb(22, 109, 116);
+    padding-bottom: 16px;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.result:hover {
+    opacity: 0.6;
+}
+*/
+.media-heading {
+    color: rgb(148, 148, 148);
+}
+
+#chatbox {
+    height: 660px;
+    overflow-y: scroll;
+    color: white;
+}
