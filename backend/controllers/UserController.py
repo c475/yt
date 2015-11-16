@@ -21,7 +21,7 @@ class UserController(object):
             self.room = None
 
         if user is not None:
-            if isinstance(int, user):
+            if isinstance(user, int):
                 self.user = User.objects.filter(pk=user)
 
                 if self.user.exists():
