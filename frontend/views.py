@@ -66,7 +66,7 @@ class Index(LoggedInMixin, TemplateView):
 @login_required
 def logout(request):
     if request.user.is_authenticated():
-        UserController(request.user).logout()
+        UserController(user=request.user).logout()
         return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/')
