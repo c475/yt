@@ -134,9 +134,9 @@ window.onload = function() {
                 };
 
                 if(typeof args === 'undefined' || args === null) {
-                    args.room = State.room;
+                    args = {room: State.room};
                 } else if(typeof args === 'object') {
-                    args = {room: State.room}
+                    args.room = State.room;
                 }
 
                 this.session.call(endpoint, [args]).then(success, error);
