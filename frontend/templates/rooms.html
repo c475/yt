@@ -21,7 +21,7 @@
 <body style="background-color: #000000;">
 
 {% for room in rooms %}
-    <p>room.name</p>
+    <p><a href="/index/?room={{ room.name }}">{{ room.name }}</a></p>
 {% endfor %}
 
 </body>
