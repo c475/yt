@@ -16,8 +16,8 @@ AUTH_USER_MODEL = "backend.User"
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/rooms/"
+LOGOUT_REDIRECT_URL = "/login/"
 
 DEFAULT_FROM_EMAIL = "danjamesbond@gmail.com"
 EMAIL_FROM = "Daniel Bond <danjamesbond@gmail.com>"
