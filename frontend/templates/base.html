@@ -345,6 +345,8 @@ window.onload = function() {
         },
 
         navigate: function(page) {
+            var self = this;
+
             for(var p in this.pageRegistry) {
                 p = this.pageRegistry[p];
                 console.log(p);
@@ -365,7 +367,6 @@ window.onload = function() {
             if(page === 'home') {
                 this.chatboxScroll();
             }
-
         },
 
         initialize: function() {
@@ -489,7 +490,7 @@ window.onload = function() {
             template: "#chat-template",
             data: {
                 active: true,
-                activeOn: ['home'],
+                activeOn: ['home', 'search', 'history'],
                 chats: [],
                 message: "",
             }
@@ -530,7 +531,7 @@ window.onload = function() {
             template: "#playlist-template",
             data: {
                 active: true,
-                activeOn: ['home'],
+                activeOn: ['home', 'search', 'history'],
                 videos: []
             }
         }),
