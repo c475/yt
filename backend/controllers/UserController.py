@@ -8,14 +8,27 @@ from backend.models import User
 
 class UserController(object):
 
-    def __init__(self, room=None):
+    def __init__(self, room=None, user=None):
         self.per_page = 20
 
-        self.room = Room.objects.filter(name=room)
-        if self.room.exists():
-            self.room = self.room[0]
+        if room is not None:
+            self.room = Room.objects.filter(name=room)
+            if self.room.exists():
+                self.room = self.room[0]
+            else:
+                self.room = None
         else:
-            raise Exception('Room %s does not exist' % (room,))
+            self.room = None
+
+        if user is not None:
+            self.user = User.objects.filter(pk=user)
+            if self.user.exists():
+                self.user = self.user[0]
+            else:
+                self.user = None
+
+        else:
+            self.user = None
 
     @property
     def allUsers(self):
@@ -38,28 +51,27 @@ class UserController(object):
     def getActiveUsers(self):
         return [{"username": u.user.username, "id": u.user.id} for u in UserSocialAuth.objects.filter(user__room=self.room)]
 
-    def logout(self, uid):
+    def logout(self):
         sessions = Session.objects.all()
         for session in sessions:
-            if int(session.get_decoded().get("_auth_user_id")) == uid:
-                user = User.objects.get(pk=uid)
-                user.current_room = None
-                user.save()
+            if int(session.get_decoded().get("_auth_user_id")) == self.user.pk:
+                self.user.current_room = None
+                self.user.save()
                 session.delete()
                 break
 
-        UserSocialAuth.objects.filter(user=User.objects.get(pk=uid)).delete()
+        UserSocialAuth.objects.filter(user=self.user).delete()
 
+    # dumb
     def getUser(self, uid):
         try:
             return model_to_dict(User.objects.get(id=uid))
         except:
             return None
 
-    def changeUsername(self, data):
-        user = User.objects.get(pk=data["id"])
-        user.username = data["username"]
-        user.save()
+    def changeUsername(self):
+        self.user.username = data["username"]
+        self.user.save()
         return user.username
 
     def getPages(self):

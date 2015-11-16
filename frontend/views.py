@@ -7,6 +7,7 @@ from django.forms.models import model_to_dict
 
 from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY, GOOGLE_ANALYTICS
 
+from backend.controllers.UserController import UserController
 from backend.models import Room
 
 
@@ -60,3 +61,12 @@ class Index(LoggedInMixin, TemplateView):
             context['room'] = 'default'
 
         return context
+
+
+@login_required
+def logout(request):
+    if request.user.is_authenticated():
+        UserController(request.user).logout()
+        return HttpResponseRedirect('/')
+    else:
+        return HttpResponseRedirect('/')
