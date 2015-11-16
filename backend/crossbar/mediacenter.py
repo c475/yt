@@ -147,7 +147,10 @@ class Mediacenter(ApplicationSession):
         def getVideoHistory(data):
             printendpoint('getHistory')
             print(data)
-            return YoutubeController(data['room']).getHistory(data['page'])
+            try:
+                return YoutubeController(data['room']).getHistory(data['page'])
+            except Exception, e:
+                print(e)
 
         def createRoom(data):
             printendpoint('createRoom')
