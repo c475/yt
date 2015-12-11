@@ -28,7 +28,7 @@ class System(object):
     def getRooms(self):
         return [{'id': r.id, 'name': r.name} for r in Room.objects.all()]
 
-    def createRoom(self, name):
+    def createRoom(self, name, description=''):
         if self.user is None:
             return None
 
@@ -38,7 +38,8 @@ class System(object):
             new_room = Room.objects.create(
                 name=name,
                 creator=self.user,
-                date_created=datetime.datetime.now()
+                date_created=datetime.datetime.now(),
+                description=description
             )
 
         return getRooms()

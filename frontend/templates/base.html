@@ -31,14 +31,9 @@ window.onload = function() {
                         UI.chat.set("chats", response.chats);
                         UI.playlist.set("videos", response.videos);
                         UI.history.set("pages", response.historyPages);
-                        UI.rooms.set('rooms', response.rooms);
 
                         Youtube.playVideo(response.playing);
                     }
-                });
-
-                self.subscribe('rooms', function(rooms) {
-                    UI.rooms.set('rooms', rooms);
                 });
 
                 self.subscribe('users', function(args) {
@@ -466,7 +461,6 @@ window.onload = function() {
             });
 
             this.pageRegistry = [
-                this.rooms,
                 this.profile,
                 this.history,
                 this.playlist,
@@ -490,7 +484,7 @@ window.onload = function() {
             template: "#chat-template",
             data: {
                 active: true,
-                activeOn: ['home', 'search', 'history', 'rooms'],
+                activeOn: ['home', 'search', 'history'],
                 chats: [],
                 message: "",
             }
@@ -531,7 +525,7 @@ window.onload = function() {
             template: "#playlist-template",
             data: {
                 active: true,
-                activeOn: ['home', 'search', 'history', 'rooms'],
+                activeOn: ['home', 'search', 'history'],
                 videos: []
             }
         }),
@@ -563,16 +557,6 @@ window.onload = function() {
                 active: false,
                 activeOn: ['profile'],
                 user: User
-            }
-        }),
-
-        rooms: new Ractive({
-            el: '#rooms',
-            template: '#rooms-template',
-            data: {
-                active: false,
-                activeOn: ['rooms'],
-                rooms: []
             }
         }),
 

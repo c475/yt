@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
@@ -5,9 +7,11 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 
-from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY, GOOGLE_ANALYTICS
+from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY
 
 from backend.controllers.UserController import UserController
+from backend.controllers.System import System
+
 from backend.models import Room
 
 
@@ -31,7 +35,6 @@ class Login(NotLoggedInMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = {}
         context['google_plus'] = SOCIAL_AUTH_GOOGLE_PLUS_KEY
-        context['google_analytics'] = GOOGLE_ANALYTICS
         return context
 
 
@@ -41,7 +44,6 @@ class RoomSelect(LoggedInMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(RoomSelect, self).get_context_data(**kwargs)
         context['rooms'] = Room.objects.all()
-        context['google_analytics'] = GOOGLE_ANALYTICS
         return context
 
 
@@ -51,14 +53,29 @@ class Index(LoggedInMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
         context['user'] = self.request.user
-        context['google_analytics'] = GOOGLE_ANALYTICS
 
         room = self.request.GET.get('room')
 
         if room is not None and Room.objects.filter(name=room).exists():
             context['room'] = room
+
+        # create the room and send them to it if POST
         else:
-            context['room'] = 'default'
+            if self.request.method == 'POST':
+                name = request.POST.get('name')
+                description = request.POST.get('description')
+
+                if name is not None and description is not None:
+                    rooms = System(user=request.user).createRoom(name, description)
+
+                    if rooms is not None:
+                        context['room'] = name
+
+                    # should not get here
+                    else:
+                        context['room'] = 'default'
+            else:
+                context['room'] = 'default'
 
         return context
 

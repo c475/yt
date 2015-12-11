@@ -3,26 +3,94 @@
 <html>
 
 <head lang="en">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mediacenter Rooms</title>
+
+    <title>Rooms</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stock.css' %}">
+
+    <script id="rooms-listing-template" type="text/ractive">{% include "components/rooms-listing.html" %}</script>
+    <script id="rooms-create-template" type="text/ractive">{% include "components/rooms-create.html" %}</script>
+    <script id="rooms-create-template" type="text/ractive">{% include "components/rooms-navbar.html" %}</script>
 
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', '{{ google_analytics }}', 'auto');
-        ga('send', 'pageview');
+
+        var Rooms = {
+
+            initialize: function() {
+                var self = this;
+
+                this.roomsNavbar.on('navigate', function(e, nav) {
+                    if (nav === 'listing') {
+                        self.roomsListing.set('active', true);
+                        self.roomsCreate.set('active', false);
+                    } else {
+                        self.roomsListing.set('active', false);
+                        self.roomsCreate.set('active', true);
+                    }
+                });
+
+            },
+
+            roomsListing: new Ractive({
+                el: '#rooms-listing',
+                template: '#rooms-listing-template',
+                data: {
+                    active: true,
+                    rooms: (function() {
+                        var rooms = [];
+                        {% for room in rooms %}
+                        rooms.push('{{ room.name }}');
+                        {% endfor %}
+                        return rooms;
+                    })()
+                }
+            }),
+
+            roomsCreate: new Ractive({
+                el: '#rooms-listing',
+                template: '#rooms-listing-template',
+                data: {
+                    active: false
+                }
+            }),
+
+            roomsNavbar: new Ractive({
+                el: '#rooms-navbar',
+                template: '#rooms-navbar-template'
+            })
+        };
+
+        Rooms.initialize();
+
     </script>
 
 </head>
 
-<body style="background-color: #000000;">
+<body>
 
-{% for room in rooms %}
-    <p><a href="/index/?room={{ room.name }}">{{ room.name }}</a></p>
-{% endfor %}
+    <div class="container-fluid">
+
+
+        <div id="main-nav" class="row main-nav">
+
+            <div id="rooms-navbar"></div>
+
+        </div>
+
+        <div class="row">
+
+            <div id="rooms-listing"></div>
+
+            <div id="rooms-create"></div>
+
+        </div>
+
+    </div>
 
 </body>
 
