@@ -15,63 +15,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/stock.css' %}">
 
-    <script src="{% static 'js/ractive.min.js' %}"></script>
-    <script id="rooms-listing-template" type="text/ractive">{% include "components/rooms-listing.html" %}</script>
-    <script id="rooms-create-template" type="text/ractive">{% include "components/rooms-create.html" %}</script>
-    <script id="rooms-navbar-template" type="text/ractive">{% include "components/rooms-navbar.html" %}</script>
-
-    <script>
-
-        var Rooms = {
-
-            initialize: function() {
-                var self = this;
-
-                this.roomsNavbar.on('navigate', function(e, nav) {
-                    if (nav === 'listing') {
-                        self.roomsListing.set('active', true);
-                        self.roomsCreate.set('active', false);
-                    } else {
-                        self.roomsListing.set('active', false);
-                        self.roomsCreate.set('active', true);
-                    }
-                });
-
-            },
-
-            roomsListing: new Ractive({
-                el: '#rooms-listing',
-                template: '#rooms-listing-template',
-                data: {
-                    active: true,
-                    rooms: (function() {
-                        var rooms = [];
-                        {% for room in rooms %}
-                        rooms.push('{{ room.name }}');
-                        {% endfor %}
-                        return rooms;
-                    })()
-                }
-            }),
-
-            roomsCreate: new Ractive({
-                el: '#rooms-listing',
-                template: '#rooms-listing-template',
-                data: {
-                    active: false
-                }
-            }),
-
-            roomsNavbar: new Ractive({
-                el: '#rooms-navbar',
-                template: '#rooms-navbar-template'
-            })
-        };
-
-        Rooms.initialize();
-
-    </script>
-
 </head>
 
 <body>
@@ -96,5 +39,62 @@
     </div>
 
 </body>
+
+<script src="{% static 'js/ractive.min.js' %}"></script>
+<script id="rooms-listing-template" type="text/ractive">{% include "components/rooms-listing.html" %}</script>
+<script id="rooms-create-template" type="text/ractive">{% include "components/rooms-create.html" %}</script>
+<script id="rooms-navbar-template" type="text/ractive">{% include "components/rooms-navbar.html" %}</script>
+
+<script>
+
+    var Rooms = {
+
+        initialize: function() {
+            var self = this;
+
+            this.roomsNavbar.on('navigate', function(e, nav) {
+                if (nav === 'listing') {
+                    self.roomsListing.set('active', true);
+                    self.roomsCreate.set('active', false);
+                } else {
+                    self.roomsListing.set('active', false);
+                    self.roomsCreate.set('active', true);
+                }
+            });
+
+        },
+
+        roomsListing: new Ractive({
+            el: '#rooms-listing',
+            template: '#rooms-listing-template',
+            data: {
+                active: true,
+                rooms: (function() {
+                    var rooms = [];
+                    {% for room in rooms %}
+                    rooms.push('{{ room.name }}');
+                    {% endfor %}
+                    return rooms;
+                })()
+            }
+        }),
+
+        roomsCreate: new Ractive({
+            el: '#rooms-listing',
+            template: '#rooms-listing-template',
+            data: {
+                active: false
+            }
+        }),
+
+        roomsNavbar: new Ractive({
+            el: '#rooms-navbar',
+            template: '#rooms-navbar-template'
+        })
+    };
+
+    Rooms.initialize();
+
+</script>
 
 </html>
