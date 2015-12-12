@@ -15,6 +15,55 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/stock.css' %}">
 
+    <script id="rooms-listing-template" type="text/ractive">
+
+    {% verbatim %}
+
+    {{ #if active }}
+
+        {{ #each rooms }}
+
+            <p><a href="/index/?room={{ name }}">{{ name }}</a></p>
+
+        {{ /each }}
+
+    {{ /if }}
+
+    {% endverbatim %}
+
+    </script>
+
+
+
+    <script id="rooms-create-template" type="text/ractive">
+
+    {% verbatim %}
+
+    {{ #if active }}
+
+    <form class="form-horizontal" action="/index/">
+        <input class="form-control" type="text" name="name" />
+        <input class="form-control" type="text" name="desription" />
+        <button class="btn btn-default" type="submit">GO</button>
+    </form>
+
+    {{ /if }}
+
+    {% endverbatim %}
+
+    </script>
+
+
+
+    <script id="rooms-navbar-template" type="text/ractive">
+        
+    <div class="nav-wrapper">
+        <button class="nav-button btn btn-primary" on-click="navigate:listing">Rooms</button>
+        <button class="nav-button btn btn-success" on-click="navigate:create">Create Room</button>
+    </div>
+
+    </script>
+
 </head>
 
 <body>
@@ -40,59 +89,6 @@
 </body>
 
 <script src="{% static 'js/ractive.min.js' %}"></script>
-
-
-
-<script id="rooms-listing-template" type="text/ractive">
-
-{% verbatim %}
-
-{{ #if active }}
-
-    {{ #each rooms }}
-
-        <p><a href="/index/?room={{ name }}">{{ name }}</a></p>
-
-    {{ /each }}
-
-{{ /if }}
-
-{% endverbatim %}
-
-</script>
-
-
-
-<script id="rooms-create-template" type="text/ractive">
-
-{% verbatim %}
-
-{{ #if active }}
-
-<form class="form-horizontal" action="/index/">
-    <input class="form-control" type="text" name="name" />
-    <input class="form-control" type="text" name="desription" />
-    <button class="btn btn-default" type="submit">GO</button>
-</form>
-
-{{ /if }}
-
-{% endverbatim %}
-
-</script>
-
-
-
-<script id="rooms-navbar-template" type="text/ractive">
-    
-<div class="nav-wrapper">
-    <button class="nav-button btn btn-primary" on-click="navigate:listing">Rooms</button>
-    <button class="nav-button btn btn-success" on-click="navigate:create">Create Room</button>
-</div>
-
-</script>
-
-
 
 <script>
 
