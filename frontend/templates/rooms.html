@@ -44,10 +44,19 @@
 
 <script id="rooms-listing-template" type="text/ractive">
 
-<div class="nav-wrapper">
-    <button class="nav-button btn btn-primary" on-click="navigate:listing">Rooms</button>
-    <button class="nav-button btn btn-success" on-click="navigate:create">Create Room</button>
-</div>
+{% verbatim %}
+
+{{ #if active }}
+
+    {{ #each rooms }}
+
+        <p><a href="/index/?room={{ name }}">{{ name }}</a></p>
+
+    {{ /each }}
+
+{{ /if }}
+
+{% endverbatim %}
 
 </script>
 
