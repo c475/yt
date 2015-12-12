@@ -19,15 +19,7 @@
 
     {% verbatim %}
 
-    {{ #if active }}
-
-        {{ #each rooms }}
-
-            <p><a href="/index/?room={{ name }}">{{ name }}</a></p>
-
-        {{ /each }}
-
-    {{ /if }}
+        <h1>THIS</h1>
 
     {% endverbatim %}
 
@@ -40,6 +32,8 @@
     {% verbatim %}
 
     {{ #if active }}
+
+    <h1>WTF</h1>
 
     <form class="form-horizontal" action="/index/">
         <input class="form-control" type="text" name="name" />
