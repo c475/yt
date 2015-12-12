@@ -18,19 +18,23 @@
     <script id="rooms-listing-template" type="text/ractive">
 
     {% verbatim %}
+    {{ #if active }}
+    {% endverbatim %}
 
-        <h1>THIS</h1>
+    {% for room in rooms %}
+        <p><a href="/index/?room={{ room.name }}">{{ room.name }}</a></p>
+    {% endfor %}
 
+    {% verbatim %}
+    {{ /if }}
     {% endverbatim %}
 
     </script>
 
 
-
     <script id="rooms-create-template" type="text/ractive">
 
     {% verbatim %}
-
     {{ #if active }}
 
     <h1>WTF</h1>
@@ -42,11 +46,9 @@
     </form>
 
     {{ /if }}
-
     {% endverbatim %}
 
     </script>
-
 
 
     <script id="rooms-navbar-template" type="text/ractive">
@@ -121,7 +123,7 @@
 
         roomsCreate: new Ractive({
             el: '#rooms-create',
-            template: '#rooms-listing-template',
+            template: '#rooms-create-template',
             data: {
                 active: false
             }
