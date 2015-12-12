@@ -53,6 +53,7 @@
             var self = this;
 
             this.roomsNavbar.on('navigate', function(e, nav) {
+                console.log(e, nav);
                 if (nav === 'listing') {
                     self.roomsListing.set('active', true);
                     self.roomsCreate.set('active', false);
