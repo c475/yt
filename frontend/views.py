@@ -49,7 +49,7 @@ class RoomSelect(LoggedInMixin, ListView):
 
 
 class RoomCreate(LoggedInMixin, CreateView):
-    template_name = 'room-create.html'
+    template_name = 'rooms-create.html'
     model = Room
     fields = ['name', 'description']
 
