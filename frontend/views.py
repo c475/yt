@@ -16,17 +16,6 @@ from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY
 from backend.controllers.UserController import UserController
 from backend.controllers.System import System
 
-from django import template
-from django.template.defaultfilters import stringfilter
-
-register = template.Library()
-
-
-@register.filter
-def classes(value, arg):
-    return value.as_widget(attrs={"class": arg})
-
-
 from backend.models import Room
 
 
