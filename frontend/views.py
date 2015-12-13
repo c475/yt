@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic import ListView
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -60,9 +61,9 @@ class RoomCreate(LoggedInMixin, CreateView):
         room = self.request.POST.get('name')
 
         if room is not None:
-            return HttpResponseRedirect('/rooms/' + room + '/')
+            return '/rooms/' + room + '/'
         else:
-            return HttpResponseBadRequest()
+            return '/rooms/default/'
 
 
 class Index(LoggedInMixin, TemplateView):
