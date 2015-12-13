@@ -2,7 +2,10 @@ import json
 
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
+
 from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
+
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
@@ -38,13 +41,28 @@ class Login(NotLoggedInMixin, TemplateView):
         return context
 
 
-class RoomSelect(LoggedInMixin, TemplateView):
-    template_name = 'rooms.html'
+class RoomSelect(LoggedInMixin, ListView):
+    template_name = 'rooms-listing.html'
+    paginate_by = 20
 
-    def get_context_data(self, **kwargs):
-        context = super(RoomSelect, self).get_context_data(**kwargs)
-        context['rooms'] = Room.objects.all()
-        return context
+
+class RoomCreate(LoggedInMixin, CreateView):
+    template_name = 'room-create.html'
+    model = Room
+    fields = ['name', 'description']
+
+
+    # do something here if you want to alter behavior on success
+    # def form_valid(self, form):
+    #     pass
+
+    def get_success_url(self):
+        room = self.request.POST.get('name')
+
+        if room is not None:
+            return HttpResponseRedirect('/rooms/' + room + '/')
+        else:
+            return HttpResponseBadRequest()
 
 
 class Index(LoggedInMixin, TemplateView):
@@ -54,28 +72,12 @@ class Index(LoggedInMixin, TemplateView):
         context = super(Index, self).get_context_data(**kwargs)
         context['user'] = self.request.user
 
-        room = self.request.GET.get('room')
+        room = self.kwargs.get('room')
 
         if room is not None and Room.objects.filter(name=room).exists():
             context['room'] = room
-
-        # create the room and send them to it if POST
         else:
-            if self.request.method == 'POST':
-                name = request.POST.get('name')
-                description = request.POST.get('description')
-
-                if name is not None and description is not None:
-                    rooms = System(user=request.user).createRoom(name, description)
-
-                    if rooms is not None:
-                        context['room'] = name
-
-                    # should not get here
-                    else:
-                        context['room'] = 'default'
-            else:
-                context['room'] = 'default'
+            context['room'] = 'default'
 
         return context
 
