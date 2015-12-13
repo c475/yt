@@ -45,6 +45,7 @@ class Login(NotLoggedInMixin, TemplateView):
 class RoomSelect(LoggedInMixin, ListView):
     template_name = 'rooms-listing.html'
     paginate_by = 20
+    model = Room
 
 
 class RoomCreate(LoggedInMixin, CreateView):
