@@ -66,18 +66,39 @@ class RoomCreate(LoggedInMixin, CreateView):
 class Index(LoggedInMixin, TemplateView):
     template_name = 'base.html'
 
+    def dispatch(self, *args, **kwargs):
+        if self.context['room'] == 'default' and self.kwargs.get('room') is not None:
+
+
     def get_context_data(self, **kwargs):
         context = super(Index, self).get_context_data(**kwargs)
         context['user'] = self.request.user
 
         room = self.kwargs.get('room')
 
-        if room is not None and Room.objects.filter(name=room).exists():
+        if room is not None :
             context['room'] = room
         else:
             return HttpResponseRedirect('/rooms/default/')
 
         return context
+
+
+@login_required
+def index(request, room=None):
+    if room == 'default':
+        return render_to_response('base.html', context={
+            'room': 'default',
+            'user': self.request.user
+        })
+    else:
+        if Room.objects.filter(name=room).exists():
+            return render_to_response('base.html', context={
+                'room': room,
+                'user': self.request.user
+            })
+        else:
+            return HttpResponseRedirect('/rooms/default/')
 
 
 @login_required
