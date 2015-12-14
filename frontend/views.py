@@ -60,8 +60,7 @@ class RoomCreate(LoggedInMixin, CreateView):
             creator=self.request.user
         )
 
-        form.instance.creator = self.request.user
-        return '/rooms/' + form.instance.name + '/'
+        return HttpResponseRedirect('/rooms/' + form.instance.name + '/')
 
 
 class Index(LoggedInMixin, TemplateView):
