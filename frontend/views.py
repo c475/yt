@@ -61,10 +61,7 @@ class RoomCreate(LoggedInMixin, CreateView):
         )
 
         form.instance.creator = self.request.user
-
-        self.success_url = '/rooms/' + form.instance.name + '/'
-
-        return super(RoomCreate, self).form_valid(form)
+        return '/rooms/' + form.instance.name + '/'
 
 
 class Index(LoggedInMixin, TemplateView):
