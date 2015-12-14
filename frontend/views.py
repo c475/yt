@@ -53,7 +53,6 @@ class RoomCreate(LoggedInMixin, CreateView):
     template_name = 'rooms-create.html'
     fields = ['name', 'description']
 
-
     def form_valid(self, form):
         new_room = Room.objects.create(
             name=form.instance.name,
@@ -63,7 +62,7 @@ class RoomCreate(LoggedInMixin, CreateView):
 
         self.success_url = '/rooms/' + form.instance.name + '/'
 
-        super(self, RoomCreate).form_valid(form)
+        return super(RoomCreate, self).form_valid(form)
 
 
 class Index(LoggedInMixin, TemplateView):
