@@ -9,5 +9,5 @@ urlpatterns = patterns('',
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^login/$', Login.as_view()),
     url(r'^logout/$', logout),
-    url(r'^$', Index.as_view()),
+    url(r'^$', RoomSelect.as_view()),
 )

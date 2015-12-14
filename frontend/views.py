@@ -71,7 +71,7 @@ def index(request, room=None):
             'user': self.request.user
         })
     else:
-        if Room.objects.filter(name=room).exists():
+        if room is not None and Room.objects.filter(name=room).exists():
             return render_to_response('base.html', context={
                 'room': room,
                 'user': self.request.user
