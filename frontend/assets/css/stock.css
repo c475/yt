@@ -178,3 +178,14 @@ iframe#player {
     background-color: #071231;
     color: cyan;
 }
+
+.navbar-brand {
+    color: #98CED4;
+    height: inherit;
+    padding: 0px 15px 0px 0px;
+}
+
+.video-wrapper {
+    width: 100%;
+    height: 100%;
+}

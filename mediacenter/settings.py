@@ -3,14 +3,12 @@ from credentials import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 SECRET_KEY = 'km$_)t_hn&a0eb-6cgymcwr9-f8#4p2hgxjp))eu_&wp8cxg*@'
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["127.0.0.1"]
-
 
 AUTH_USER_MODEL = "backend.User"
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
@@ -27,13 +25,10 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-
 SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 30
 SOCIAL_AUTH_SESSION_EXPIRATION = False
-
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
-
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_RAISE_EXCEPTIONS = DEBUG
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = []
 SOCIAL_AUTH_GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
@@ -95,8 +90,6 @@ PASSWORD_HASHERS = (
 
 ########### END AUTH ###########
 
-
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,8 +114,6 @@ ROOT_URLCONF = 'mediacenter.urls'
 
 WSGI_APPLICATION = 'mediacenter.wsgi.application'
 
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -143,13 +134,11 @@ DATABASES = {
     }
 }
 
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "frontend/templates"),
@@ -164,7 +153,6 @@ TEMPLATE_LOADERS = (
     "django.template.loaders.filesystem.Loader",
     "django.template.loaders.app_directories.Loader",
 )
-
 
 STATIC_URL = '/static/'
 
