@@ -2,7 +2,11 @@
 
 {{ #if active }}
 
-<input id="video-search" type="text" class="form-control" value="{{ query }}">
+<input id="video-search" type="text" class="form-control" value="{{ query }}" />
+
+{{ #if inProgress }}
+<img src="/images/loading.gif" />
+{{ /if }}
 
 <ul id="video-results" class="media-list">
 

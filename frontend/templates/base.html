@@ -185,6 +185,7 @@ window.onload = function() {
             gapi.client.setApiKey("AIzaSyBCq4bjDcsrw1S13ZAnQQ00THugEPeylcU");
             gapi.client.load("youtube", "v3", function() {
                 // v3 API ready
+                return null;
             });
         },
 
@@ -344,7 +345,7 @@ window.onload = function() {
 
             for(var p in this.pageRegistry) {
                 p = this.pageRegistry[p];
-                console.log(p);
+
                 if(p.get('activeOn').indexOf(page) > -1) {
                     p.set('active', true);
                 } else {
@@ -353,7 +354,7 @@ window.onload = function() {
             }
 
             if(page === 'history') {
-                var page = this.history.get('currentPage')
+                page = this.history.get('currentPage');
                 Crossbar.rpc('getVideoHistory', {page: page}, function(response) {
                     self.history.set('videos', response);
                 });
@@ -374,7 +375,11 @@ window.onload = function() {
                         Search.search(encodeURIComponent(query).replace(/%20/g, "+"));
                         self.searchTimeout = null;
                         self.search.set("query", "");
-                    }, 1000);
+                    }, 2000);
+
+                    self.search.set('inProgress', true);
+                } else {
+                    self.search.set('inProgress', false);
                 }
 
                 self.search.set("results", []);
@@ -402,7 +407,7 @@ window.onload = function() {
             this.search.on("queueVideo", function(event, index) {
                 var video = self.search.get("results")[index];
                 video.uid = User.uid;
-                self.toggleSearch();
+                self.navigate('home');
                 Crossbar.rpc("queueVideo", {video: video});
                 self.search.set("results", []);
             });
@@ -455,9 +460,7 @@ window.onload = function() {
             });
 
             this.navbar.on("logout", function() {
-                Crossbar.rpc("logout", null, function() {
-                    window.location = "/";
-                });
+                window.location = '/logout/';
             });
 
             this.pageRegistry = [
@@ -475,7 +478,8 @@ window.onload = function() {
             el: "#navbar",
             template: "#navbar-template",
             data: {
-                currentPage: "home"
+                currentPage: "home",
+                room: State.room
             }
         }),
 
@@ -486,7 +490,7 @@ window.onload = function() {
                 active: true,
                 activeOn: ['home', 'search', 'history'],
                 chats: [],
-                message: "",
+                message: ""
             }
         }),
 
@@ -516,6 +520,7 @@ window.onload = function() {
                 active: false,
                 activeOn: ['search'],
                 query: "",
+                inProgress: false,
                 results: []
             }
         }),
@@ -560,7 +565,7 @@ window.onload = function() {
             }
         }),
 
-        pageRegistry: null,
+        pageRegistry: null
     };
 
     var State = {

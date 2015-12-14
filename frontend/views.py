@@ -88,3 +88,12 @@ def logout(request):
         return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/')
+
+
+# To implement
+
+class RoomDelete(object):
+    pass
+
+class RoomUpdate(object):
+    pass
