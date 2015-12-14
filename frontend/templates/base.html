@@ -88,6 +88,8 @@ window.onload = function() {
                     var videos = data[0];
                     var pages = data[1];
 
+                    console.info('pages: ' + pages);
+
                     var currentPage = UI.history.get("currentPage");
 
                     if(!Youtube.player) {

@@ -182,7 +182,7 @@ iframe#player {
 .navbar-brand {
     color: #98CED4;
     height: inherit;
-    padding: 0px 15px 0px 0px;
+    padding: 0px 15px 0px 15px;
 }
 
 .video-wrapper {
