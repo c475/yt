@@ -10,6 +10,7 @@ from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
+from django.shortcuts import render_to_response
 
 from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY
 
