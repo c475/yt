@@ -26,9 +26,27 @@
             <div class="col-xs-2"></div>
 
             <div class="col-xs-8">
-                {% for room in page_obj %}
-                <p><a href="/rooms/{{ room.name }}/">{{ room.name }}</a></p>
-                {% endfor %}
+
+                <table class="table table-hover">
+
+                    <thead>
+                        <tr>
+                            <td>Room!</td>
+                            <td>Description!</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for room in page_obj %}
+                        <tr>
+                            <td><a href="/rooms/{{ room.name }}/">{{ room.name }}</a></td>
+                            <td>{{ room.description }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
             </div>
 
             <div class="col-xs-2"></div>
@@ -37,13 +55,19 @@
 
         <div class="row">
 
-            {% if is_paginated %}
-            <ul class="pagination pagination-centered" style="float: right;">
-                {% for i in paginator.page_range %}
-                    <li {% if page_obj.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
-                {% endfor %}
-            </ul>
-            {% endif %}
+            <div class="col-xs-2"></div>
+
+            <div class="col-xs-8">
+                {% if is_paginated %}
+                <ul class="pagination pagination-centered" style="float: right;">
+                    {% for i in paginator.page_range %}
+                        <li {% if page_obj.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div class="col-xs-2"></div>
 
         </div>
 
