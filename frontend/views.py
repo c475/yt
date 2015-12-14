@@ -43,28 +43,25 @@ class Login(NotLoggedInMixin, TemplateView):
 
 
 class RoomSelect(LoggedInMixin, ListView):
+    model = Room
     template_name = 'rooms-listing.html'
     paginate_by = 20
-    model = Room
 
 
 class RoomCreate(LoggedInMixin, CreateView):
-    template_name = 'rooms-create.html'
     model = Room
+    template_name = 'rooms-create.html'
     fields = ['name', 'description']
 
 
-    # do something here if you want to alter behavior on success
-    # def form_valid(self, form):
-    #     pass
+    def form_valid(self, form):
+        new_room = Room.objects.create(
+            name=form.name,
+            description=form.description,
+            creator=self.request.user
+        )
 
-    def get_success_url(self):
-        room = self.request.POST.get('name')
-
-        if room is not None:
-            return '/rooms/' + room + '/'
-        else:
-            return '/rooms/default/'
+        self.success_url = '/rooms/' + form.name + '/'
 
 
 class Index(LoggedInMixin, TemplateView):
