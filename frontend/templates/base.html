@@ -100,7 +100,9 @@ window.onload = function() {
                         UI.playlist.set("videos", videos);
                     }
 
-                    UI.history.set("pages", pages);
+                    if(pages) {
+                        UI.history.set("pages", pages);
+                    }
 
                     if(UI.history.get("active") && pages[pages.length-1] === currentPage) {
                         UI.history._subs.getVideoHistory[0](null, UI.history.get("currentPage"));
