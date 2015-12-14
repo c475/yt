@@ -56,8 +56,8 @@ class RoomCreate(LoggedInMixin, CreateView):
 
     def form_valid(self, form):
         new_room = Room.objects.create(
-            name=form.name,
-            description=form.description,
+            name=form.instance.name,
+            description=form.instance.description,
             creator=self.request.user
         )
 
