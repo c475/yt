@@ -232,6 +232,9 @@ window.onload = function() {
         username: "{{ user.username }}"
     };
 
+    var State = {
+        room: '{{ room }}'
+    };
 
     var Youtube = {
 
@@ -565,10 +568,6 @@ window.onload = function() {
         }),
 
         pageRegistry: null
-    };
-
-    var State = {
-        room: '{{ room }}'
     };
 
     Youtube.initialize();
