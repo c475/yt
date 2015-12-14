@@ -75,7 +75,7 @@ class Index(LoggedInMixin, TemplateView):
         if room is not None and Room.objects.filter(name=room).exists():
             context['room'] = room
         else:
-            context['room'] = 'default'
+            return HttpResponseRedirect('/rooms/default/')
 
         return context
 
