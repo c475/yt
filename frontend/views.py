@@ -69,13 +69,13 @@ def index(request, room=None):
     if room == 'default':
         return render_to_response('base.html', context={
             'room': 'default',
-            'user': self.request.user
+            'user': request.user
         })
     else:
         if room is not None and Room.objects.filter(name=room).exists():
             return render_to_response('base.html', context={
                 'room': room,
-                'user': self.request.user
+                'user': request.user
             })
         else:
             return HttpResponseRedirect('/rooms/default/')
