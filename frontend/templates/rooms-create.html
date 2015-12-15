@@ -40,17 +40,13 @@
                     {% csrf_token %}
 
                     <div class="form-group">
-                        <label for="id_name" class="col-xs-1 control-label">Title</label>
-                        <div class="col-xs-10">
-                            {{ form.name|classes:"form-control" }}
-                        </div>
+                        <p class="control-label">Title</label>
+                        {{ form.name|classes:"form-control" }}
                     </div>
 
                     <div class="form-group">
-                        <label for="id_description" class="col-xs-1 control-label">Description</label>
-                        <div class="col-xs-10">
-                            {{ form.description|classes:"form-control" }}
-                        </div>
+                        <p class="control-label">Description</label>
+                        {{ form.description|classes:"form-control" }}
                     </div>
 
                     <div class="form-group">
