@@ -43,6 +43,9 @@
                 <p>~ Characters a-z, A-Z, 0-9, _, and - accepted.</p>
                 <br />
 
+                {{ form.name.errors }}
+                {{ form.description.errors }}
+
                 <form class="form-horizontal" method="post" enctype="multipart/form-data" action="">
 
                     {% csrf_token %}
