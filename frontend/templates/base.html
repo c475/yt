@@ -478,6 +478,13 @@ window.onload = function() {
                 this.users,
                 this.chat
             ]
+
+            this.chat.push('chats', {
+                user: {
+                    username: 'Joined'
+                },
+                message: State.room
+            })
         },
 
         navbar: new Ractive({
@@ -495,7 +502,13 @@ window.onload = function() {
             data: {
                 active: true,
                 activeOn: ['home', 'search', 'history'],
-                chats: [],
+                chats: [{
+                    user: {
+                        username: 'Joining'
+                    },
+
+                    message: '{{ room }}'
+                }],
                 message: ""
             }
         }),
