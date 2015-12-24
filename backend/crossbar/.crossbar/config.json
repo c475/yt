@@ -17,7 +17,17 @@
                            "register": true
                         }
                      ]
-                  }
+                  },
+
+                  {
+                     "name": "authenticator",
+                     "permissions": [
+                        {
+                           "uri": "mcauthenticator",
+                           "register": true
+                        }
+                     ]
+                  },
                ]
             }
          ],
@@ -60,7 +70,8 @@
             {
                "type": "class",
                "classname": "authenticator.Authenticator",
-               "realm": "mediacenter"
+               "realm": "mediacenter",
+               "role": "authenticator"
             },
             {
                "type": "class",
