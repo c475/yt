@@ -39,7 +39,7 @@
                      "directory": ".."
                   },
                   "ws": {
-                     "type": "websocket",
+                     "type": "websocket"
                   }
                }
             }
