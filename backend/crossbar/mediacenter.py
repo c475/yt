@@ -34,10 +34,6 @@ class Mediacenter(ApplicationSession):
     @inlineCallbacks
     def onJoin(self, details):
 
-        def authenticate(realm, authid, details):
-            print(realm, authid, details)
-            return {'secret': 'testsecret', 'role': 'user'}
-
         def printendpoint(endpoint):
             print(('='*20) + endpoint + ('='*20))
 
@@ -138,7 +134,6 @@ class Mediacenter(ApplicationSession):
             printendpoint('logout')
             self.publish(data['room'] + '.users', 'list', Users().getActiveUsers())
 
-        yield self.register(authenticate, 'mcauthenticator')
         yield self.register(initialize, 'initialize')
         yield self.register(sendChat, 'sendChat')
         yield self.register(queueVideo, 'queueVideo')
