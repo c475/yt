@@ -72,9 +72,7 @@
                "type": "class",
                "classname": "authenticator.Authenticator",
                "realm": "mediacenter",
-               "transport": {
-                  
-               }
+               "transport": null
             },
             {
                "type": "class",
