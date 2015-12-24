@@ -71,7 +71,10 @@
             {
                "type": "class",
                "classname": "authenticator.Authenticator",
-               "realm": "mediacenter"
+               "realm": "mediacenter",
+               "transport": {
+                  
+               }
             },
             {
                "type": "class",
