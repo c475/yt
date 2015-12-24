@@ -17,18 +17,7 @@
                            "register": true
                         }
                      ]
-                  },
-
-                  {
-                     "name": "authenticator",
-                     "permissions": [
-                        {
-                           "uri": "mcauthenticator",
-                           "register": true
-                        }
-                     ]
                   }
-
                ]
             }
          ],
@@ -51,12 +40,6 @@
                   },
                   "ws": {
                      "type": "websocket",
-                     "auth": {
-                        "wampcra": {
-                           "type": "dynamic",
-                           "authenticator": "mcauthenticator"
-                        }
-                     }
                   }
                }
             }
