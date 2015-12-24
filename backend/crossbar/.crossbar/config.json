@@ -70,12 +70,6 @@
          "components": [
             {
                "type": "class",
-               "classname": "authenticator.Authenticator",
-               "realm": "mediacenter",
-               "transport": null
-            },
-            {
-               "type": "class",
                "classname": "mediacenter.Mediacenter",
                "realm": "mediacenter",
                "transport": {
