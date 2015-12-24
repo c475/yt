@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from backend.models import User, Room
 
 
-class UserController(object):
+class Users(object):
 
     def __init__(self, room=None, user=None):
         self.per_page = 20

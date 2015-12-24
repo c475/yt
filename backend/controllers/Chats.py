@@ -1,7 +1,7 @@
 from backend.models import Room, Chat
 
 
-class ChatController(object):
+class Chats(object):
 
     def __init__(self, room):
         self.room = Room.objects.filter(name=room)

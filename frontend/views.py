@@ -14,7 +14,7 @@ from django.shortcuts import render_to_response
 
 from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY
 
-from backend.controllers.UserController import UserController
+from backend.controllers.Users import Users
 from backend.controllers.System import System
 
 from backend.models import Room
@@ -84,16 +84,16 @@ def index(request, room=None):
 @login_required
 def logout(request):
     if request.user.is_authenticated():
-        UserController(user=request.user).logout()
+        Users(user=request.user).logout()
         return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/')
 
 
 # To implement
-
 class RoomDelete(object):
     pass
+
 
 class RoomUpdate(object):
     pass

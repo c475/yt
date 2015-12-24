@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from backend.models import Video, User, Room
 
 
-class YoutubeController(object):
+class Youtube(object):
 
     def __init__(self, room):
         self.per_page = 20
