@@ -61,7 +61,6 @@
                "type": "class",
                "classname": "authenticator.Authenticator",
                "realm": "mediacenter",
-               "role": "authenticator"
             },
             {
                "type": "class",
