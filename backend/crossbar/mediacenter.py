@@ -52,7 +52,7 @@ class Mediacenter(ApplicationSession):
     USER_SOCKETS = {}
 
     def onConnect(self):
-        self.join('mediacenter', [u"wampcra"], 1)
+        self.join(self.config.realm, [u"wampcra"], 1)
 
     def onChallenge(self, challenge):
         print("CHALLENGE:", challenge)
