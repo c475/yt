@@ -6,6 +6,17 @@
             {
                "name": "mediacenter",
                "roles": [
+
+                  {
+                     "name": "authenticator",
+                     "permissions": [
+                        {
+                           "uri": "mcauthenticator",
+                           "register": true
+                        }
+                     ]
+                  },
+
                   {
                      "name": "anonymous",
                      "permissions": [
@@ -49,8 +60,17 @@
                   }
                }
             }
+         ],
+         "components": [
+            {
+               "type": "class",
+               "classname": "authenticator.Authenticator",
+               "realm": "mediacenter",
+               "role": "authenticator"
+            }
          ]
       },
+
       {
          "type": "container",
          "options": {
