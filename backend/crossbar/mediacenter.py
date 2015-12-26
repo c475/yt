@@ -50,7 +50,7 @@ class Authenticator(ApplicationSession):
             if 'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
-                    return {'secret': None, 'role': None}
+                    return {'secret': 'secret', 'role': 'role'}
                 else:
                     raise ApplicationError('Bad request')
 
@@ -67,7 +67,7 @@ class Authenticator(ApplicationSession):
                     session = Session.objects.filter(session_key=cookie)
                     if session.exists():
                         USER_SOCKETS[details['session']] = session.get_decoded()['_auth_user_id']
-                        return {'secret': None, 'role': None}
+                        return {'secret': 'secret', 'role': 'role'}
                     else:
                         raise ApplicationError('Bad session')
                 else:
