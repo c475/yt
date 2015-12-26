@@ -60,6 +60,14 @@
                   }
                }
             }
+         ],
+         "components": [
+            {
+               "type": "class",
+               "classname": "authenticator.Authenticator",
+               "realm": "mediacenter",
+               "role": "authenticator"
+            }
          ]
       },
 
@@ -83,31 +91,6 @@
                      }
                   },
                   "url": "wss://127.0.0.1:8080/ws"
-               }
-            }
-         ]
-      },
-
-      {
-         "type": "container",
-         "options": {
-            "pythonpath": [".."]
-         },
-         "components": [
-            {
-               "type": "class",
-               "classname": "authenticator.Authenticator",
-               "realm": "mediacenter",
-               "transport": {
-                  "type": "websocket",
-                  "endpoint": {
-                     "type": "tcp",
-                     "host": "127.0.0.1",
-                     "port": 8081,
-                     "tls": {
-                     }
-                  },
-                  "url": "wss://127.0.0.1:8081/auth"
                }
             }
          ]

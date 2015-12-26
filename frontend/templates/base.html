@@ -17,6 +17,14 @@ window.onload = function() {
             this.connection = new autobahn.Connection({
                 url: 'wss://' + document.location.host + ':8080/ws',
                 realm: 'mediacenter',
+                authmethods: ['wampcra'],
+                authid: '{{ user.pk }}',
+                onchallenge: function(session, method, extra) {
+                    console.log(session, method, extra);
+                    if (method === 'wampcra') {
+                        return autobahn.auth_cra.sign(key, extra.challenge);
+                    }
+                }
             });
 
             this.connection.onopen = function(session, details) {

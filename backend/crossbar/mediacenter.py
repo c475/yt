@@ -34,6 +34,12 @@ class Mediacenter(ApplicationSession):
 
     USER_SOCKETS = {}
 
+    def onConnect(self):
+        self.join('mediacenter', [u"wampcra"], 1)
+
+    def onChallenge(self, challenge):
+        return True
+
     @inlineCallbacks
     def onJoin(self, details):
 

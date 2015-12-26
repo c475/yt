@@ -14,7 +14,7 @@ class Authenticator(ApplicationSession):
    def onJoin(self, details):
 
       def authenticate(realm, authid, details):
-         print("authenticate called: realm = '{}', authid = '{}', details = '{}'".format(realm, authid, details))
+         print(realm, authid, details)
 
          if authid:
             return {'secret': 'password', 'role': 'user', 'authid': '670'}
