@@ -10,6 +10,7 @@ apt-get -y install libffi-dev
 apt-get -y install python-dev
 
 apt-get -y install nginx
+apt-get install -y redis-server
 
 nginx -s stop
 

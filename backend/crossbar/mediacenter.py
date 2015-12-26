@@ -41,6 +41,9 @@ class Authenticator(ApplicationSession):
     def onJoin(self, details):
 
         def authenticate(realm, authid, details):
+
+            print(realm, authid, details)
+
             cookie = None
 
             sessioncookies = map(
@@ -71,6 +74,8 @@ class Authenticator(ApplicationSession):
 
 
 class Mediacenter(ApplicationSession):
+
+    
 
     @inlineCallbacks
     def onJoin(self, details):
