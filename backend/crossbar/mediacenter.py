@@ -75,12 +75,18 @@ class Authenticator(ApplicationSession):
 
 class Mediacenter(ApplicationSession):
 
-    
+    def onConnect(self):
+        print("connected. joining realm {} as user {} ...".format(self.config.realm, 'someguy'))
+        self.join(self.config.realm, [u"wampcra"], 'someguy')
+
+    def onChallenge(self, challenge):
+        print('doing challenge thing')
+        print(challenge.__dict__)
 
     @inlineCallbacks
     def onJoin(self, details):
 
-        print(details)
+        print(details.__dict__)
 
         def printendpoint(endpoint):
             print(USER_SOCKETS)
