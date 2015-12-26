@@ -45,11 +45,16 @@ class Authenticator(ApplicationSession):
             print(realm, authid, details)
 
             cookie = None
+            headers = details['transport']['http_headers_sent']
 
-            sessioncookies = map(
-                lambda x: x.strip(),
-                details['transport']['http_headers_sent']['cookie'].split(';')
-            )
+            if 'cookie' not in headers:
+                who = details['transport']['peer'].split(':')[1]
+                if who == '127.0.0.1':
+                    return {'secret': None, 'role': None}
+                else:
+                    raise ApplicationError('Bad request')
+
+            sessioncookies = map(lambda x: x.strip(), headers['cookie'].split(';'))
 
             for c in sessioncookies:
                 if c.startswith('sessionid'):
@@ -64,11 +69,11 @@ class Authenticator(ApplicationSession):
                         USER_SOCKETS[details['session']] = session.get_decoded()['_auth_user_id']
                         return {'secret': None, 'role': None}
                     else:
-                        raise ApplicationError('Session does not exist')
+                        raise ApplicationError('Bad session')
                 else:
-                    raise ApplicationError('Session does not exist')
+                    raise ApplicationError('Bad session')
             else:
-                raise ApplicationError('Cookie does not exist')
+                raise ApplicationError('No cookie')
 
         yield self.register(authenticate, 'mcauthenticator')
 
