@@ -8,7 +8,7 @@
                "roles": [
 
                   {
-                     "name": "authenticator",
+                     "name": "anonymous",
                      "permissions": [
                         {
                            "uri": "mcauthenticator",
