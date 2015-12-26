@@ -3,3 +3,5 @@ requests_oauthlib
 gunicorn
 django
 requests
+django-redis-sessions
+redis

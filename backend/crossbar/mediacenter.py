@@ -23,6 +23,8 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 from django import setup
 setup()
 
+from django.contrib.sessions.models import Session
+
 from credentials import CROSSBAR_KEY
 
 from backend.controllers.Youtube import Youtube
@@ -30,33 +32,47 @@ from backend.controllers.Users import Users
 from backend.controllers.Chats import Chats
 from backend.controllers.System import System
 
+from redis import Redis
+
+USER_SOCKETS = {}
+
 
 class Authenticator(ApplicationSession):
 
-   @inlineCallbacks
-   def onJoin(self, details):
+    @inlineCallbacks
+    def onJoin(self, details):
 
-      def authenticate(realm, authid, details):
-         print(realm, authid, details)
+        def authenticate(realm, authid, details):
+            cookie = None
 
-         if authid:
-            return {'secret': 'password', 'role': 'user', 'authid': '670'}
-         else:
-            raise ApplicationError('nope')
+            sessioncookies = map(
+                lambda x: x.strip(),
+                details['transport']['http_headers_sent']['cookie'].split(';')
+            )
 
-      yield self.register(authenticate, 'mcauthenticator')
+            for c in sessioncookies:
+                if c.startswith('sessionid'):
+                    cookie = c.split('=')[1]
+                    break
+
+            if cookie is not None:
+                r = Redis()
+                if r.exists('session:' + cookie):
+                    session = Session.objects.filter(session_key=cookie)
+                    if session.exists():
+                        USER_SOCKETS[details['session']] = session.get_decoded()['_auth_user_id']
+                        return {'secret': None, 'role': None}
+                    else:
+                        raise ApplicationError('Session does not exist')
+                else:
+                    raise ApplicationError('Session does not exist')
+            else:
+                raise ApplicationError('Cookie does not exist')
+
+        yield self.register(authenticate, 'mcauthenticator')
 
 
 class Mediacenter(ApplicationSession):
-
-    USER_SOCKETS = {}
-
-    def onConnect(self):
-        self.join(self.config.realm, [u"wampcra"], 1)
-
-    def onChallenge(self, challenge):
-        print("CHALLENGE:", challenge)
-        return True
 
     @inlineCallbacks
     def onJoin(self, details):
@@ -64,6 +80,8 @@ class Mediacenter(ApplicationSession):
         print(details)
 
         def printendpoint(endpoint):
+            print(USER_SOCKETS)
+            print(self.__dict__)
             print(('='*20) + endpoint + ('='*20))
 
         def initialize(data):
