@@ -6,6 +6,10 @@ from autobahn.wamp.exception import ApplicationError
 
 class Authenticator(ApplicationSession):
 
+   def onConnect(self):
+      print("CONNECT")
+      raw_input()
+
    @inlineCallbacks
    def onJoin(self, details):
 
