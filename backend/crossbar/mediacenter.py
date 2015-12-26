@@ -11,6 +11,7 @@ paths = [
     '/srv/mediacenter',
     '/srv/frontend',
     '/srv/backend',
+    '/srv/backend/crossbar'
 ]
 
 for p in paths:
