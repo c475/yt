@@ -8,7 +8,7 @@
                "roles": [
 
                   {
-                     "name": "anonymous",
+                     "name": "authenticator",
                      "permissions": [
                         {
                            "uri": "mcauthenticator",
@@ -64,7 +64,7 @@
          "components": [
             {
                "type": "class",
-               "classname": "authenticator.Authenticator",
+               "classname": "mediacenter.Authenticator",
                "realm": "mediacenter",
                "role": "authenticator"
             }

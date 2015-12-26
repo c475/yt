@@ -31,6 +31,22 @@ from backend.controllers.Chats import Chats
 from backend.controllers.System import System
 
 
+class Authenticator(ApplicationSession):
+
+   @inlineCallbacks
+   def onJoin(self, details):
+
+      def authenticate(realm, authid, details):
+         print(realm, authid, details)
+
+         if authid:
+            return {'secret': 'password', 'role': 'user', 'authid': '670'}
+         else:
+            raise ApplicationError('nope')
+
+      yield self.register(authenticate, 'mcauthenticator')
+
+
 class Mediacenter(ApplicationSession):
 
     USER_SOCKETS = {}
