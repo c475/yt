@@ -2,6 +2,9 @@
    "workers": [
       {
          "type": "router",
+         "options": {
+            "pythonpath": [".."]
+         },
          "realms": [
             {
                "name": "mediacenter",
