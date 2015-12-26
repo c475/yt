@@ -38,6 +38,7 @@ class Mediacenter(ApplicationSession):
         self.join('mediacenter', [u"wampcra"], 1)
 
     def onChallenge(self, challenge):
+        print("CHALLENGE:", challenge)
         return True
 
     @inlineCallbacks
