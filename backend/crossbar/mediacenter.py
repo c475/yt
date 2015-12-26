@@ -47,7 +47,7 @@ class Authenticator(ApplicationSession):
             cookie = None
             headers = details['transport']['http_headers_sent']
 
-            if 'cookie' not in headers:
+            if u'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
                     return {'secret': 'secret', 'role': 'role'}
