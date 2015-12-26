@@ -87,6 +87,7 @@ class Mediacenter(ApplicationSession):
     def onChallenge(self, challenge):
         print('doing challenge thing')
         print(challenge.__dict__)
+        return 'challenge'
 
     @inlineCallbacks
     def onJoin(self, details):
