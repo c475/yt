@@ -12,9 +12,9 @@ class Authenticator(ApplicationSession):
       def authenticate(realm, authid, details):
          print("authenticate called: realm = '{}', authid = '{}', details = '{}'".format(realm, authid, details))
 
-         if authid in self.USERDB:
+         if authid:
             return {'secret': 'password', 'role': 'user', 'authid': '670'}
          else:
             raise ApplicationError('nope')
 
-      yield self.register(authenticate, 'com.example.authenticate')
+      yield self.register(authenticate, 'mcauthenticator')

@@ -14,23 +14,21 @@ window.onload = function() {
         initialize: function() {
             var self = this;
 
-            var wsuri = "wss://" + document.location.host + ":8080/ws";
-
             this.connection = new autobahn.Connection({
-                url: wsuri,
-                realm: "mediacenter"
+                url: 'wss://' + document.location.host + ':8080/ws',
+                realm: 'mediacenter',
             });
 
             this.connection.onopen = function(session, details) {
-                console.info("Connection established:", details);
+                console.info('Connection established:', details);
                 self.session = session;
 
-                self.rpc("initialize", null, function(response) {
+                self.rpc('initialize', null, function(response) {
                     if(response) {
-                        UI.users.set("users", response.users);
-                        UI.chat.set("chats", response.chats);
-                        UI.playlist.set("videos", response.videos);
-                        UI.history.set("pages", response.historyPages);
+                        UI.users.set('users', response.users);
+                        UI.chat.set('chats', response.chats);
+                        UI.playlist.set('videos', response.videos);
+                        UI.history.set('pages', response.historyPages);
 
                         Youtube.playVideo(response.playing);
                     }
@@ -42,7 +40,7 @@ window.onload = function() {
 
                     switch(type) {
                         case 'list':
-                            UI.users.set("users", data);
+                            UI.users.set('users', data);
                             break;
 
                         default:

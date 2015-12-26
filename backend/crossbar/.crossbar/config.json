@@ -39,7 +39,13 @@
                      "directory": ".."
                   },
                   "ws": {
-                     "type": "websocket"
+                     "type": "websocket",
+                     "auth": {
+                        "wampcra": {
+                           "type": "dynamic",
+                           "authenticator": "mcauthenticator"
+                        }
+                     }
                   }
                }
             }

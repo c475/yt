@@ -22,6 +22,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 from django import setup
 setup()
 
+from credentials import CROSSBAR_KEY
 
 from backend.controllers.Youtube import Youtube
 from backend.controllers.Users import Users
@@ -31,8 +32,12 @@ from backend.controllers.System import System
 
 class Mediacenter(ApplicationSession):
 
+    USER_SOCKETS = {}
+
     @inlineCallbacks
     def onJoin(self, details):
+
+        print(details)
 
         def printendpoint(endpoint):
             print(('='*20) + endpoint + ('='*20))
