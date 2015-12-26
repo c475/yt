@@ -25,8 +25,6 @@ setup()
 
 from django.contrib.sessions.models import Session
 
-from credentials import CROSSBAR_KEY
-
 from backend.controllers.Youtube import Youtube
 from backend.controllers.Users import Users
 from backend.controllers.Chats import Chats
