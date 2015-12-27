@@ -1,6 +1,7 @@
 from twisted.internet.defer import inlineCallbacks
 from autobahn.twisted.wamp import ApplicationSession
 from autobahn.wamp.exception import ApplicationError
+from autobahn.wamp import auth
 
 from sys import path
 import os
@@ -82,11 +83,12 @@ class Mediacenter(ApplicationSession):
     def onChallenge(self, challenge):
         print('doing challenge thing')
         print(challenge.__dict__)
-        return 'challenge'.decode('ascii')
+        signature = auth.compute_wcs('secret', challenge.extra['challenge'].encode('utf8'))
+        return signature.decode('ascii')
 
     @inlineCallbacks
     def onJoin(self, details):
-
+        print('JOINED!!!!!')
         print(details.__dict__)
 
         def printendpoint(endpoint):
