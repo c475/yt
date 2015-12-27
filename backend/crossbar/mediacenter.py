@@ -58,12 +58,15 @@ class Authenticator(ApplicationSession):
 
             if cookie is not None:
                 r = Redis()
-                session = SessionStore(session_key=cookie).load()
-                if session and '_auth_user_id' in session:
-                    USER_SOCKETS[details['session']] = session['_auth_user_id']
-                    return {'secret': 'secret', 'role': 'role'}
-                else:
-                    raise ApplicationError('Bad session')
+                try:
+                    session = SessionStore(session_key=cookie).load()
+                    if session and '_auth_user_id' in session:
+                        USER_SOCKETS[details['session']] = session['_auth_user_id']
+                        return {'secret': 'secret', 'role': 'role'}
+                    else:
+                        raise ApplicationError('Bad session')
+                except Exception, e:
+                    raise ApplicationError(str(e))
             else:
                 raise ApplicationError('No cookie')
 
