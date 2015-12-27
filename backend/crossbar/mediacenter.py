@@ -1,5 +1,4 @@
 from twisted.internet.defer import inlineCallbacks
-
 from autobahn.twisted.wamp import ApplicationSession
 from autobahn.wamp.exception import ApplicationError
 
@@ -11,7 +10,6 @@ paths = [
     '/srv/mediacenter',
     '/srv/frontend',
     '/srv/backend',
-    '/srv/backend/crossbar'
 ]
 
 for p in paths:
@@ -23,7 +21,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 from django import setup
 setup()
 
-from django.contrib.sessions.models import Session
+from redis_sessions.session import SessionStore
 
 from backend.controllers.Youtube import Youtube
 from backend.controllers.Users import Users
@@ -41,9 +39,6 @@ class Authenticator(ApplicationSession):
     def onJoin(self, details):
 
         def authenticate(realm, authid, details):
-
-            print(realm, authid, details)
-
             cookie = None
             headers = details['transport']['http_headers_received']
 
@@ -63,15 +58,12 @@ class Authenticator(ApplicationSession):
 
             if cookie is not None:
                 r = Redis()
-                if r.exists('session:' + cookie):
-                    session = Session.objects.filter(session_key=r.get(cookie))
-                    if session.exists():
-                        USER_SOCKETS[details['session']] = session.get_decoded()['_auth_user_id']
-                        return {'secret': 'secret', 'role': 'role'}
-                    else:
-                        raise ApplicationError('Bad session 1')
+                session = SessionStore(session_key=cookie).load()
+                if session and '_auth_user_id' in session:
+                    USER_SOCKETS[details['session']] = session['_auth_user_id']
+                    return {'secret': 'secret', 'role': 'role'}
                 else:
-                    raise ApplicationError('Bad session 2')
+                    raise ApplicationError('Bad session')
             else:
                 raise ApplicationError('No cookie')
 
