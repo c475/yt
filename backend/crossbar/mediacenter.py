@@ -46,7 +46,7 @@ class Authenticator(ApplicationSession):
             if 'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
-                    return {'secret': 'secret', 'role': 'role'}
+                    return {'secret': 'secret', 'role': 'backend'}
                 else:
                     raise ApplicationError('Bad request')
 
@@ -59,15 +59,12 @@ class Authenticator(ApplicationSession):
 
             if cookie is not None:
                 r = Redis()
-                try:
-                    session = SessionStore(session_key=cookie).load()
-                    if session and '_auth_user_id' in session:
-                        USER_SOCKETS[details['session']] = session['_auth_user_id']
-                        return {'secret': 'secret', 'role': 'role'}
-                    else:
-                        raise ApplicationError('Bad session')
-                except Exception, e:
-                    raise ApplicationError(str(e))
+                session = SessionStore(session_key=cookie).load()
+                if session and '_auth_user_id' in session:
+                    USER_SOCKETS[details['session']] = session['_auth_user_id']
+                    return {'secret': 'secret', 'role': 'frontend'}
+                else:
+                    raise ApplicationError('Bad session')
             else:
                 raise ApplicationError('No cookie')
 

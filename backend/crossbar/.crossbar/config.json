@@ -21,14 +21,27 @@
                   },
 
                   {
-                     "name": "anonymous",
+                     "name": "backend",
                      "permissions": [
                         {
                            "uri": "*",
                            "publish": true,
+                           "subscribe": false,
+                           "call": false,
+                           "register": true
+                        }
+                     ]
+                  },
+
+                  {
+                     "name": "frontend",
+                     "permissions": [
+                        {
+                           "uri": "*",
+                           "publish": false,
                            "subscribe": true,
                            "call": true,
-                           "register": true
+                           "register": false
                         }
                      ]
                   }
