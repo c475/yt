@@ -84,7 +84,7 @@ class Authenticator(ApplicationSession):
 
                     if user is not None:
                         USER_SOCKETS[details['session']] = session['_auth_user_id']
-                        return {'secret': generate_secret(user.username), 'role': 'frontend'}
+                        return {'secret': 'someguy'.decode('ascii'), 'role': 'frontend'}
                     else:
                         return ApplicationError('Invalid authid')
                 else:
@@ -98,15 +98,12 @@ class Authenticator(ApplicationSession):
 class Mediacenter(ApplicationSession):
 
     def onConnect(self):
-        self.join(self.config.realm, ['wampcra'], 'someguy')
+        self.join('mediacenter', ['wampcra'], 'someguy')
 
     def onChallenge(self, challenge):
+        print('ON CHALLENGE')
         print(challenge)
-        signature = auth.compute_wcs(
-            generate_secret(CROSSBAR_SALT),
-            challenge.extra['challenge'].encode('utf8')
-        )
-        return signature[:-1]
+        return 'someguy'.decode('ascii')
 
     @inlineCallbacks
     def onJoin(self, details):
