@@ -61,7 +61,7 @@ class Authenticator(ApplicationSession):
             if 'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
-                    return {'secret': generate_secret(CROSSBAR_SALT), 'role': 'backend'}
+                    return {'secret': generate_secret(CROSSBAR_SALT)[:-1], 'role': 'backend'}
                 else:
                     raise ApplicationError('Bad request')
 
@@ -101,11 +101,12 @@ class Mediacenter(ApplicationSession):
         self.join(self.config.realm, ['wampcra'], 'someguy')
 
     def onChallenge(self, challenge):
+        print(challenge)
         signature = auth.compute_wcs(
             generate_secret(CROSSBAR_SALT),
             challenge.extra['challenge'].encode('utf8')
         )
-        return signature
+        return signature[:-1]
 
     @inlineCallbacks
     def onJoin(self, details):
