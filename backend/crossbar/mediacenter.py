@@ -61,7 +61,7 @@ class Authenticator(ApplicationSession):
             if 'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
-                    return {'secret': 'someguy'.decode('ascii'), 'role': 'backend'}
+                    return {'secret': generate_secret(CROSSBAR_SALT), 'role': 'backend'}
                 else:
                     raise ApplicationError('Bad request')
 
@@ -103,7 +103,8 @@ class Mediacenter(ApplicationSession):
     def onChallenge(self, challenge):
         print('ON CHALLENGE')
         print(challenge)
-        return 'someguy'.decode('ascii')
+        s = auth.compute_wcs(generate_secret(CROSSBAR_SALT), challenge.extra['challenge'].encode('utf8'))
+        return s.decode('ascii')
 
     @inlineCallbacks
     def onJoin(self, details):
