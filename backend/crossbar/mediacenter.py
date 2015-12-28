@@ -42,6 +42,14 @@ from redis import Redis
 REDIS_SOCKETS = Redis(db=1)
 
 
+def generate_secret(val):
+    return base64.b64encode(hmac.new(
+        bytes(CROSSBAR_KEY).encode('utf-8'),
+        bytes(val).encode('utf-8'),
+        digestmod=hashlib.sha256
+    ).digest())
+
+
 class Authenticator(ApplicationSession):
 
     @inlineCallbacks
