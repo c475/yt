@@ -74,7 +74,6 @@ class Authenticator(ApplicationSession):
                     break
 
             if cookie is not None:
-                r = Redis()
                 session = SessionStore(session_key=cookie).load()
 
                 if session and '_auth_user_id' in session:
@@ -84,7 +83,7 @@ class Authenticator(ApplicationSession):
                         user = None
 
                     if user is not None and str(user.pk) == authid:
-                        REDIS_SOCKETS.set(details['session'], int(session['_auth_user_id']))
+                        REDIS_SOCKETS.set(details['session'], session['_auth_user_id'])
                         return {'secret': generate_secret(user.username), 'role': 'frontend'}
                     else:
                         return ApplicationError('Invalid authid')

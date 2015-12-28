@@ -405,7 +405,6 @@ window.onload = function() {
                     var content = self.chat.get("message");
                     if(content.trim()) {
                         Crossbar.rpc("sendChat", {
-                            uid: User.uid,
                             content: content
                         });
 
