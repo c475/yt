@@ -98,7 +98,7 @@ class Authenticator(ApplicationSession):
 class Mediacenter(ApplicationSession):
 
     def onConnect(self):
-        self.join('mediacenter', ['wampcra'], 'someguy')
+        self.join('mediacenter', [u'wampcra'], 'someguy')
 
     def onChallenge(self, challenge):
         print('ON CHALLENGE')
