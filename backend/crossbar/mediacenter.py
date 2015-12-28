@@ -1,5 +1,6 @@
 import hmac
 import hashlib
+import base64
 
 from twisted.internet.defer import inlineCallbacks
 from autobahn.twisted.wamp import ApplicationSession
@@ -41,11 +42,11 @@ USER_SOCKETS = {}
 
 
 def generate_secret(val):
-    return hmac.new(
+    return base64.b64encode(hmac.new(
         bytes(CROSSBAR_KEY).encode('utf-8'),
         bytes(val).encode('utf-8'),
         digestmod=hashlib.sha256
-    ).digest()
+    ).digest())
 
 
 class Authenticator(ApplicationSession):
@@ -74,6 +75,7 @@ class Authenticator(ApplicationSession):
             if cookie is not None:
                 r = Redis()
                 session = SessionStore(session_key=cookie).load()
+
                 if session and '_auth_user_id' in session:
                     try:
                         user = User.objects.get(pk=authid)

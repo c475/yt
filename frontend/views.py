@@ -1,4 +1,7 @@
 import json
+import hashlib
+import hmac
+import base64
 
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
@@ -22,11 +25,11 @@ from backend.models import Room
 
 
 def generate_secret(val):
-    return hmac.new(
+    return base64.b64encode(hmac.new(
         bytes(CROSSBAR_KEY).encode('utf-8'),
         bytes(val).encode('utf-8'),
         digestmod=hashlib.sha256
-    ).digest()
+    ).digest())
 
 
 class NotLoggedInMixin(object):
