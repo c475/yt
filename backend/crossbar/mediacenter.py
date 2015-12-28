@@ -109,7 +109,6 @@ class Mediacenter(ApplicationSession):
     def onJoin(self, details):
 
         def printendpoint(endpoint):
-            print(USER_SOCKETS.sockets)
             print(('='*20) + endpoint + ('='*20))
 
         def initialize(data):
