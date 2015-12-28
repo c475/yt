@@ -82,7 +82,7 @@ class Authenticator(ApplicationSession):
                     except:
                         user = None
 
-                    if user is not None:
+                    if user is not None and str(user.pk) == authid:
                         USER_SOCKETS[details['session']] = session['_auth_user_id']
                         return {'secret': generate_secret(user.username), 'role': 'frontend'}
                     else:
@@ -101,19 +101,14 @@ class Mediacenter(ApplicationSession):
         self.join('mediacenter', [u'wampcra'], 'someguy')
 
     def onChallenge(self, challenge):
-        print('ON CHALLENGE')
-        print(challenge)
         s = auth.compute_wcs(generate_secret(CROSSBAR_SALT), challenge.extra['challenge'].encode('utf8'))
         return s.decode('ascii')
 
     @inlineCallbacks
     def onJoin(self, details):
-        print('JOINED!!!!!')
-        print(details.__dict__)
 
         def printendpoint(endpoint):
             print(USER_SOCKETS)
-            print(self.__dict__)
             print(('='*20) + endpoint + ('='*20))
 
         def initialize(data):
