@@ -1,3 +1,6 @@
+import hmac
+import hashlib
+
 from twisted.internet.defer import inlineCallbacks
 from autobahn.twisted.wamp import ApplicationSession
 from autobahn.wamp.exception import ApplicationError
@@ -24,14 +27,25 @@ setup()
 
 from redis_sessions.session import SessionStore
 
+from backend.models import User
 from backend.controllers.Youtube import Youtube
 from backend.controllers.Users import Users
 from backend.controllers.Chats import Chats
 from backend.controllers.System import System
 
+from credentials import CROSSBAR_KEY, CROSSBAR_SALT
+
 from redis import Redis
 
 USER_SOCKETS = {}
+
+
+def generate_secret(val):
+    return hmac.new(
+        bytes(CROSSBAR_KEY).encode('utf-8'),
+        bytes(val).encode('utf-8'),
+        digestmod=hashlib.sha256
+    ).digest()
 
 
 class Authenticator(ApplicationSession):
@@ -46,7 +60,7 @@ class Authenticator(ApplicationSession):
             if 'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
-                    return {'secret': 'secret', 'role': 'backend'}
+                    return {'secret': generate_secret(CROSSBAR_SALT), 'role': 'backend'}
                 else:
                     raise ApplicationError('Bad request')
 
@@ -61,8 +75,16 @@ class Authenticator(ApplicationSession):
                 r = Redis()
                 session = SessionStore(session_key=cookie).load()
                 if session and '_auth_user_id' in session:
-                    USER_SOCKETS[details['session']] = session['_auth_user_id']
-                    return {'secret': 'secret', 'role': 'frontend'}
+                    try:
+                        user = User.objects.get(pk=authid)
+                    except:
+                        user = None
+
+                    if user is not None:
+                        USER_SOCKETS[details['session']] = session['_auth_user_id']
+                        return {'secret': generate_secret(user.username), 'role': 'frontend'}
+                    else:
+                        return ApplicationError('Invalid authid')
                 else:
                     raise ApplicationError('Bad session')
             else:
@@ -74,13 +96,13 @@ class Authenticator(ApplicationSession):
 class Mediacenter(ApplicationSession):
 
     def onConnect(self):
-        print("connected. joining realm {} as user {} ...".format(self.config.realm, 'someguy'))
-        self.join(self.config.realm, [u"wampcra"], 'someguy')
+        self.join(self.config.realm, ['wampcra'], 'Ignore This')
 
     def onChallenge(self, challenge):
-        print('doing challenge thing')
-        print(challenge.__dict__)
-        signature = auth.compute_wcs('secret', challenge.extra['challenge'].encode('utf8'))
+        signature = auth.compute_wcs(
+            generate_secret(CROSSBAR_SALT),
+            challenge.extra['challenge'].encode('utf8')
+        )
         return signature.decode('ascii')
 
     @inlineCallbacks

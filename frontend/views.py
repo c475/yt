@@ -13,11 +13,20 @@ from django.forms.models import model_to_dict
 from django.shortcuts import render_to_response
 
 from mediacenter.settings import SOCIAL_AUTH_GOOGLE_PLUS_KEY
+from credentials import CROSSBAR_KEY
 
 from backend.controllers.Users import Users
 from backend.controllers.System import System
 
 from backend.models import Room
+
+
+def generate_secret(val):
+    return hmac.new(
+        bytes(CROSSBAR_KEY).encode('utf-8'),
+        bytes(val).encode('utf-8'),
+        digestmod=hashlib.sha256
+    ).digest()
 
 
 class NotLoggedInMixin(object):
@@ -66,16 +75,20 @@ class RoomCreate(LoggedInMixin, CreateView):
 
 @login_required
 def index(request, room=None):
+    key = generate_secret(request.user.username)
+
     if room == 'default':
         return render_to_response('base.html', context={
             'room': 'default',
-            'user': request.user
+            'user': request.user,
+            'key': key
         })
     else:
         if room is not None and Room.objects.filter(name=room).exists():
             return render_to_response('base.html', context={
                 'room': room,
-                'user': request.user
+                'user': request.user,
+                'key': key
             })
         else:
             return HttpResponseRedirect('/rooms/default/')
