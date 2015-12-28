@@ -98,14 +98,14 @@ class Authenticator(ApplicationSession):
 class Mediacenter(ApplicationSession):
 
     def onConnect(self):
-        self.join(self.config.realm, ['wampcra'], 'Ignore This')
+        self.join(self.config.realm, ['wampcra'], 'someguy')
 
     def onChallenge(self, challenge):
         signature = auth.compute_wcs(
             generate_secret(CROSSBAR_SALT),
             challenge.extra['challenge'].encode('utf8')
         )
-        return signature.decode('ascii')
+        return signature
 
     @inlineCallbacks
     def onJoin(self, details):
