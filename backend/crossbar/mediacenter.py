@@ -61,7 +61,7 @@ class Authenticator(ApplicationSession):
             if 'cookie' not in headers:
                 who = details['transport']['peer'].split(':')[1]
                 if who == '127.0.0.1':
-                    return {'secret': generate_secret(CROSSBAR_SALT)[:-1], 'role': 'backend'}
+                    return {'secret': 'someguy'.decode('ascii'), 'role': 'backend'}
                 else:
                     raise ApplicationError('Bad request')
 

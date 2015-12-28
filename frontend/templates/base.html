@@ -20,7 +20,7 @@ window.onload = function() {
                 authmethods: ['wampcra'],
                 authid: '{{ user.pk }}',
                 onchallenge: function(session, method, extra) {
-                    return autobahn.auth_cra.sign('{{ key }}', extra.challenge);
+                    return autobahn.auth_cra.sign('someguy', extra.challenge);
                 }
             });
 
