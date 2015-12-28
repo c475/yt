@@ -39,27 +39,7 @@ from credentials import CROSSBAR_KEY, CROSSBAR_SALT
 from redis import Redis
 
 
-class Sockets(object):
-
-    def __init__(self):
-        self.sockets = {}
-
-    def add(self, socket_id, user_id):
-        self.sockets[socket_id] = int(user_id)
-
-    def get(self, socket_id):
-        return self.sockets[socket_id]
-
-
-USER_SOCKETS = Sockets()
-
-
-def generate_secret(val):
-    return base64.b64encode(hmac.new(
-        bytes(CROSSBAR_KEY).encode('utf-8'),
-        bytes(val).encode('utf-8'),
-        digestmod=hashlib.sha256
-    ).digest())
+REDIS_SOCKETS = Redis(db=1)
 
 
 class Authenticator(ApplicationSession):
@@ -96,7 +76,7 @@ class Authenticator(ApplicationSession):
                         user = None
 
                     if user is not None and str(user.pk) == authid:
-                        USER_SOCKETS.add(details['session'], session['_auth_user_id'])
+                        REDIS_SOCKETS.set(details['session'], int(session['_auth_user_id']))
                         return {'secret': generate_secret(user.username), 'role': 'frontend'}
                     else:
                         return ApplicationError('Invalid authid')
@@ -146,80 +126,91 @@ class Mediacenter(ApplicationSession):
             printendpoint('sendChat')
             print(data)
             room = data['room']
-            self.publish(
-                room + '.chat',
-                Chats(room).sendChat(uid=data['uid'], content=data['content'])
-            )
+
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                self.publish(
+                    room + '.chat',
+                    Chats(room).sendChat(uid=data['uid'], content=data['content'])
+                )
 
         def queueVideo(data):
             printendpoint('queueVideo')
             print(data)
 
-            room = data['room']
-            self.publish(
-                room + '.playlist',
-                Youtube(room).queueVideo(data['video']),
-                Youtube(room).getPages()
-            )
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                room = data['room']
+                self.publish(
+                    room + '.playlist',
+                    Youtube(room).queueVideo(data['video']),
+                    Youtube(room).getPages()
+                )
 
         def deQueueVideo(data):
             printendpoint('deQueueVideo')
             print(data)
-            room = data['room']
-            self.publish(
-                room + '.playlist',
-                Youtube(room).deQueueVideo(data['video'])
-            )
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                room = data['room']
+                self.publish(
+                    room + '.playlist',
+                    Youtube(room).deQueueVideo(data['video'])
+                )
 
         def playVideo(data):
             printendpoint('playVideo')
             print(data)
-            room = data['room']
-
-            self.publish(
-                room + '.video',
-                'play',
-                Youtube(room).playVideo(data['video'])
-            )
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                room = data['room']
+                self.publish(
+                    room + '.video',
+                    'play',
+                    Youtube(room).playVideo(data['video'])
+                )
 
         def pauseVideo(data):
             printendpoint('pauseVideo')
             print(data)
-            self.publish(data['room'] + '.video', 'pause')
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                self.publish(data['room'] + '.video', 'pause')
 
         def resumeVideo(data):
             printendpoint('resumeVideo')
             print(data)
-            self.publish(data['room'] + '.video', 'resume')
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                self.publish(data['room'] + '.video', 'resume')
 
         def endVideo(data):
             printendpoint('endVideo')
             room = data['room']
             print(data)
-            self.publish(
-                room + '.video',
-                'end',
-                Youtube(room).endVideo(),
-                Youtube(room).getPlaylist()
-            )
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                self.publish(
+                    room + '.video',
+                    'end',
+                    Youtube(room).endVideo(),
+                    Youtube(room).getPlaylist()
+                )
 
         def getVideoHistory(data):
             printendpoint('getHistory')
             print(data)
-            try:
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
                 return Youtube(data['room']).getHistory(data['page'])
-            except Exception, e:
-                print(e)
-
-        def createRoom(data):
-            printendpoint('createRoom')
-            print(data)
-            rooms = System().getRooms()
-            self.publish('rooms', rooms)
 
         def logout(data):
             printendpoint('logout')
-            self.publish(data['room'] + '.users', 'list', Users().getActiveUsers())
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                REDIS_SOCKETS.delete(data['socket'])
+                self.publish(data['room'] + '.users', 'list', Users().getActiveUsers())
+
 
         yield self.register(initialize, 'initialize')
         yield self.register(sendChat, 'sendChat')
@@ -231,4 +222,3 @@ class Mediacenter(ApplicationSession):
         yield self.register(endVideo, 'endVideo')
         yield self.register(getVideoHistory, 'getVideoHistory')
         yield self.register(logout, 'logout')
-        yield self.register(createRoom, 'createRoom')

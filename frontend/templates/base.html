@@ -141,6 +141,8 @@ window.onload = function() {
                     args.room = State.room;
                 }
 
+                args.socket = this.connection._id;
+
                 this.session.call(endpoint, [args]).then(success, error);
 
             } else {
