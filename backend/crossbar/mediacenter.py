@@ -84,7 +84,7 @@ class Authenticator(ApplicationSession):
 
                     if user is not None:
                         USER_SOCKETS[details['session']] = session['_auth_user_id']
-                        return {'secret': 'someguy'.decode('ascii'), 'role': 'frontend'}
+                        return {'secret': generate_secret(user.username), 'role': 'frontend'}
                     else:
                         return ApplicationError('Invalid authid')
                 else:
