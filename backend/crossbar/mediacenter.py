@@ -38,7 +38,20 @@ from credentials import CROSSBAR_KEY, CROSSBAR_SALT
 
 from redis import Redis
 
-USER_SOCKETS = {}
+
+class Sockets(object):
+
+    def __init__(self):
+        self.sockets = {}
+
+    def add(self, socket_id, user_id):
+        self.sockets[socket_id] = int(user_id)
+
+    def get(self, socket_id):
+        return self.sockets[socket_id]
+
+
+USER_SOCKETS = Sockets()
 
 
 def generate_secret(val):
@@ -83,7 +96,7 @@ class Authenticator(ApplicationSession):
                         user = None
 
                     if user is not None and str(user.pk) == authid:
-                        USER_SOCKETS[details['session']] = session['_auth_user_id']
+                        USER_SOCKETS.add(details['session'], session['_auth_user_id'])
                         return {'secret': generate_secret(user.username), 'role': 'frontend'}
                     else:
                         return ApplicationError('Invalid authid')
@@ -108,7 +121,7 @@ class Mediacenter(ApplicationSession):
     def onJoin(self, details):
 
         def printendpoint(endpoint):
-            print(USER_SOCKETS)
+            print(USER_SOCKETS.sockets)
             print(('='*20) + endpoint + ('='*20))
 
         def initialize(data):
