@@ -12,26 +12,9 @@
 
     {% load staticfiles %}
 
-    <script src="{% static 'js/autobahn.js' %}"></script>
-    <script src="{% static 'js/ractive.min.js' %}"></script>
-    <script src="https://apis.google.com/js/client.js"></script>
-
-    <script id="navbar-template" type="text/ractive">{% include "components/navbar.html" %}</script>
-    <script id="chat-template" type="text/ractive">{% include "components/chat.html" %}</script>
-    <script id="playlist-template" type="text/ractive">{% include "components/playlist.html" %}</script>
-    <script id="search-template" type="text/ractive">{% include "components/search.html" %}</script>
-    <script id="users-template" type="text/ractive">{% include "components/users.html" %}</script>
-    <script id="video-template" type="text/ractive">{% include "components/video.html" %}</script>
-    <script id="history-template" type="text/ractive">{% include "components/history.html" %}</script>
-    <script id="profile-template" type="text/ractive">{% include "components/profile.html" %}</script>
-
-    {% block base %}{% endblock %}
-
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/stock.css' %}">
-
-    <script src="{% static 'js/words.js' %}" async></script>
 
 </head>
 
@@ -82,5 +65,22 @@
     </div>
 
 </body>
+
+<script src="{% static 'js/autobahn.js' %}"></script>
+<script src="{% static 'js/ractive.min.js' %}"></script>
+<script src="https://apis.google.com/js/client.js"></script>
+
+<script id="navbar-template" type="text/ractive">{% include "components/navbar.html" %}</script>
+<script id="chat-template" type="text/ractive">{% include "components/chat.html" %}</script>
+<script id="playlist-template" type="text/ractive">{% include "components/playlist.html" %}</script>
+<script id="search-template" type="text/ractive">{% include "components/search.html" %}</script>
+<script id="users-template" type="text/ractive">{% include "components/users.html" %}</script>
+<script id="video-template" type="text/ractive">{% include "components/video.html" %}</script>
+<script id="history-template" type="text/ractive">{% include "components/history.html" %}</script>
+<script id="profile-template" type="text/ractive">{% include "components/profile.html" %}</script>
+
+{% block base %}{% endblock %}
+
+<script src="{% static 'js/words.js' %}" async></script>
 
 </html>
