@@ -289,7 +289,7 @@ window.onload = function() {
                 case YT.PlayerState.PLAYING:
                     if(this.previousState === YT.PlayerState.PAUSED) {
                         console.info('fuck this');
-                        if(!this.socketUpdate) {
+                        if(this.socketUpdate) {
                             Crossbar.rpc("resumeVideo");
                         }
                         this.socketUpdate = false;
