@@ -74,12 +74,12 @@ window.onload = function() {
                             break;
 
                         case "pause":
-                            Youtube.socketUpdate = true;
+                            Youtube.socketUpdate = !Youtube.socketUpdate;
                             Youtube.player.pauseVideo();
                             break;
 
                         case "resume":
-                            Youtube.socketUpdate = true;
+                            Youtube.socketUpdate = !Youtube.socketUpdate;
                             Youtube.player.playVideo();
                             break;
 
