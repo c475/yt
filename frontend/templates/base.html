@@ -76,12 +76,12 @@ window.onload = function() {
                             break;
 
                         case "pause":
-                            Youtube.socketUpdate = !Youtube.socketUpdate;
+                            Youtube.socketUpdate = true;
                             Youtube.player.pauseVideo();
                             break;
 
                         case "resume":
-                            Youtube.socketUpdate = !Youtube.socketUpdate;
+                            Youtube.socketUpdate = true;
                             Youtube.player.playVideo();
                             break;
 
@@ -250,9 +250,6 @@ window.onload = function() {
     };
 
     var Youtube = {
-
-        socketUpdate: false,
-
         videoHeight: "100%",
         videoWidth: "100%",
         previousState: null,
@@ -294,8 +291,8 @@ window.onload = function() {
                         if(!this.socketUpdate) {
                             Crossbar.rpc("resumeVideo");
                         }
-                        this.socketUpdate = false;
                     }
+                    this.socketUpdate = false;
                     break;
 
                 case YT.PlayerState.PAUSED:
