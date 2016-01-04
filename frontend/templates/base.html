@@ -63,6 +63,8 @@ window.onload = function() {
                     var video = args[1];
                     var playlist = args[2];
 
+                    console.info(type + ' update');
+
                     switch(type) {
                         case "play":
                             Youtube.playVideo(video);
