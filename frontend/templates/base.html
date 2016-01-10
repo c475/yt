@@ -59,11 +59,11 @@ window.onload = function() {
                 });
 
                 self.subscribe("video", function(args) {
+                    Youtube.player.D.onStateChange = false;
+
                     var type = args[0];
                     var video = args[1];
                     var playlist = args[2];
-
-                    console.info(type + ' update');
 
                     switch(type) {
                         case "play":
@@ -76,29 +76,24 @@ window.onload = function() {
                             break;
 
                         case "pause":
-                            Youtube.socketUpdate = true;
                             Youtube.player.pauseVideo();
-                            Youtube.socketUpdate = false;
                             break;
 
                         case "resume":
-                            Youtube.socketUpdate = true;
                             Youtube.player.playVideo();
-                            Youtube.socketUpdate = false;
                             break;
 
                         default:
                             console.error("self.subscribe('video') message type: " + type);
                             break;
                     }
+
+                    Youtube.player.D.onStateChange = true;
                 });
 
                 self.subscribe("playlist", function(data) {
                     var videos = data[0];
                     var pages = data[1];
-
-                    console.info('pages: ' + pages);
-
                     var currentPage = UI.history.get("currentPage");
 
                     if(!Youtube.player) {
@@ -241,7 +236,6 @@ window.onload = function() {
         }
     };
 
-
     var User = {
         uid: {{ user.pk }},
         username: "{{ user.username }}"
@@ -290,16 +284,12 @@ window.onload = function() {
 
                 case YT.PlayerState.PLAYING:
                     if(this.previousState === YT.PlayerState.PAUSED) {
-                        if(!this.socketUpdate) {
-                            Crossbar.rpc("resumeVideo");
-                        }
+                        Crossbar.rpc("resumeVideo");
                     }
                     break;
 
                 case YT.PlayerState.PAUSED:
-                    if(!this.socketUpdate) {
-                        Crossbar.rpc("pauseVideo");
-                    }
+                    Crossbar.rpc("pauseVideo");
                     break;
 
                 case YT.PlayerState.ENDED:
