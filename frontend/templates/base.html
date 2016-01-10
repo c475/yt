@@ -74,11 +74,15 @@ window.onload = function() {
                             break;
 
                         case "pause":
+                            Youtube.player.K = false;
                             Youtube.player.pauseVideo();
+                            Youtube.player.K = true;
                             break;
 
                         case "resume":
+                            Youtube.player.K = false;
                             Youtube.player.playVideo();
+                            Youtube.player.K = true;
                             break;
 
                         default:
@@ -270,7 +274,6 @@ window.onload = function() {
             this.player.seekTo(this.videoStart);
             this.player.playVideo();
             this.videoStart = 0;
-            this.player.D.onStateChange = false;
         },
 
         // handle state changes in the video (play, pause, stop, volume, etc)
