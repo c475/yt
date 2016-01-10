@@ -59,7 +59,7 @@ window.onload = function() {
                 });
 
                 self.subscribe("video", function(args) {
-                    Youtube.player.D.onStateChange = false;
+                    // Youtube.player.D.onStateChange = false;
 
                     var type = args[0];
                     var video = args[1];
@@ -88,7 +88,7 @@ window.onload = function() {
                             break;
                     }
 
-                    Youtube.player.D.onStateChange = true;
+                    // Youtube.player.D.onStateChange = true;
                 });
 
                 self.subscribe("playlist", function(data) {
