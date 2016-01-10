@@ -74,8 +74,10 @@ window.onload = function() {
                             break;
 
                         case "pause":
+                            console.info('turning onStateChange OFF');
                             Youtube.player.D.onStateChange = false;
                             Youtube.player.pauseVideo();
+                            console.info('turning onStateChange ON');
                             Youtube.player.D.onStateChange = true;
                             break;
 
