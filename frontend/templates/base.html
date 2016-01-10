@@ -59,8 +59,6 @@ window.onload = function() {
                 });
 
                 self.subscribe("video", function(args) {
-                    // Youtube.player.D.onStateChange = false;
-
                     var type = args[0];
                     var video = args[1];
                     var playlist = args[2];
@@ -76,19 +74,21 @@ window.onload = function() {
                             break;
 
                         case "pause":
+                            Youtube.player.D.onStateChange = false;
                             Youtube.player.pauseVideo();
+                            Youtube.player.D.onStateChange = true;
                             break;
 
                         case "resume":
+                            Youtube.player.D.onStateChange = false;
                             Youtube.player.playVideo();
+                            Youtube.player.D.onStateChange = true;
                             break;
 
                         default:
                             console.error("self.subscribe('video') message type: " + type);
                             break;
                     }
-
-                    // Youtube.player.D.onStateChange = true;
                 });
 
                 self.subscribe("playlist", function(data) {
