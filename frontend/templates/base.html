@@ -75,16 +75,16 @@ window.onload = function() {
 
                         case "pause":
                             console.info('turning onStateChange OFF');
-                            Youtube.player.D.onStateChange = false;
+                            Youtube.player.D.onStateChange = true;
                             Youtube.player.pauseVideo();
                             console.info('turning onStateChange ON');
-                            Youtube.player.D.onStateChange = true;
+                            Youtube.player.D.onStateChange = false;
                             break;
 
                         case "resume":
-                            Youtube.player.D.onStateChange = false;
-                            Youtube.player.playVideo();
                             Youtube.player.D.onStateChange = true;
+                            Youtube.player.playVideo();
+                            Youtube.player.D.onStateChange = false;
                             break;
 
                         default:
@@ -276,6 +276,7 @@ window.onload = function() {
             this.player.seekTo(this.videoStart);
             this.player.playVideo();
             this.videoStart = 0;
+            this.player.D.onStateChange = false;
         },
 
         // handle state changes in the video (play, pause, stop, volume, etc)
