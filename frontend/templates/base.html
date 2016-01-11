@@ -78,8 +78,10 @@ window.onload = function() {
                         case "pause":
                             var sid = args[1];
                             if(sid != self.session.id) {
+                                var position = args[2];
                                 self.socketUpdate = false;
                                 Youtube.player.pauseVideo();
+                                Youtube.player.seekTo(position);
                             }
                             break;
 

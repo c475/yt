@@ -181,9 +181,9 @@ class Mediacenter(ApplicationSession):
             print(data)
             socket_id = data['socket']
             data['uid'] = int(REDIS_SOCKETS.get(socket_id))
-            Youtube(data['room']).pauseVideo()
+            Youtube(data['room']).pauseVideo(data['position'])
             if data['uid'] is not None:
-                self.publish(data['room'] + '.video', 'pause', socket_id)
+                self.publish(data['room'] + '.video', 'pause', socket_id, data['position'])
 
         def resumeVideo(data):
             printendpoint('resumeVideo')
