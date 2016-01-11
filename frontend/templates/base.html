@@ -78,13 +78,11 @@ window.onload = function() {
                         case "pause":
                             this.disableRPC = true;
                             Youtube.player.pauseVideo();
-                            this.disableRPC = false;
                             break;
 
                         case "resume":
                             this.disableRPC = true;
                             Youtube.player.playVideo();
-                            this.disableRPC = false;
                             break;
 
                         default:
@@ -321,6 +319,10 @@ window.onload = function() {
                 default:
                     console.info('default switch in player state change');
                     break;
+            }
+
+            if(Crossbar.disableRPC) {
+                Crossbar.disableRPC = false;
             }
 
             this.previousState = event.data;
