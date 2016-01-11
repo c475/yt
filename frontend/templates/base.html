@@ -63,6 +63,8 @@ window.onload = function() {
                     var video = args[1];
                     var playlist = args[2];
 
+                    console.info(type + ' update');
+
                     switch(type) {
                         case "play":
                             Youtube.playVideo(video);
@@ -74,15 +76,11 @@ window.onload = function() {
                             break;
 
                         case "pause":
-                            Youtube.player.K = false;
                             Youtube.player.pauseVideo();
-                            Youtube.player.K = true;
                             break;
 
                         case "resume":
-                            Youtube.player.K = false;
                             Youtube.player.playVideo();
-                            Youtube.player.K = true;
                             break;
 
                         default:
@@ -94,6 +92,9 @@ window.onload = function() {
                 self.subscribe("playlist", function(data) {
                     var videos = data[0];
                     var pages = data[1];
+
+                    console.info('pages: ' + pages);
+
                     var currentPage = UI.history.get("currentPage");
 
                     if(!Youtube.player) {
@@ -235,6 +236,7 @@ window.onload = function() {
             }
         }
     };
+
 
     var User = {
         uid: {{ user.pk }},
