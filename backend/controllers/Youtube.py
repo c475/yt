@@ -45,7 +45,7 @@ class Youtube(object):
         if playing.exists():
 
             playing = playing[0]
-            ret = model_to_dict(playing)
+            ret = model_to_dict(playing, exclude=['last_pause'])
             now = datetime.datetime.now()
 
             if playing.last_pause:
