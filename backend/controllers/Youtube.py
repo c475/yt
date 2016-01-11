@@ -20,7 +20,7 @@ class Youtube(object):
     @property
     def queuedVideos(self):
         return Video.objects.filter(
-            playing=False
+            active=False
         ).filter(
             finished=False
         ).filter(
@@ -30,7 +30,7 @@ class Youtube(object):
     @property
     def currentlyPlaying(self):
         return Video.objects.filter(
-            playing=True
+            active=True
         ).filter(
             room=self.room
         )
@@ -43,12 +43,22 @@ class Youtube(object):
         playing = self.currentlyPlaying
 
         if playing.exists():
+
+            playing = playing[0]
+            ret = model_to_dict(playing)
             now = datetime.datetime.now()
 
-            playing = model_to_dict(playing[0])
-            playing["start_seconds"] = (now - playing["start"].replace(tzinfo=None)).seconds
-            playing["start"] = playing["start"].strftime("%Y-%m-%d %H:%M:%S")
+            if playing.last_pause:
+                if playing.state == 1:
+                    ret['start_seconds'] = (now - ret['last_pause'].replace(tzinfo=None)).seconds
+                else:
+                    ret['start_seconds'] = playing.last_position
+            else:
+                ret['start_seconds'] = (now - ret['start'].replace(tzinfo=None)).seconds
+
+            ret['start'] = ret['start'].strftime("%Y-%m-%d %H:%M:%S")
             return playing
+
         else:
             return None
 
@@ -88,7 +98,8 @@ class Youtube(object):
 
     def playVideo(self, video):
         video = Video.objects.get(pk=video["id"])
-        video.playing = True
+        video.active = True
+        video.state = 1
         video.start = datetime.datetime.now()
         video.save()
 
@@ -103,7 +114,7 @@ class Youtube(object):
         if playing.exists():
             playing = playing[0]
             playing.finished = True
-            playing.playing = False
+            playing.active = False
             playing.stop = datetime.datetime.now()
             playing.save()
 
@@ -113,6 +124,22 @@ class Youtube(object):
             return self.playVideo({"id": playlist[0].id})
         else:
             return None
+
+    def pauseVideo(self, position):
+        playing = self.currentlyPlaying
+        if playing.exists():
+            playing = playing[0]
+            playing.last_position = position
+            playing.state = 0
+            playing.save()
+
+    def resumeVideo(self):
+        playing = self.currentlyPlaying
+        if playing.exists():
+            playing = playing[0]
+            playing.state = 1
+            playing.last_pause = datetime.datetime.now()
+            playing.save()
 
     def getPlaylist(self):
         queued_videos = self.queuedVideos
@@ -141,7 +168,7 @@ class Youtube(object):
 
         if playing.exists():
             playing = playing[0]
-            playing.playing = False
+            playing.active = False
             playing.finished = True
             playing.stop = now
             playing.save()
