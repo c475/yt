@@ -76,12 +76,12 @@ window.onload = function() {
                             break;
 
                         case "pause":
-                            self.socketUpdate = true;
+                            self.socketUpdate = false;
                             Youtube.player.pauseVideo();
                             break;
 
                         case "resume":
-                            self.socketUpdate = true;
+                            self.socketUpdate = false;
                             Youtube.player.playVideo();
                             break;
 
@@ -288,14 +288,14 @@ window.onload = function() {
 
                 case YT.PlayerState.PLAYING:
                     if(this.previousState === YT.PlayerState.PAUSED) {
-                        if(Crossbar.socketUpdate) {
+                        if(!Crossbar.socketUpdate) {
                             Crossbar.rpc("resumeVideo");
                         }
                     }
                     break;
 
                 case YT.PlayerState.PAUSED:
-                    if(Crossbar.socketUpdate) {
+                    if(!Crossbar.socketUpdate) {
                         Crossbar.rpc("pauseVideo");
                     }
                     break;
@@ -318,7 +318,7 @@ window.onload = function() {
                     break;
             }
 
-            Crossbar.socketUpdate = false;
+            Crossbar.socketUpdate = true;
             this.previousState = event.data;
         },
 
