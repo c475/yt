@@ -77,13 +77,17 @@ window.onload = function() {
                             break;
 
                         case "pause":
-                            self.socketUpdate = false;
-                            Youtube.player.pauseVideo();
+                            if(video != self.session.id) {
+                                self.socketUpdate = false;
+                                Youtube.player.pauseVideo();
+                            }
                             break;
 
                         case "resume":
-                            self.socketUpdate = false;
-                            Youtube.player.playVideo();
+                            if(video != self.session.id) {
+                                self.socketUpdate = false;
+                                Youtube.player.playVideo();
+                            }
                             break;
 
                         default:
