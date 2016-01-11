@@ -57,7 +57,7 @@ class Youtube(object):
                 ret['start_seconds'] = (now - ret['start'].replace(tzinfo=None)).seconds
 
             ret['start'] = ret['start'].strftime("%Y-%m-%d %H:%M:%S")
-            return playing
+            return ret
 
         else:
             return None
