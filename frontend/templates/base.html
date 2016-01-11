@@ -76,11 +76,15 @@ window.onload = function() {
                             break;
 
                         case "pause":
+                            this.disableRPC = true;
                             Youtube.player.pauseVideo();
+                            this.disableRPC = false;
                             break;
 
                         case "resume":
+                            this.disableRPC = true;
                             Youtube.player.playVideo();
+                            this.disableRPC = false;
                             break;
 
                         default:
@@ -125,6 +129,10 @@ window.onload = function() {
         },
 
         rpc: function(endpoint, args, callback) {
+            if(this.disableRPC) {
+                return;
+            }
+
             if(this.session) {
 
                 success = function(response) {
