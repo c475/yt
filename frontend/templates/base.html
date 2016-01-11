@@ -130,7 +130,10 @@ window.onload = function() {
 
         rpc: function(endpoint, args, callback) {
             if(this.disableRPC) {
+                console.info('RPC IS DISABLED, NOT GOING TO MAKE CALL');
                 return;
+            } else {
+                console.info('RPC IS ENABLED!!!!!!!!');
             }
 
             if(this.session) {
