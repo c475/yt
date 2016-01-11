@@ -264,9 +264,10 @@ window.onload = function() {
         player: null,
 
         videoStart: 0,
+        startPaused: true,
 
         initialize: function() {
-            window.onYouTubeIframeAPIReady = function () {
+            window.onYouTubeIframeAPIReady = function() {
                 Crossbar.initialize();
                 Search.initialize();
             };
@@ -284,7 +285,11 @@ window.onload = function() {
 
         onPlayerReady: function(event) {
             this.player.seekTo(this.videoStart);
-            this.player.playVideo();
+
+            if(!this.startPaused) {
+                this.player.playVideo();
+            }
+
             this.videoStart = 0;
         },
 
@@ -333,6 +338,10 @@ window.onload = function() {
         playVideo: function(track) {
             if(track && !this.player) {
                 var self = this;
+
+                if(track.state > 0) {
+                    this.startPaused = false;
+                }
 
                 this.videoStart = track.start_seconds;
 
