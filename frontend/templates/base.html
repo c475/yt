@@ -341,9 +341,11 @@ window.onload = function() {
                     height: this.videoHeight,
                     width: this.videoWidth,
                     videoId: track.video_id,
-                    autoplay: track.state,
-                    modestbranding: 1,
-                    rel: 0,
+                    playerVars: {
+                        autoplay: track.state,
+                        modestbranding: 1,
+                        rel: 0
+                    },
                     events: {
                         onReady: this.onPlayerReady.bind(self),
                         onStateChange: this.onPlayerStateChange.bind(self)
