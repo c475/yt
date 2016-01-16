@@ -45,7 +45,7 @@ class Youtube(object):
         if playing.exists():
 
             playing = playing[0]
-            ret = model_to_dict(playing, exclude=['last_pause'])
+            ret = model_to_dict(playing)
             now = datetime.datetime.now()
 
             if playing.last_position:
@@ -57,6 +57,7 @@ class Youtube(object):
                 ret['start_seconds'] = (now - ret['start'].replace(tzinfo=None)).seconds
 
             ret['start'] = ret['start'].strftime("%Y-%m-%d %H:%M:%S")
+            del ret['last_pause']
             return ret
 
         else:
