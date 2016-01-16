@@ -285,11 +285,6 @@ window.onload = function() {
 
         onPlayerReady: function(event) {
             this.player.seekTo(this.videoStart);
-
-            if(!this.startPaused) {
-                this.player.playVideo();
-            }
-
             this.videoStart = 0;
         },
 
@@ -339,16 +334,15 @@ window.onload = function() {
             if(track && !this.player) {
                 var self = this;
 
-                if(track.state > 0) {
-                    this.startPaused = false;
-                }
-
                 this.videoStart = track.start_seconds;
 
                 this.createPlayer({
                     height: this.videoHeight,
                     width: this.videoWidth,
                     videoId: track.video_id,
+                    autoplay: track.state,
+                    modestbranding: 1,
+                    rel: 0,
                     events: {
                         onReady: this.onPlayerReady.bind(self),
                         onStateChange: this.onPlayerStateChange.bind(self)
