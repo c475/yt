@@ -278,7 +278,6 @@ window.onload = function() {
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         },
 
-        // create a youtube video, replacing $("#player") with an iframe of it
         createPlayer: function(settings) {
             this.player = new YT.Player("player", settings);
         },
@@ -288,7 +287,6 @@ window.onload = function() {
             this.videoStart = 0;
         },
 
-        // handle state changes in the video (play, pause, stop, volume, etc)
         onPlayerStateChange: function(event) {
             var self = this;
 
@@ -341,7 +339,7 @@ window.onload = function() {
                     width: this.videoWidth,
                     videoId: track.video_id,
                     playerVars: {
-                        autoplay: track.state,
+                        autoplay: 'false',
                         modestbranding: 1,
                         rel: 0
                     },
