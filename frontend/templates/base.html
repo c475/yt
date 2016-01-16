@@ -285,6 +285,7 @@ window.onload = function() {
 
         onPlayerReady: function(event) {
             this.player.seekTo(this.videoStart);
+            this.player.pauseVideo();
             this.videoStart = 0;
         },
 
@@ -336,13 +337,11 @@ window.onload = function() {
 
                 this.videoStart = track.start_seconds;
 
-                console.log(track);
-
                 this.createPlayer({
                     height: this.videoHeight,
                     width: this.videoWidth,
                     videoId: track.video_id,
-                    autoplay: 1,
+                    autoplay: track.state,
                     modestbranding: 1,
                     rel: 0,
                     events: {
