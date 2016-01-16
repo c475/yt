@@ -79,8 +79,8 @@ window.onload = function() {
                             var sid = args[1];
                             if(sid != self.session.id) {
                                 var position = args[2];
-                                self.socketUpdate = false;
                                 Youtube.player.pauseVideo();
+                                self.socketUpdate = false;
                                 Youtube.player.seekTo(position);
                             }
                             break;
@@ -88,8 +88,8 @@ window.onload = function() {
                         case "resume":
                             var sid = args[1];
                             if(sid != self.session.id) {
-                                self.socketUpdate = false;
                                 Youtube.player.playVideo();
+                                self.socketUpdate = false;
                             }
                             break;
 
@@ -339,7 +339,7 @@ window.onload = function() {
                     width: this.videoWidth,
                     videoId: track.video_id,
                     playerVars: {
-                        autoplay: false,
+                        autoplay: '0',
                         modestbranding: 1,
                         rel: 0
                     },
