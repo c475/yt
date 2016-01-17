@@ -307,7 +307,10 @@ window.onload = function() {
 
                 case YT.PlayerState.PAUSED:
                     if(Crossbar.socketUpdate) {
+                        console.info('CB RPC IS UP...');
                         Crossbar.rpc("pauseVideo", {position: this.player.getCurrentTime()});
+                    } else {
+                        console.info('NO CROSSBAR RPC...');
                     }
                     break;
 
