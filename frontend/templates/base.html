@@ -280,11 +280,15 @@ window.onload = function() {
 
         createPlayer: function(settings) {
             this.player = new YT.Player("player", settings);
-            this.player.seekTo(this.videoStart);
         },
 
         onPlayerReady: function(event) {
+            this.player.seekTo(this.videoStart);
             this.videoStart = 0;
+
+            if(this.startPaused === true) {
+                this.player.pauseVideo();
+            }
         },
 
         onPlayerStateChange: function(event) {
