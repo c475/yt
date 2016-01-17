@@ -89,7 +89,7 @@ window.onload = function() {
 
                         case "resume":
                             var sid = args[1];
-                            if(sid != self.session.id && Youtube.previousState !== YT.PlayerState.BUFFERING) {
+                            if(sid != self.session.id) {
                                 console.info('RESUMING......');
                                 var position = args[2];
                                 Youtube.player.seekTo(position + 0.5);
