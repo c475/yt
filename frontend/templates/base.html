@@ -336,7 +336,7 @@ window.onload = function() {
                     break;
 
                 case YT.PlayerState.BUFFERING:
-                    if(this.previousState === YT.PlayerState.PAUSED) {
+                    if(Crossbar.socketUpdate && this.previousState === YT.PlayerState.PAUSED) {
                         Crossbar.rpc("resumeVideo", {position: this.player.getCurrentTime()});
                     }
                     break;
