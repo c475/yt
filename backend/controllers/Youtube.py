@@ -50,7 +50,7 @@ class Youtube(object):
 
             if playing.last_position:
                 if playing.state == 1:
-                    ret['start_seconds'] = (now - ret['last_pause'].replace(tzinfo=None)).seconds
+                    ret['start_seconds'] = (now - ret['last_pause'].replace(tzinfo=None)).seconds + playing.last_position
                 else:
                     ret['start_seconds'] = playing.last_position
             else:
@@ -134,12 +134,13 @@ class Youtube(object):
             playing.state = 0
             playing.save()
 
-    def resumeVideo(self):
+    def resumeVideo(self, position):
         playing = self.currentlyPlaying
         if playing.exists():
             playing = playing[0]
             playing.state = 1
             playing.last_pause = datetime.datetime.now()
+            playing.last_position = position
             playing.save()
 
     def getPlaylist(self):
