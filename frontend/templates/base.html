@@ -308,8 +308,10 @@ window.onload = function() {
 
                 case YT.PlayerState.PLAYING:
                     console.info('playing');
-                    if(Crossbar.socketUpdate || this.startPaused_RESUME) {
-                        Crossbar.rpc("resumeVideo", {position: this.player.getCurrentTime()});
+                    if(this.previousState === YT.PlayerState.PAUSED || this.previousState === YT.PlayerState.BUFFERING || this.startPaused_RESUME) {
+                        if(Crossbar.socketUpdate || this.startPaused_RESUME) {
+                            Crossbar.rpc("resumeVideo", {position: this.player.getCurrentTime()});
+                        }
                     }
                     break;
 
