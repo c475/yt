@@ -288,6 +288,7 @@ window.onload = function() {
 
             if(this.startPaused) {
                 this.player.pauseVideo();
+                Crossbar.socketUpdate = true;
             }
         },
 
