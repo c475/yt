@@ -80,6 +80,7 @@ window.onload = function() {
                             if(sid != self.session.id) {
                                 var position = args[2];
                                 Youtube.player.pauseVideo();
+                                Youtube.startPaused_PAUSE = false;
                                 self.socketUpdate = false;
                                 Youtube.player.seekTo(position);
                             }
@@ -89,6 +90,7 @@ window.onload = function() {
                             var sid = args[1];
                             if(sid != self.session.id) {
                                 Youtube.player.playVideo();
+                                Youtube.startPaused_RESUME = false;
                                 self.socketUpdate = false;
                             }
                             break;
@@ -303,7 +305,6 @@ window.onload = function() {
                 case YT.PlayerState.PLAYING:
                     if(this.previousState === YT.PlayerState.PAUSED || this.startPaused_RESUME) {
                         if(Crossbar.socketUpdate || this.startPaused_RESUME) {
-                            this.startPaused_RESUME = false;
                             Crossbar.rpc("resumeVideo");
                         }
                     }
@@ -311,7 +312,6 @@ window.onload = function() {
 
                 case YT.PlayerState.PAUSED:
                     if(Crossbar.socketUpdate || this.startPaused_PAUSE) {
-                        this.startPaused_PAUSE = false;
                         Crossbar.rpc("pauseVideo", {position: this.player.getCurrentTime()});
                     }
                     break;
