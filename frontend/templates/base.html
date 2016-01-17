@@ -26,7 +26,6 @@ window.onload = function() {
             });
 
             this.connection.onopen = function(session, details) {
-                console.info('Connection established:', details);
                 self.session = session;
 
                 self.rpc('initialize', null, function(response) {
@@ -78,7 +77,6 @@ window.onload = function() {
                         case "pause":
                             var sid = args[1];
                             if(sid != self.session.id) {
-                                console.info('gonna be pausing...');
                                 var position = args[2];
                                 Youtube.player.pauseVideo();
                                 Youtube.startPaused_PAUSE = false;
@@ -90,7 +88,6 @@ window.onload = function() {
                         case "resume":
                             var sid = args[1];
                             if(sid != self.session.id) {
-                                console.info('RESUMING......');
                                 var position = args[2];
                                 Youtube.player.seekTo(position + 0.5);
                                 Youtube.player.playVideo();
@@ -109,8 +106,6 @@ window.onload = function() {
                 self.subscribe("playlist", function(data) {
                     var videos = data[0];
                     var pages = data[1];
-
-                    console.info('pages: ' + pages);
 
                     var currentPage = UI.history.get("currentPage");
 
@@ -308,7 +303,6 @@ window.onload = function() {
             switch(event.data) {
 
                 case YT.PlayerState.PLAYING:
-                    console.info('playing');
                     if(this.previousState === YT.PlayerState.PAUSED || this.startPaused_RESUME) {
                         if(Crossbar.socketUpdate || this.startPaused_RESUME) {
                             Crossbar.rpc("resumeVideo", {position: this.player.getCurrentTime()});
@@ -318,7 +312,6 @@ window.onload = function() {
                     break;
 
                 case YT.PlayerState.PAUSED:
-                    console.info('paused');
                     if(Crossbar.socketUpdate || this.startPaused_PAUSE) {
                         Crossbar.rpc("pauseVideo", {position: this.player.getCurrentTime()});
                     }
@@ -326,13 +319,11 @@ window.onload = function() {
                     break;
 
                 case YT.PlayerState.ENDED:
-                    console.info('ended');
                     Crossbar.rpc("endVideo");
                     Crossbar.socketUpdate = true;
                     break;
 
                 case YT.PlayerState.CUED:
-                    console.info('cued');
                     break;
 
                 case YT.PlayerState.BUFFERING:
@@ -342,7 +333,6 @@ window.onload = function() {
                     break;
 
                 case YT.PlayerState.UNSTARTED:
-                    console.info('unstarted');
                     break;
 
                 default:
@@ -492,7 +482,6 @@ window.onload = function() {
                 self.history.set("currentPage", page);
 
                 Crossbar.rpc("getVideoHistory", {page: page}, function(response) {
-                    console.log("getHistory:", response);
                     self.history.set("videos", response);
                 });
             });
@@ -637,8 +626,6 @@ window.onload = function() {
     window.State = State;
     window.Crossbar = Crossbar;
     window.Youtube = Youtube;
-
-    console.log("ROOM: " + State.room);
 };
 
 </script>
