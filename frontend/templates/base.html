@@ -306,7 +306,7 @@ window.onload = function() {
                     break;
 
                 case YT.PlayerState.PAUSED:
-                    if(Crossbar.socketUpdate || startPaused) {
+                    if(Crossbar.socketUpdate || this.startPaused) {
                         this.startPaused = false;
                         Crossbar.rpc("pauseVideo", {position: this.player.getCurrentTime()});
                     }
