@@ -192,7 +192,7 @@ class Mediacenter(ApplicationSession):
             data['uid'] = int(REDIS_SOCKETS.get(socket_id))
             Youtube(data['room']).resumeVideo()
             if data['uid'] is not None:
-                self.publish(data['room'] + '.video', 'resume', socket_id)
+                self.publish(data['room'] + '.video', 'resume', socket_id, data['position'])
 
         def endVideo(data):
             printendpoint('endVideo')

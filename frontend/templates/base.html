@@ -89,9 +89,11 @@ window.onload = function() {
                         case "resume":
                             var sid = args[1];
                             if(sid != self.session.id) {
+                                var position = args[2];
                                 Youtube.player.playVideo();
                                 Youtube.startPaused_RESUME = false;
                                 self.socketUpdate = false;
+                                Youtube.player.seekTo(position);
                             }
                             break;
 
@@ -306,7 +308,7 @@ window.onload = function() {
                     console.info('playing');
                     if(this.previousState === YT.PlayerState.PAUSED || this.startPaused_RESUME) {
                         if(Crossbar.socketUpdate || this.startPaused_RESUME) {
-                            Crossbar.rpc("resumeVideo");
+                            Crossbar.rpc("resumeVideo", {position: this.player.getCurrentTime()});
                         }
                     }
                     break;
