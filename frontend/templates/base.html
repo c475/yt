@@ -263,7 +263,7 @@ window.onload = function() {
         previousState: null,
         player: null,
 
-        videoStart: 0,
+
         startPaused: true,
 
         initialize: function() {
@@ -283,8 +283,7 @@ window.onload = function() {
         },
 
         onPlayerReady: function(event) {
-            //this.player.seekTo(this.videoStart);
-            this.videoStart = 0;
+
         },
 
         onPlayerStateChange: function(event) {
@@ -332,14 +331,13 @@ window.onload = function() {
             if(track && !this.player) {
                 var self = this;
 
-                this.videoStart = track.start_seconds;
-
                 this.createPlayer({
                     height: this.videoHeight,
                     width: this.videoWidth,
                     videoId: track.video_id,
                     playerVars: {
-                        autoplay: '0',
+                        start: track.start_seconds,
+                        autoplay: 0,
                         modestbranding: 1,
                         rel: 0
                     },
