@@ -263,7 +263,7 @@ window.onload = function() {
         previousState: null,
         player: null,
 
-
+        videoStart: 0,
         startPaused: true,
 
         initialize: function() {
@@ -280,10 +280,11 @@ window.onload = function() {
 
         createPlayer: function(settings) {
             this.player = new YT.Player("player", settings);
+            this.player.seekTo(this.videoStart);
         },
 
         onPlayerReady: function(event) {
-
+            this.videoStart = 0;
         },
 
         onPlayerStateChange: function(event) {
@@ -331,13 +332,14 @@ window.onload = function() {
             if(track && !this.player) {
                 var self = this;
 
+                this.videoStart = track.start_seconds;
+
                 this.createPlayer({
                     height: this.videoHeight,
                     width: this.videoWidth,
                     videoId: track.video_id,
                     playerVars: {
-                        start: track.start_seconds,
-                        autoplay: 0,
+                        autoplay: '0',
                         modestbranding: 1,
                         rel: 0
                     },
