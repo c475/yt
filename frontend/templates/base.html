@@ -90,11 +90,12 @@ window.onload = function() {
                             var sid = args[1];
                             if(sid != self.session.id) {
                                 var position = args[2];
+                                Youtube.player.seekTo(position + 0.5);
                                 Youtube.player.playVideo();
                                 Youtube.startPaused_RESUME = false;
                                 self.socketUpdate = false;
                             }
-                            Youtube.player.seekTo(position + 0.5);
+                            
                             break;
 
                         default:
