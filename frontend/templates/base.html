@@ -285,6 +285,10 @@ window.onload = function() {
         onPlayerReady: function(event) {
             this.player.seekTo(this.videoStart);
             this.videoStart = 0;
+
+            if(this.startPaused) {
+                this.player.pauseVideo();
+            }
         },
 
         onPlayerStateChange: function(event) {
@@ -293,8 +297,9 @@ window.onload = function() {
             switch(event.data) {
 
                 case YT.PlayerState.PLAYING:
-                    if(this.previousState === YT.PlayerState.PAUSED) {
-                        if(Crossbar.socketUpdate) {
+                    if(this.previousState === YT.PlayerState.PAUSED || this.startPaused) {
+                        if(Crossbar.socketUpdate || this.startPaused) {
+                            this.startPaused = false;
                             Crossbar.rpc("resumeVideo");
                         }
                     }
@@ -331,6 +336,8 @@ window.onload = function() {
         playVideo: function(track) {
             if(track && !this.player) {
                 var self = this;
+
+                this.startPaused = track.state === 0;
 
                 this.videoStart = track.start_seconds;
 
