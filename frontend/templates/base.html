@@ -78,6 +78,7 @@ window.onload = function() {
                         case "pause":
                             var sid = args[1];
                             if(sid != self.session.id) {
+                                console.info('gonna be pausing...');
                                 var position = args[2];
                                 Youtube.player.pauseVideo();
                                 Youtube.startPaused_PAUSE = false;
