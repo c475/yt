@@ -93,7 +93,7 @@ window.onload = function() {
                                 Youtube.player.playVideo();
                                 Youtube.startPaused_RESUME = false;
                                 self.socketUpdate = false;
-                                Youtube.player.seekTo(position);
+                                Youtube.player.seekTo(position + 0.5);
                             }
                             break;
 
@@ -356,7 +356,6 @@ window.onload = function() {
                     width: this.videoWidth,
                     videoId: track.video_id,
                     playerVars: {
-                        autoplay: '0',
                         modestbranding: 1,
                         rel: 0
                     },
