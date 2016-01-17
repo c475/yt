@@ -264,7 +264,11 @@ window.onload = function() {
         player: null,
 
         videoStart: 0,
+
+        // fucked up
         startPaused: true,
+        startPaused_RESUME: true,
+        startPaused_PAUSE: true,
 
         initialize: function() {
             window.onYouTubeIframeAPIReady = function() {
@@ -297,17 +301,17 @@ window.onload = function() {
             switch(event.data) {
 
                 case YT.PlayerState.PLAYING:
-                    if(this.previousState === YT.PlayerState.PAUSED || this.startPaused) {
-                        if(Crossbar.socketUpdate || this.startPaused) {
-                            this.startPaused = false;
+                    if(this.previousState === YT.PlayerState.PAUSED || this.startPaused_RESUME) {
+                        if(Crossbar.socketUpdate || this.startPaused_RESUME) {
+                            this.startPaused_RESUME = false;
                             Crossbar.rpc("resumeVideo");
                         }
                     }
                     break;
 
                 case YT.PlayerState.PAUSED:
-                    if(Crossbar.socketUpdate || this.startPaused) {
-                        this.startPaused = false;
+                    if(Crossbar.socketUpdate || this.startPaused_PAUSE) {
+                        this.startPaused_PAUSE = false;
                         Crossbar.rpc("pauseVideo", {position: this.player.getCurrentTime()});
                     }
                     break;
@@ -338,7 +342,7 @@ window.onload = function() {
             if(track && !this.player) {
                 var self = this;
 
-                this.startPaused = track.state === 0;
+                this.startPaused = this.startPaused_RESUME = this.startPaused_PAUSE = track.state === 0;
 
                 this.videoStart = track.start_seconds;
 
