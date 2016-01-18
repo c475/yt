@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^create/$', RoomCreate.as_view()),
 
     url(r"^login/$", custom_login, name="login"),
-    url(r'^logout/$', logout),
+    url(r"^logout/$", "django.contrib.auth.views.logout", {"next_page": "/"}),
     url(r"^register/$", UserCreate.as_view()),
 
     url(r'^$', RoomSelect.as_view()),
