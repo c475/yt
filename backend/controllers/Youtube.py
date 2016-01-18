@@ -38,7 +38,7 @@ class Youtube(object):
     @property
     def allVideos(self):
         return Video.objects.filter(room=self.room)
-    
+
     def getCurrentlyPlaying(self):
         playing = self.currentlyPlaying
 
