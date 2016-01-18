@@ -10,60 +10,31 @@
 
 <body style="background-color: #000000;">
 
-    {% if google_plus != '' %}
-
     <div style="margin: 0 auto; font-family: monospace; color: white; text-align: center; margin-top: 12%;">
 
         <h1 style="font-size: 7em">Login</h1>
 
-        <div id="signinButton" style="padding-top:20px;">
-            <span id="signinButton">
-                <span
-                    class="g-signin"
-                    data-callback="signInCallback"
-                    data-clientid="{{ google_plus }}"
-                    data-cookiepolicy="single_host_origin"
-                    data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                    data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email">
-                </span>
-            </span>
-        </div>
+        {% if form.errors %}
+        <p>Invalid username or password.</p>
+        {% endif %}
 
-        <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}">
+        <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            <input id="at" type="hidden" name="access_token" value="" />
-            <input id="code" type="hidden" name="code" value="" />
+
+            <h4>{{ form.username.label_tag }}</h4>
+            {{ form.username }}
+
+            <h4>{{ form.password.label_tag }}</h4>
+            {{ form.password }}
+
+            <button type="submit">Sign in</button>
+
+            <input type="hidden" name="next" value="{{ next }}" />
+
         </form>
 
     </div>
 
-    {% endif %}
-
 </body>
-
-<script type="text/javascript">
-    function signInCallback(result) {
-        if (result.error) {
-            console.log('A Google Plus error occured: ', result.error);
-        } else {
-            if (result.status.method === 'PROMPT') {
-                document.getElementById('code').setAttribute('value', result.code);
-                document.getElementById('at').setAttribute('value', result.access_token);
-                document.getElementById('google-plus').submit();
-            } else {
-                gapi.auth.signOut();
-            }
-        }
-    }
-
-    window.onload = function () {
-        var po = document.createElement('script');
-        po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-    };
-</script>
 
 </html>

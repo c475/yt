@@ -4,6 +4,7 @@ import hmac
 import base64
 
 from django.contrib.auth import logout
+from django.contrib.auth.views import login
 from django.http import HttpResponseRedirect
 
 from django.views.generic import TemplateView
@@ -22,6 +23,33 @@ from backend.controllers.Users import Users
 from backend.controllers.System import System
 
 from backend.models import Room
+
+from frontend.forms.UserCreationForm import UserCreationForm
+
+
+def custom_login(request, **kwargs):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect("/")
+    else:
+        return login(request, **kwargs)
+
+
+class UserCreate(NotLoggedInMixin, CreateView):
+    model = User
+    template_name = 'register.html'
+    success_url = '/'
+    form_class = UserCreationForm
+
+    def get_success_url(self):
+        new_user = authenticate(
+            username=self.request.POST.get("username", None),
+            password=self.request.POST.get("password1", None)
+        )
+
+        if new_user is not None:
+            login(self.request, new_user)
+
+        return super(UserCreate, self).get_success_url()
 
 
 def generate_secret(val):

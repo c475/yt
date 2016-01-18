@@ -221,7 +221,6 @@ class Mediacenter(ApplicationSession):
                 REDIS_SOCKETS.delete(data['socket'])
                 self.publish(data['room'] + '.users', 'list', Users().getActiveUsers())
 
-
         yield self.register(initialize, 'initialize')
         yield self.register(sendChat, 'sendChat')
         yield self.register(queueVideo, 'queueVideo')

@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             username=kwargs["username"],
             is_admin=True,
-            is_active=True,
+            is_active=True
         )
 
         user.save(using=self._db)
@@ -58,5 +58,5 @@ class User(PermissionsMixin, AbstractBaseUser):
         return self.username
 
     class Meta:
-        app_label = "backend"
-        db_table = "user"
+        app_label = 'backend'
+        db_table = 'user'
