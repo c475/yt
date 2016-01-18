@@ -16,6 +16,7 @@ from django.shortcuts import render_to_response
 from credentials import CROSSBAR_KEY
 
 from backend.models import Room
+from backend.models import User
 
 from frontend.forms.UserCreationForm import UserCreationForm
 from frontend.mixins.LoggedInMixin import LoggedInMixin
