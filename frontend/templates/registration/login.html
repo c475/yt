@@ -12,7 +12,7 @@
 
     <div style="margin: 0 auto; font-family: monospace; color: white; text-align: center; margin-top: 12%;">
 
-        <h1 style="font-size: 7em">Login</h1>
+        <h2 style="font-size: 7em">Login</h2>
 
         {% if form.errors %}
         <p>Invalid username or password.</p>
@@ -27,11 +27,17 @@
             <h4>{{ form.password.label_tag }}</h4>
             {{ form.password }}
 
+            <br>
+
             <button type="submit">Sign in</button>
 
             <input type="hidden" name="next" value="{{ next }}" />
 
         </form>
+
+        <br>
+
+        <h4><a href="/register">Or register</a></h4>
 
     </div>
 
