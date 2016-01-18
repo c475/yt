@@ -32,7 +32,7 @@ def custom_login(request, **kwargs):
 
 class UserCreate(NotLoggedInMixin, CreateView):
     model = User
-    template_name = 'register.html'
+    template_name = 'registration/register.html'
     success_url = '/'
     form_class = UserCreationForm
 
