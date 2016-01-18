@@ -114,7 +114,7 @@ class Mediacenter(ApplicationSession):
             printendpoint('initi9alize')
             room = data['room']
 
-            active_users = Users(room).getActiveUsers()
+            active_users = Users(room=room).getActiveUsers()
 
             self.publish(room + '.users', 'list', active_users)
 
@@ -124,7 +124,7 @@ class Mediacenter(ApplicationSession):
                 'playing': Youtube(room).getCurrentlyPlaying(),
                 'videos': Youtube(room).getPlaylist(),
                 'historyPages': Youtube(room).getPages(),
-                'userPages': Users(room).getPages(),
+                'userPages': Users(room=room).getPages(),
                 'rooms': System().getRooms()
             }
 
