@@ -15,7 +15,7 @@
         <h2 style="font-size: 6em">Login</h2>
 
         {% if form.errors %}
-        <p>Invalid username or password.</p>
+        <p style="color: red;">* Invalid username or password.</p>
         {% endif %}
 
         <form method="post" action="{% url 'login' %}">
