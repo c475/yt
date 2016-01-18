@@ -86,20 +86,23 @@ class RoomCreate(LoggedInMixin, CreateView):
 
 @login_required
 def index(request, room=None):
-    key = generate_secret(request.user.username)
-
     if room == 'default':
+        request.user.current_room_id = 1
+        request.user.save()
         return render_to_response('base.html', context={
             'room': 'default',
             'user': request.user,
-            'key': key
+            'key': generate_secret(request.user.username)
         })
     else:
-        if room is not None and Room.objects.filter(name=room).exists():
+        room = Room.objects.filter(name=room)
+        if room.exists():
+            request.user.current_room_id = room[0].pk
+            request.user.save()
             return render_to_response('base.html', context={
                 'room': room,
                 'user': request.user,
-                'key': key
+                'key': generate_secret(request.user.username)
             })
         else:
             return HttpResponseRedirect('/rooms/default/')

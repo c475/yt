@@ -111,7 +111,7 @@ class Mediacenter(ApplicationSession):
             print(('='*20) + endpoint + ('='*20))
 
         def initialize(data):
-            printendpoint('initi9alize')
+            printendpoint('initialize')
             room = data['room']
 
             active_users = Users(room=room).getActiveUsers()
@@ -220,7 +220,7 @@ class Mediacenter(ApplicationSession):
             if data['uid'] is not None:
                 Users(user=data['uid'], room=data['room']).logout()
                 REDIS_SOCKETS.delete(data['socket'])
-                self.publish(data['room'] + '.users', 'list', Users().getActiveUsers())
+                self.publish(data['room'] + '.users', 'list', Users(room=data['room']).getActiveUsers())
 
         yield self.register(initialize, 'initialize')
         yield self.register(sendChat, 'sendChat')

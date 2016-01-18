@@ -620,6 +620,10 @@ window.onload = function() {
         pageRegistry: null
     };
 
+    window.onbeforeunload = function() {
+        Crossbar.session.leave();
+    };
+
     Youtube.initialize();
     UI.initialize();
 
