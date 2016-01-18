@@ -54,18 +54,16 @@ class Users(object):
         return ret
 
     def getActiveUsers(self):
-        return [{"username": u.user.username, "id": u.user.id} for u in UserSocialAuth.objects.filter(user__room=self.room)]
+        users = User.objects.filter(current_room=self.room)
+        if users.exists():
+            return [{'username': u.username, 'id': u.pk} for u in users]
+        else:
+            return []
 
     def logout(self):
-        sessions = Session.objects.all()
-        for session in sessions:
-            if int(session.get_decoded().get("_auth_user_id")) == self.user.pk:
-                self.user.current_room = None
-                self.user.save()
-                session.delete()
-                break
-
-        UserSocialAuth.objects.filter(user=self.user).delete()
+        if self.user is not None:
+            self.user.current_room = None
+            self.user.save()
 
     # dumb
     def getUser(self, uid):

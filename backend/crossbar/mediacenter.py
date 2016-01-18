@@ -111,7 +111,7 @@ class Mediacenter(ApplicationSession):
             print(('='*20) + endpoint + ('='*20))
 
         def initialize(data):
-            printendpoint('initialize')
+            printendpoint('initi9alize')
             room = data['room']
 
             active_users = Users(room).getActiveUsers()
@@ -218,6 +218,7 @@ class Mediacenter(ApplicationSession):
             printendpoint('logout')
             data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
             if data['uid'] is not None:
+                Users(user=data['uid'], room=data['room']).logout()
                 REDIS_SOCKETS.delete(data['socket'])
                 self.publish(data['room'] + '.users', 'list', Users().getActiveUsers())
 

@@ -505,6 +505,7 @@ window.onload = function() {
             });
 
             this.navbar.on("logout", function() {
+                Crossbar.rpc('logout');
                 window.location = '/logout/';
             });
 
