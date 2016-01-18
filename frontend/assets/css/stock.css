@@ -91,8 +91,7 @@ iframe#player {
     color: #ebebeb;
 }
 
-/*
-#video-search {
+/*#video-search {
     background-color: rgb(35, 45, 44);
     border: 1px solid darkcyan;
     margin-top: 32px;
@@ -149,8 +148,8 @@ iframe#player {
 }
 
 #chat-wrapper {
-    height: 96%;
-    min-height: 96%;
+    height: 100%;
+    min-height: 100%;
 }
 
 #chatbox {
