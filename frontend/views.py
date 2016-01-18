@@ -97,7 +97,8 @@ def index(request, room=None):
     else:
         room = Room.objects.filter(name=room)
         if room.exists():
-            request.user.current_room_id = room[0].pk
+            room = room[0]
+            request.user.current_room_id = room.pk
             request.user.save()
             return render_to_response('base.html', context={
                 'room': room.name,
