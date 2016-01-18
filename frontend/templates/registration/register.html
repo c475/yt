@@ -19,13 +19,24 @@
 
         <form action="" method="post">
             {% csrf_token %}
-            {{ form }}
+            <h4>{{ form.username.label_tag }}</h4>
+            {{ form.username }}
+
+            <h4>{{ form.password1.label_tag }}</h4>
+            {{ form.password1 }}
+
+            <h4>{{ form.password2.label_tag }}</h4>
+            {{ form.password2 }}
+
+            <br>
+
             <input type="submit" value="Create" />
+
         </form>
 
         <br>
 
-        <h4><a href="/login">Back to login</a></h4>
+        <h4><a style="color: lawngreen;" href="/login">Back to login</a></h4>
 
     </div>
 
