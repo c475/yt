@@ -504,6 +504,10 @@ window.onload = function() {
                 }
             });
 
+            this.chat.on('toggleChatUsers', function() {
+                self.chat.set('mode', self.chat.get('mode') === 'chat' ? 'users' : 'chat');
+            });
+
             this.navbar.on("logout", function() {
                 Crossbar.rpc('logout');
                 window.location = '/logout/';
@@ -542,6 +546,7 @@ window.onload = function() {
             data: {
                 active: true,
                 activeOn: ['home', 'search', 'history'],
+                mode: 'chat',
                 chats: [],
                 users: []
             }

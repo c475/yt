@@ -4,8 +4,8 @@
 
     <div id="chat-wrapper">
 
-        <button class="active-users-button btn btn-success" on-click="toggleUsers:users">
-            {{ otherMode }}
+        <button class="active-users-button btn btn-success" on-click="toggleChatUsers">
+            {{ mode === 'chat' ? 'Active Users' : 'Chat' }}
         </button>
 
 
