@@ -15,6 +15,10 @@ input {
     color: darkgray;
 }
 
+.active-users-button {
+    height: 20px;
+}
+
 .container-fluid {
     min-height: 100%;
     height: 100%;

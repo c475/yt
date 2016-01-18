@@ -30,7 +30,7 @@ window.onload = function() {
 
                 self.rpc('initialize', null, function(response) {
                     if(response) {
-                        UI.users.set('users', response.users);
+                        UI.chat.set('users', response.users);
                         UI.chat.set('chats', response.chats);
                         UI.playlist.set('videos', response.videos);
                         UI.history.set('pages', response.historyPages);
@@ -45,7 +45,7 @@ window.onload = function() {
 
                     switch(type) {
                         case 'list':
-                            UI.users.set('users', data);
+                            UI.chat.set('users', data);
                             break;
 
                         default:
@@ -542,16 +542,7 @@ window.onload = function() {
             data: {
                 active: true,
                 activeOn: ['home', 'search', 'history'],
-                chats: []
-            }
-        }),
-
-        users: new Ractive({
-            el: "#users",
-            template: "#users-template",
-            data: {
-                active: true,
-                activeOn: ['users'],
+                chats: [],
                 users: []
             }
         }),
