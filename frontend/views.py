@@ -100,7 +100,7 @@ def index(request, room=None):
             request.user.current_room_id = room[0].pk
             request.user.save()
             return render_to_response('base.html', context={
-                'room': room,
+                'room': room.name,
                 'user': request.user,
                 'key': generate_secret(request.user.username)
             })
