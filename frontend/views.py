@@ -3,7 +3,10 @@ import hashlib
 import hmac
 import base64
 
-from django.contrib.auth.views import login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as login_auth
+
+from django.contrib.auth.views import login as login_view
 from django.http import HttpResponseRedirect
 
 from django.views.generic import TemplateView
@@ -27,7 +30,7 @@ def custom_login(request, **kwargs):
     if request.user.is_authenticated():
         return HttpResponseRedirect("/")
     else:
-        return login(request, **kwargs)
+        return login_view(request, **kwargs)
 
 
 class UserCreate(NotLoggedInMixin, CreateView):
@@ -43,7 +46,7 @@ class UserCreate(NotLoggedInMixin, CreateView):
         )
 
         if new_user is not None:
-            login(self.request, new_user)
+            login_auth(self.request, new_user)
 
         return super(UserCreate, self).get_success_url()
 
