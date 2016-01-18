@@ -32,8 +32,8 @@ input {
 }
 
 .left-col, .middle-col, .right-col {
-    height: 98%;
-    min-height: 98%;
+    height: 96%;
+    min-height: 96%;
 }
 
 #video {
