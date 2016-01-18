@@ -3,7 +3,8 @@ from django.core.validators import RegexValidator
 from django.db import models
 from backend.models import User
 
-alnum = RegexValidator(r'^[0-9a-zA-Z]+$', 'Only alphanumeric characters are allowed.')
+alnum = RegexValidator(r'^[0-9a-zA-Z_\-]+$', 'Only alphanumeric characters are allowed.')
+
 
 class Room(models.Model):
     name = models.CharField(max_length=128, unique=True, validators=[alnum])
