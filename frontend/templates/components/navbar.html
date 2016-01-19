@@ -1,5 +1,6 @@
 {% verbatim %}
 <ul class="nav nav-tabs nav-wrapper">
+    <div class="navbar-brand">{{ room }}</div>
     <li class="{{ currentPage === 'home' ? 'active' : '' }}" on-click="navigate:home"><a href="#">Home</a></li>
     <li class="{{ currentPage === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
     <li class="{{ currentPage === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
