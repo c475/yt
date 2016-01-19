@@ -1,8 +1,8 @@
 {% verbatim %}
-<ul class="nav-wrapper nav nav-tabs">
-    <li class="{{ activePage === 'home' ? 'active' : '' }}" on-click="navigate:home">Home</li>
-    <li class="{{ activePage === 'search' ? 'active' : '' }}" on-click="navigate:search">Search</li>
-    <li class="{{ activePage === 'history' ? 'active' : '' }}" on-click="navigate:history">History</li>
+<ul class="nav nav-tabs nav-wrapper">
+    <li class="{{ currentPage === 'home' ? 'active' : '' }}" on-click="navigate:home"><a href="#">Home</a></li>
+    <li class="{{ currentPage === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
+    <li class="{{ currentPage === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
     <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
     <button class="nav-button btn btn-info" on-click="random">Don't press</button>
     <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
