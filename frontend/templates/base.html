@@ -417,6 +417,15 @@ window.onload = function() {
         initialize: function() {
             var self = this;
 
+            this.pageRegistry = [
+                this.profile,
+                this.history,
+                this.playlist,
+                this.search,
+                this.player,
+                this.chat
+            ];
+
             this.search.observe("query", function(query) {
                 if(query.trim()) {
                     clearTimeout(self.searchTimeout);
@@ -515,22 +524,12 @@ window.onload = function() {
                 window.location = '/logout/';
             });
 
-            this.pageRegistry = [
-                this.profile,
-                this.history,
-                this.playlist,
-                this.search,
-                this.player,
-                this.users,
-                this.chat
-            ];
-
             this.chat.push('chats', {
                 user: {
                     username: 'Joining'
                 },
                 content: State.room + ' :)'
-            })
+            });
         },
 
         navbar: new Ractive({
