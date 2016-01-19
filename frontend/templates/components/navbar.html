@@ -1,23 +1,31 @@
 {% verbatim %}
 <nav class="navbar navbar-default">
 
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#">{{ room }}</a>
-    </div>
+    <div class="container-fluid">
 
-    <div class="collapse navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">{{ room }}</a>
+        </div>
 
-        <ul class="nav navbar-nav">
+        <div class="collapse navbar-inverse">
 
-            <li class="{{ view === 'home' ? 'active' : '' }}" on-click="navigate:home"><a href="#">Home</a></li>
-            <li class="{{ view === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
-            <li class="{{ view === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
+            <ul class="nav navbar-nav">
 
-        </ul>
+                <li class="{{ view === 'home' ? 'active' : '' }}" on-click="navigate:home"><a href="#">Home</a></li>
+                <li class="{{ view === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
+                <li class="{{ view === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
 
-        <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
-        <button class="nav-button btn btn-info" on-click="random">Don't press</button>
-        <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
+            </ul>
+
+            <div style="height: 100%;">
+
+                <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
+                <button class="nav-button btn btn-info" on-click="random">Don't press</button>
+                <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
+
+            </div>
+
+        </div>
 
     </div>
 
