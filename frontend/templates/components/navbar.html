@@ -1,18 +1,27 @@
 {% verbatim %}
 <div class="navbar navbar-inverse navbar-fixed-top">
+
     <div class="container">
+
         <div class="navbar-header">
             <a class="navbar-brand" href="#">{{ room }}</a>
         </div>
+
         <ul class="nav navbar-nav">
             <li class="{{ view === 'home' ? 'active' : '' }}" on-click="navigate:home"><a href="#">Home</a></li>
             <li class="{{ view === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
             <li class="{{ view === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
         </ul>
 
-        <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
-        <button class="nav-button btn btn-info" on-click="random">Don't press</button>
-        <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
+        <div class="nav-button-wrapper">
+
+            <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
+            <button class="nav-button btn btn-info" on-click="random">Don't press</button>
+            <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
+
+        </div>
+
     </div>
+
 </div>
 {% endverbatim %}
