@@ -1,11 +1,10 @@
 {% verbatim %}
-<div class="nav-wrapper">
-    <div class="navbar-brand">{{ room }}</div>
-    <button class="nav-button btn btn-primary" on-click="navigate:home">Home</button>
-    <button class="nav-button btn btn-success" on-click="navigate:search">Search</button>
-    <button class="nav-button btn btn-danger" on-click="navigate:history">History</button>
+<ul class="nav-wrapper nav nav-tabs">
+    <li class="{{ activePage === 'home' ? 'active' : '' }}" on-click="navigate:home">Home</li>
+    <li class="{{ activePage === 'search' ? 'active' : '' }}" on-click="navigate:search">Search</li>
+    <li class="{{ activePage === 'history' ? 'active' : '' }}" on-click="navigate:history">History</li>
     <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
     <button class="nav-button btn btn-info" on-click="random">Don't press</button>
     <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
-</div>
+</ul>
 {% endverbatim %}
