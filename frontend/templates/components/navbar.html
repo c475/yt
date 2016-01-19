@@ -1,18 +1,14 @@
 {% verbatim %}
 <nav class="navbar navbar-default">
 
-    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">{{ room }}</a>
+    </div>
 
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">{{ room }}</a>
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <li class="active" on-click="navigate:home"><a href="#">Home</a></li>
-            <li class="{{ view === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
-            <li class="{{ view === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
-        </div>
-
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <li class="active" on-click="navigate:home"><a href="#">Home</a></li>
+        <li class="{{ view === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
+        <li class="{{ view === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
     </div>
 
 </nav>
