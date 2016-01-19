@@ -8,29 +8,28 @@
             {{ mode === 'chat' ? 'Active Users' : 'Chat' }}
         </button>
 
-
         {{ #if mode === 'chat' }}
 
-        <div id="chatbox">
-        {{ #each chats }}
-            <p><b>{{ user.username }}</b>: {{ content }}</p>
-        {{ /each }}
-        </div>
+            <div id="chatbox">
+            {{ #each chats }}
+                <p><b>{{ user.username }}</b>: {{ content }}</p>
+            {{ /each }}
+            </div>
 
-        <div class="input-group">
-            <input type="text" class="form-control" value="{{ message }}" on-keydown="keydown">
-            <span class="input-group-btn">
-                <button class="btn btn-info" type="button" on-click="keydown:click">Yep</button>
-            </span>
-        </div>
+            <div class="input-group">
+                <input type="text" class="form-control" value="{{ message }}" on-keydown="keydown">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" type="button" on-click="keydown:click">Yep</button>
+                </span>
+            </div>
 
         {{ else }}
 
-        <ul>
-            {{ #each users }}
-            <li>{{ username }}</li>
-            {{ /each }}
-        </ul>
+            <ul>
+                {{ #each users }}
+                <li>{{ username }}</li>
+                {{ /each }}
+            </ul>
 
         {{ /if }}
 
