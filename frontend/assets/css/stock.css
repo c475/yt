@@ -16,7 +16,12 @@ input {
 }
 
 .nav-button-wrapper {
-    
+    margin-top: 14px;
+    float: left;
+}
+
+.navbar-header {
+    margin-top: 14px;
 }
 
 .active-users-button {
@@ -29,11 +34,6 @@ input {
     height: 100%;
 }
 
-
-.nav-wrapper {
-    text-align: center;
-    margin: 10px 0px 10px 0px;
-}
 
 .nav-button {
     padding: 0px 30px 0px 30px;
