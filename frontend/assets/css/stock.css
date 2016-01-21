@@ -179,6 +179,7 @@ iframe#player {
 
 .chat-input {
     width: 80%;
+    display: inline-block;
 }
 
 .pagination > li > a:hover, .pagination-active {
