@@ -2,11 +2,12 @@
 
 {{ #if active }}
 
+    <button class="active-users-button btn btn-success" on-click="toggleChatUsers">
+        {{ mode === 'chat' ? 'Active Users' : 'Chat' }}
+    </button>
+
     <div id="chat-wrapper">
 
-        <button class="active-users-button btn btn-success" on-click="toggleChatUsers">
-            {{ mode === 'chat' ? 'Active Users' : 'Chat' }}
-        </button>
 
         {{ #if mode === 'chat' }}
 
