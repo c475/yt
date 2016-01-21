@@ -48,6 +48,11 @@ input {
     min-height: 100%;
 }
 
+.right-col {
+    height: 93%;
+    min-height: 93%;
+}
+
 #video {
     height: 100%;
     width: 100%;
@@ -77,8 +82,8 @@ iframe#player {
 
 .main-content {
     background-color: #061A0D;
-    height: 100%;
-    min-height: 100%;
+    height: 99%;
+    min-height: 99%;
 }
 
 .container-fluid {
@@ -170,6 +175,10 @@ iframe#player {
     padding: 0px 10px 0px 10px;
     height: 94%;
     overflow-y: scroll;
+}
+
+.chat-input {
+    width: 80%;
 }
 
 .pagination > li > a:hover, .pagination-active {
