@@ -15,8 +15,8 @@ input {
     color: darkgray;
 }
 
-#navbar {
-    height: 10%;
+.navbar-row {
+    height: 14%;
 }
 
 .nav-button-wrapper {
