@@ -9,16 +9,16 @@
 {{ /if }}
 
 {{ #if !inProgress }}
-<div style="margin: 0 auto;">
-<ul class="pagination">
-    {{ #each pages }}
-    <li>
-        <a href="#" class="{{ this === page ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
-            {{ this }}
-        </a>
-    </li>
-    {{ /each }}
-</ul>
+<div style="text-align: center;">
+    <ul class="pagination">
+        {{ #each pages }}
+        <li>
+            <a href="#" class="{{ this === page ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
+                {{ this }}
+            </a>
+        </li>
+        {{ /each }}
+    </ul>
 </div>
 {{ /if }}
 
@@ -27,7 +27,7 @@
     {{ #each visibleResults:i }}
     <li class="media playlist-item search-result" on-click="queueVideo:{{ i }}">
         <div class="media-left">
-            <img class="media-object" src="{{ snippet.thumbnails.default.url }}">
+            <img class="media-object" src="{{ snippet.thumbnails.default.url }}" height="60" width="60">
         </div>
         <div class="media-body">
             <h5 class="media-heading">{{ snippet.title }}</h5>
