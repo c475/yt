@@ -8,16 +8,28 @@
     <img style="text-align: center;" src="/static/images/loading.gif" />
 {{ /if }}
 
+{{ #if !inProgress }}
+    {{ #each pages }}
+        {{ #if validPage(this) }}
+        <li>
+            <a href="#" class="{{ this === currentPage ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
+                {{ this }}
+            </a>
+        </li>
+        {{ /if }}
+    {{ /each }}
+{{ /if }}
+
 <ul id="video-results" class="media-list">
 
-    {{ #each results:i }}
+    {{ #each visibleResults:i }}
     <li class="media playlist-item search-result" on-click="queueVideo:{{ i }}">
         <div class="media-left">
             <img class="media-object" src="{{ snippet.thumbnails.default.url }}">
         </div>
         <div class="media-body">
             <h5 class="media-heading">{{ snippet.title }}</h5>
-            <p>{{ snippet.description }}</p>
+            <p style="color: white;">{{ snippet.description }}</p>
         </div>
     </li>
     {{ /each }}

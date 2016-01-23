@@ -225,7 +225,11 @@ window.onload = function() {
 
             request.execute(function(response) {
                 if(!random) {
-                    UI.search.set("results", response.items);
+                    var maxPages = UI.search.get('perPage');
+                    UI.search.set('currentPage', 1);
+                    UI.search.set('pages', Math.floor(response.items.length, maxPages));
+                    UI.search.set('results', response.items);
+                    UI.search.set('visibleResults', response.items.slice(0, maxPages);
                 } else {
                     if(response.items.length) {
                         var video = response.items[0];
@@ -401,8 +405,8 @@ window.onload = function() {
             }
 
             if(page === 'history') {
-                page = this.history.get('currentPage');
-                Crossbar.rpc('getVideoHistory', {page: page}, function(response) {
+                var historyPage = this.history.get('currentPage');
+                Crossbar.rpc('getVideoHistory', {page: historyPage}, function(response) {
                     self.history.set('videos', response);
                 });
             }
@@ -497,6 +501,12 @@ window.onload = function() {
                 });
             });
 
+            this.search.on('getSearchResultPage', function(event, page) {
+                var results = self.search.get('results');
+                var maxPage = self.search.get('maxPage');
+                self.search.set('visibleResults', results.slice((page - 1) * maxPages), page * maxPages);
+            });
+
             this.history.on("paginationGroup", function(event, num) {
                 var set = self.history.get("set");
                 var pageLimit = self.history.get("pageLimit");
@@ -571,7 +581,11 @@ window.onload = function() {
                 activeOn: ['search'],
                 query: "",
                 inProgress: false,
-                results: []
+                results: [],
+                pages: [],
+                visibleResults: [],
+                currentPage: 1,
+                perPage: 5
             }
         }),
 

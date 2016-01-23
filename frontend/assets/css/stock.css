@@ -53,6 +53,10 @@ input {
     min-height: 93%;
 }
 
+.middle-col {
+    height: 98%;
+}
+
 #video {
     height: 100%;
     width: 100%;

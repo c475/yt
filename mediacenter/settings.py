@@ -33,8 +33,6 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.BCryptPasswordHasher',
 )
 
-########### END AUTH ###########
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,19 +61,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': '/srv/db/mediacenter.db'
-        # 'NAME': 'mediacenter',
-        # 'USER': 'mediacenter',
-        # 'PASSWORD': DB_PASS,
-        # 'HOST': "173.194.248.178",
-        # 'PORT': 3306,
-        # 'OPTIONS': {
-        #     'init_command': 'SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED',
-        #     'ssl': {
-        #         'ca': '/etc/ssl/sql/server-ca.pem',
-        #         'cert': '/etc/ssl/sql/client-cert.pem',
-        #         'key': '/etc/ssl/sql/client-key.pem'
-        #     }
-        # }
     }
 }
 
