@@ -478,6 +478,10 @@ window.onload = function() {
                 self.navigate('home');
                 Crossbar.rpc("queueVideo", {video: video});
                 self.search.set("results", []);
+                self.search.set('visibleResults', []);
+                self.search.set('page', 1);
+                self.search.set('pages', []);
+                self.search.set('query', '');
             });
 
             this.playlist.on("deQueueVideo", function(event, index) {
