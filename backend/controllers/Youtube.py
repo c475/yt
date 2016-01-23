@@ -64,7 +64,6 @@ class Youtube(object):
             return None
 
     def serialize(self, model_instance):
-        print("count: " + str(count))
         ret = {}
         for field in model_instance._meta.fields:
             field_value = getattr(model_instance, field.name)
