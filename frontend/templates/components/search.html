@@ -9,8 +9,8 @@
 {{ /if }}
 
 {{ #if !inProgress }}
-<div style="text-align: center;">
-    <ul class="pagination">
+<div style="text-align: center; height: 38px;">
+    <ul class="pagination" style="margin: 0 0 0 0;">
         {{ #each pages }}
         <li>
             <a href="#" class="{{ this === page ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
