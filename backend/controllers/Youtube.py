@@ -63,7 +63,7 @@ class Youtube(object):
         else:
             return None
 
-    def serialize(self, model_instance, count=1):
+    def serialize(self, model_instance):
         print("count: " + str(count))
         ret = {}
         for field in model_instance._meta.fields:
@@ -73,8 +73,8 @@ class Youtube(object):
                     ret[field.name] = None
                 else:
                     ret[field.name] = field_value.strftime("%Y-%m-%d %H:%M:%S")
-            elif isinstance(getattr(model_instance, field.name), (User, Room)):
-                ret[field.name] = self.serialize(getattr(model_instance, field.name, count=count+1))
+            elif isinstance(getattr(model_instance, field.name), User):
+                ret[field.name] = self.serialize(getattr(model_instance, field.name))
             else:
                 ret[field.name] = field_value
 
