@@ -226,8 +226,14 @@ window.onload = function() {
             request.execute(function(response) {
                 if(!random) {
                     var maxPages = UI.search.get('perPage');
+                    var pages = [];
+
+                    for(var i = 1; i <= Math.floor(response.items.length, maxPages); i++) {
+                        pages.push(i);
+                    }
+
+                    UI.search.set('pages', pages);
                     UI.search.set('currentPage', 1);
-                    UI.search.set('pages', Math.floor(response.items.length, maxPages));
                     UI.search.set('results', response.items);
                     UI.search.set('visibleResults', response.items.slice(0, maxPages));
                 } else {
