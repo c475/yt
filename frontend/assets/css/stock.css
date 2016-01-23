@@ -43,17 +43,15 @@ input {
     margin: 0px 10px 0px 10px;
 }
 
-.left-col, .middle-col, .right-col {
-    height: 100%;
-    min-height: 100%;
-}
-
 .right-col {
     height: 93%;
-    min-height: 93%;
 }
 
 .middle-col {
+    height: 98%;
+}
+
+.left-col {
     height: 98%;
 }
 
