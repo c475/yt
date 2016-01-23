@@ -63,24 +63,22 @@ class Youtube(object):
         else:
             return None
 
-    def serialize(self, model_instance):
-        try:
-            ret = {}
-            for field in model_instance._meta.fields:
-                field_value = getattr(model_instance, field.name)
-                if isinstance(field, models.DateTimeField):
-                    if field_value is None:
-                        ret[field.name] = None
-                    else:
-                        ret[field.name] = field_value.strftime("%Y-%m-%d %H:%M:%S")
-                elif isinstance(getattr(model_instance, field.name), (User, Room)):
-                    ret[field.name] = self.serialize(getattr(model_instance, field.name))
+    def serialize(self, model_instance, count=1):
+        print("count: " + str(count))
+        ret = {}
+        for field in model_instance._meta.fields:
+            field_value = getattr(model_instance, field.name)
+            if isinstance(field, models.DateTimeField):
+                if field_value is None:
+                    ret[field.name] = None
                 else:
-                    ret[field.name] = field_value
+                    ret[field.name] = field_value.strftime("%Y-%m-%d %H:%M:%S")
+            elif isinstance(getattr(model_instance, field.name), (User, Room)):
+                ret[field.name] = self.serialize(getattr(model_instance, field.name, count=count+1))
+            else:
+                ret[field.name] = field_value
 
-            return ret
-        except:
-            pass
+        return ret
 
     def queueVideo(self, video):
         Video.objects.create(
