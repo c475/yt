@@ -516,6 +516,7 @@ window.onload = function() {
                 var results = self.search.get('results');
                 var perPage = self.search.get('perPage');
                 self.search.set('visibleResults', results.slice((page - 1) * perPage, page * perPage));
+                self.search.set('page', page);
             });
 
             this.history.on("paginationGroup", function(event, num) {
