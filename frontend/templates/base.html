@@ -472,7 +472,8 @@ window.onload = function() {
             });
 
             this.search.on("queueVideo", function(event, index) {
-                index = self.search.get('page') === 1 ? index : page * index;
+                var page = self.search.get('page')
+                index = page === 1 ? index : page * index;
                 var video = self.search.get("results")[index];
                 video.uid = User.uid;
                 self.navigate('home');
