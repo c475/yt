@@ -229,7 +229,7 @@ window.onload = function() {
                     UI.search.set('currentPage', 1);
                     UI.search.set('pages', Math.floor(response.items.length, maxPages));
                     UI.search.set('results', response.items);
-                    UI.search.set('visibleResults', response.items.slice(0, maxPages);
+                    UI.search.set('visibleResults', response.items.slice(0, maxPages));
                 } else {
                     if(response.items.length) {
                         var video = response.items[0];
