@@ -10,7 +10,7 @@ from backend.models import Video, User, Room
 class Youtube(object):
 
     def __init__(self, room):
-        self.per_page = 5
+        self.per_page = 6
         self.room = Room.objects.filter(name=room)
         if self.room.exists():
             self.room = self.room[0]
