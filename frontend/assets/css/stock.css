@@ -186,6 +186,8 @@ iframe#player {
 .chat-input {
     width: 80%;
     display: inline-block;
+    background-color: #10282F;
+    color: whitesmoke;
 }
 
 .pagination > li > a:hover, .pagination-active {
