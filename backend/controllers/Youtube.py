@@ -75,7 +75,10 @@ class Youtube(object):
             elif isinstance(getattr(model_instance, field.name), User):
                 ret[field.name] = self.serialize(getattr(model_instance, field.name))
             else:
-                ret[field.name] = field_value
+                if isinstance(getattr(model_instance, field.name), Room):
+                    ret[field.name] = field_value.pk
+                else:
+                    ret[field.name] = field_value
 
         return ret
 
