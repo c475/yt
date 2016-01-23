@@ -228,7 +228,7 @@ window.onload = function() {
                     var maxPages = UI.search.get('perPage');
                     var pages = [];
 
-                    for(var i = 1; i <= Math.floor(response.items.length, maxPages); i++) {
+                    for(var i = 1; i <= Math.floor(response.items.length / maxPages); i++) {
                         pages.push(i);
                     }
 
