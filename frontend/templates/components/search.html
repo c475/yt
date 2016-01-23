@@ -9,13 +9,15 @@
 {{ /if }}
 
 {{ #if !inProgress }}
+<ul class="pagination">
     {{ #each pages }}
     <li>
-        <a href="#" class="{{ this === currentPage ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
+        <a href="#" class="{{ this === page ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
             {{ this }}
         </a>
     </li>
     {{ /each }}
+</ul>
 {{ /if }}
 
 <ul id="video-results" class="media-list">
