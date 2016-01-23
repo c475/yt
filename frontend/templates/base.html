@@ -504,7 +504,7 @@ window.onload = function() {
             this.search.on('getSearchResultPage', function(event, page) {
                 var results = self.search.get('results');
                 var maxPage = self.search.get('maxPage');
-                self.search.set('visibleResults', results.slice((page - 1) * maxPages), page * maxPages);
+                self.search.set('visibleResults', results.slice((page - 1) * maxPages, page * maxPages));
             });
 
             this.history.on("paginationGroup", function(event, num) {
