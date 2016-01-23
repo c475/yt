@@ -399,6 +399,7 @@ window.onload = function() {
 
         navigate: function(page) {
             var self = this;
+            var player = document.getElementById('player');
 
             for(var p in this.pageRegistry) {
                 p = this.pageRegistry[p];
@@ -419,6 +420,12 @@ window.onload = function() {
 
             if(page === 'home') {
                 this.chatboxScroll();
+            }
+
+            if(page !== 'home') {
+                player.style.display = 'block';
+            } else {
+                player.style.display = 'none;'
             }
 
             this.navbar.set('view', page);
