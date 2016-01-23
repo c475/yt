@@ -10,13 +10,11 @@
 
 {{ #if !inProgress }}
     {{ #each pages }}
-        {{ #if validPage(this) }}
-        <li>
-            <a href="#" class="{{ this === currentPage ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
-                {{ this }}
-            </a>
-        </li>
-        {{ /if }}
+    <li>
+        <a href="#" class="{{ this === currentPage ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
+            {{ this }}
+        </a>
+    </li>
     {{ /each }}
 {{ /if }}
 
