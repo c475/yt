@@ -140,6 +140,7 @@ iframe#player {
 
 .playlist-item {
     cursor: pointer;
+    height: 60px;
 }
 
 .playlist-item:hover {

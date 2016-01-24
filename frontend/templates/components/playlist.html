@@ -7,7 +7,7 @@
     {{ #each videos:i }}
     <li class="media playlist-item" on-click="deQueueVideo:{{ i }}">
         <div class="media-left">
-            <img class="media-object" src="{{ thumbnail }}">
+            <img class="media-object" src="{{ thumbnail }}" height="60" width="60" />
         </div>
         <div class="media-body">
             <h5 class="media-heading">{{ title }}</h5>
