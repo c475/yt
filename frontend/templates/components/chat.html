@@ -23,7 +23,9 @@
         {{ else }}
 
             {{ #each users }}
-            <p class="chat-message"><b>{{ username }}</b></p>
+            <div style="text-align: center;">
+                <p class="chat-message" style="font-size: 16px;"><b>{{ username }}</b></p>
+            </div>
             {{ /each }}
 
         {{ /if }}
