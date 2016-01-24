@@ -22,11 +22,9 @@
 
         {{ else }}
 
-            <ul>
-                {{ #each users }}
-                <li>{{ username }}</li>
-                {{ /each }}
-            </ul>
+            {{ #each users }}
+            <p class="chat-message"><b>{{ username }}</b></p>
+            {{ /each }}
 
         {{ /if }}
 
