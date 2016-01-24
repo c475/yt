@@ -548,8 +548,10 @@ window.onload = function() {
                 }
             });
 
-            this.chat.on('toggleChatUsers', function() {
-                self.chat.set('mode', self.chat.get('mode') === 'chat' ? 'users' : 'chat');
+            this.navbar.on('toggleChatUsers', function() {
+                var mode = self.chat.get('mode') === 'chat' ? 'users' : 'chat';
+                self.chat.set('mode', mode);
+                self.navbar.set('usersOrChat', mode);
             });
 
             this.navbar.on("logout", function() {
