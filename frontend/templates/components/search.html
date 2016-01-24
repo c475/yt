@@ -2,41 +2,41 @@
 
 {{ #if active }}
 
-<input id="video-search" type="text" class="form-control" value="{{ query }}" />
+    <input id="video-search" type="text" class="form-control" value="{{ query }}" />
 
-{{ #if inProgress }}
-    <img style="text-align: center;" src="/static/images/loading.gif" />
-{{ /if }}
+    {{ #if inProgress }}
+        <img style="text-align: center;" src="/static/images/loading.gif" />
+    {{ /if }}
 
-{{ #if !inProgress }}
-<div style="text-align: center; height: 38px;">
-    <ul class="pagination" style="margin: 0 0 0 0;">
-        {{ #each pages }}
-        <li>
-            <a href="#" class="{{ this === page ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
-                {{ this }}
-            </a>
+    {{ #if !inProgress }}
+    <div style="text-align: center; height: 38px;">
+        <ul class="pagination" style="margin: 0 0 0 0;">
+            {{ #each pages }}
+            <li>
+                <a href="#" class="{{ this === page ? 'pagination-active' : ''}}" on-click="getSearchResultPage:{{ this }}">
+                    {{ this }}
+                </a>
+            </li>
+            {{ /each }}
+        </ul>
+    </div>
+
+    <ul id="video-results" class="media-list">
+
+        {{ #each visibleResults:i }}
+        <li class="media playlist-item search-result" on-click="queueVideo:{{ i }}">
+            <div class="media-left">
+                <img class="media-object" src="{{ snippet.thumbnails.default.url }}" height="60" width="60">
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading">{{ snippet.title }}</h5>
+                <p style="color: white;">{{ snippet.description }}</p>
+            </div>
         </li>
         {{ /each }}
+
     </ul>
-</div>
-{{ /if }}
-
-<ul id="video-results" class="media-list">
-
-    {{ #each visibleResults:i }}
-    <li class="media playlist-item search-result" on-click="queueVideo:{{ i }}">
-        <div class="media-left">
-            <img class="media-object" src="{{ snippet.thumbnails.default.url }}" height="60" width="60">
-        </div>
-        <div class="media-body">
-            <h5 class="media-heading">{{ snippet.title }}</h5>
-            <p style="color: white;">{{ snippet.description }}</p>
-        </div>
-    </li>
-    {{ /each }}
-
-</ul>
+    {{ /if }}
 
 {{ /if }}
 
