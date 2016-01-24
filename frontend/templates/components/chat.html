@@ -22,9 +22,9 @@
 
         {{ else }}
 
-            {{ #each users }}
-            <div style="text-align: center;">
-                <p class="chat-message" style="font-size: 16px;"><b>{{ username }}</b></p>
+            {{ #each users:i }}
+            <div style="text-align: center; color: smokewhite;">
+                <p class="chat-message" style="font-size: 16px;"><b>{{ i }}. {{ username }}</b></p>
             </div>
             {{ /each }}
 
