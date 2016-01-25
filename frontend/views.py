@@ -68,6 +68,9 @@ class RoomSelect(LoggedInMixin, ListView):
     template_name = 'rooms-listing.html'
     paginate_by = 20
 
+    def get_queryset(self, *args, **kwargs):
+        return super(RoomSelect, self).get_queryset(*args, **kwargs).order_by('user_total')
+
 
 class RoomCreate(LoggedInMixin, CreateView):
     model = Room

@@ -237,8 +237,13 @@ window.onload = function() {
                     UI.search.set('results', response.items);
                     UI.search.set('visibleResults', response.items.slice(0, maxPages));
                 } else {
+                    var randint = function(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1)) + min;
+                    };
+
                     if(response.items.length) {
-                        var video = response.items[0];
+                        var max = response.items.length >= 3 ? 2 : response.items.length -1;
+                        var video = response.items[randint(0, max)];
                         video.uid = User.uid;
                         Crossbar.rpc("queueVideo", {video: video});
                     } else {
