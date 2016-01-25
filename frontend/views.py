@@ -71,7 +71,7 @@ class RoomSelect(LoggedInMixin, ListView):
     def get_queryset(self):
         return sorted(
             super(RoomSelect, self).get_queryset(),
-            key=lambda x: x.user_total
+            key=lambda x: -x.user_total
         )
 
 
