@@ -227,3 +227,8 @@ iframe#player {
     color: rgb(152, 173, 195);
     font-size: 12px;
 }
+
+.twitch-item {
+    width: 50%;
+    display: inline-block;
+}
