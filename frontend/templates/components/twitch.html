@@ -5,31 +5,35 @@
     {{ #if mode === 'games' }}
 
         {{ #each games }}
-        <li class="media playlist-item search-result" on-click="loadTwitchChannels:{{ game.name }}">
-            <div class="media-left">
-                <img class="media-object" src="{{ game.box.small }}" />
-            </div>
-            <div class="media-body">
-                <h5 class="media-heading">{{ game.name }}</h5>
-                <p style="color: white;">Channels: {{ channels }}</p>
-                <p style="color: white;">Viewers: {{ viewers }}</p>
-            </div>
-        </li>
+        <ul class="media-list">
+            <li class="media playlist-item search-result" on-click="loadTwitchChannels:{{ game.name }}">
+                <div class="media-left">
+                    <img class="media-object" src="{{ game.box.small }}" />
+                </div>
+                <div class="media-body">
+                    <h5 class="media-heading">{{ game.name }}</h5>
+                    <p style="color: white;">Channels: {{ channels }}</p>
+                    <p style="color: white;">Viewers: {{ viewers }}</p>
+                </div>
+            </li>
+        </ul>
         {{ /each }}
 
     {{ else }}
 
         {{ #each channels }}
-        <li class="media playlist-item search-result" on-click="streamChannel:{{ channel }}">
-            <div class="media-left">
-                <img class="media-object" src="{{ preview.medium }}" />
-            </div>
-            <div class="media-body">
-                <h5 class="media-heading">{{ channel.status }}</h5>
-                <p style="color: white;">Streamer: {{ channel.name }}</p>
-                <p style="color: white;">Viewers: {{ viewers }}</p>
-            </div>
-        </li>
+        <ul class="media-list">
+            <li class="media playlist-item search-result" on-click="streamChannel:{{ channel }}">
+                <div class="media-left">
+                    <img class="media-object" src="{{ preview.medium }}" />
+                </div>
+                <div class="media-body">
+                    <h5 class="media-heading">{{ channel.status }}</h5>
+                    <p style="color: white;">Streamer: {{ channel.name }}</p>
+                    <p style="color: white;">Viewers: {{ viewers }}</p>
+                </div>
+            </li>
+        </ul>
         {{ /each }}
 
     {{ /if }}
