@@ -604,26 +604,18 @@ window.onload = function() {
 
             this.twitch.on('getGamesPage', function(event, page) {
                 console.log('PAGE: ' + page);
-                try {
-                    var games = self.twitch.get('games');
-                    var perPage = self.twitch.get('perPage');
-                    self.search.set('visibleResultsGames', games.slice((page - 1) * perPage, page * perPage));
-                    self.search.set('currentPageGames', page);
-                } catch(e) {
-                    console.log(e);
-                }
+                var games = self.twitch.get('games');
+                var perPage = self.twitch.get('perPage');
+                self.twitch.set('visibleResultsGames', games.slice((page - 1) * perPage, page * perPage));
+                self.twitch.set('currentPageGames', page);
             });
 
             this.twitch.on('getChannelsPage', function(event, page) {
                 console.log('PAGE: ' + page);
-                try {
-                    var channels = self.twitch.get('channels');
-                    var perPage = self.twitch.get('perPage');
-                    self.search.set('visibleResultsChannels', channels.slice((page - 1) * perPage, page * perPage));
-                    self.search.set('currentPageChannels', page);
-                } catch(e) {
-                    console.log(e);
-                }
+                var channels = self.twitch.get('channels');
+                var perPage = self.twitch.get('perPage');
+                self.twitch.set('visibleResultsChannels', channels.slice((page - 1) * perPage, page * perPage));
+                self.twitch.set('currentPageChannels', page);
             });
 
             this.history.on("paginationGroup", function(event, num) {
