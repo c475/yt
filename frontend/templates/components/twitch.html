@@ -20,7 +20,7 @@
             {{ #each visibleResultsGames }}
             <li class="media playlist-item search-result twitch-item" on-click="loadTwitchChannels:{{ game.name }}">
                 <div class="media-left">
-                    <img class="media-object" src="{{ game.box.small }}" />
+                    <img class="media-object" src="{{ game.box.small.replace('http://', 'https://') }}" />
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading">{{ game.name }}</h5>
@@ -49,7 +49,7 @@
             {{ #each visibleResultsChannels }}
             <li class="media playlist-item search-result twitch-item" on-click="streamChannel:{{ channel }}">
                 <div class="media-left">
-                    <img class="media-object" src="{{ preview.medium }}" />
+                    <img class="media-object" src="{{ preview.medium.replace('http://', 'https://') }}" />
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading">{{ channel.status }}</h5>
