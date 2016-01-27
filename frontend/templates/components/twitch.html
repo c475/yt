@@ -49,7 +49,7 @@
             {{ #each visibleResultsChannels }}
             <li class="media playlist-item search-result twitch-channel" on-click="streamChannel:{{ channel }}">
                 <div class="media-left">
-                    <img class="media-object" src="{{ preview.small.replace('http://', 'https://') }}" />
+                    <img class="media-object" src="{{ preview.medium.replace('http://', 'https://') }}" />
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading">{{ channel.status }}</h5>
