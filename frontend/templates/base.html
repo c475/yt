@@ -228,31 +228,33 @@ window.onload = function() {
         },
 
         setGames: function(games) {
+            games = games['top']
             var maxPages = UI.twitch.get('perPage');
             var pages = [];
 
-            for(var i = 1; i <= Math.floor(response.items.length / maxPages); i++) {
+            for(var i = 1; i <= Math.floor(games.length / maxPages); i++) {
                 pages.push(i);
             }
 
             UI.twitch.set('gamesPages', pages);
             UI.twitch.set('currentPageGames', 1);
-            UI.twitch.set('games', games['top']);
-            UI.twitch.set('visibleResultsGames', response.items.slice(0, maxPages));
+            UI.twitch.set('games', games);
+            UI.twitch.set('visibleResultsGames', games.slice(0, maxPages));
         },
 
         setChannels: function(channels) {
+            channels = channels['streams'];
             var maxPages = UI.twitch.get('perPage');
             var pages = [];
 
-            for(var i = 1; i <= Math.floor(response.items.length / maxPages); i++) {
+            for(var i = 1; i <= Math.floor(channels.length / maxPages); i++) {
                 pages.push(i);
             }
 
             UI.twitch.set('channelsPages', pages);
             UI.twitch.set('currentPageChannels', 1);
-            UI.twitch.set('channels', channels['streams']);
-            UI.twitch.set('visibleResultsChannels', response.items.slice(0, maxPages));
+            UI.twitch.set('channels', channels);
+            UI.twitch.set('visibleResultsChannels', channels.slice(0, maxPages));
         }
 
     };

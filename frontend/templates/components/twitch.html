@@ -17,7 +17,7 @@
         </div>
 
         <ul class="media-list">
-            {{ #each games }}
+            {{ #each visibleResultsGames }}
             <li class="media playlist-item search-result twitch-item" on-click="loadTwitchChannels:{{ game.name }}">
                 <div class="media-left">
                     <img class="media-object" src="{{ game.box.small }}" />
@@ -46,7 +46,7 @@
         </div>
 
         <ul class="media-list">
-            {{ #each channels }}
+            {{ #each visibleResultsChannels }}
             <li class="media playlist-item search-result twitch-item" on-click="streamChannel:{{ channel }}">
                 <div class="media-left">
                     <img class="media-object" src="{{ preview.medium }}" />
