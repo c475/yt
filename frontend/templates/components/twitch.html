@@ -37,7 +37,7 @@
             <ul class="pagination" style="margin: 0 0 0 0;">
                 {{ #each channelsPages }}
                 <li>
-                    <a href="#" class="{{ this === currentPageChannels ? 'pagination-active' : ''}}" on-click="getChannelsPa:{{ this }}">
+                    <a href="#" class="{{ this === currentPageChannels ? 'pagination-active' : ''}}" on-click="getChannelsPage:{{ this }}">
                         {{ this }}
                     </a>
                 </li>
