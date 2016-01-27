@@ -11,13 +11,15 @@
             <li class="{{ view === 'home' ? 'active' : '' }}" on-click="navigate:home"><a href="#">Home</a></li>
             <li class="{{ view === 'search' ? 'active' : '' }}" on-click="navigate:search"><a href="#">Search</a></li>
             <li class="{{ view === 'history' ? 'active' : '' }}" on-click="navigate:history"><a href="#">History</a></li>
-            <li class="{{ view === 'twitch' ? 'active' : '' }}" on-click="navigate:twitch"><a href="#">History</a></li>
+            <li class="{{ view === 'twitch' ? 'active' : '' }}" on-click="navigate:twitch"><a href="#">Twitch</a></li>
         </ul>
 
         <div class="nav-button-wrapper">
             <button class="nav-button btn btn-warning" on-click="skip">Skip</button>
             <button class="nav-button btn btn-info" on-click="random">Don't press</button>
-            <button style="width: 98.29px;" class="nav-button btn btn-success" on-click="toggleChatUsers">{{ usersOrChat === 'chat' ? 'Users' : 'Chat' }}</button>
+            <button style="width: 98.29px;" class="nav-button btn btn-success" on-click="toggleChatUsers">
+                {{ usersOrChat === 'chat' ? 'Users' : 'Chat' }}
+            </button>
             <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
         </div>
 
