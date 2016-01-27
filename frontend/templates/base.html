@@ -609,6 +609,8 @@ window.onload = function() {
             this.twitch.on('loadTwitchGames', function(event) {
                 this.twitch.set('mode', 'games');
                 Crossbar.rpc('getTwitchTopGames', null, function(response) {
+                    console.log('loadTwitchGames');
+                    console.log(response);
                     Twitch.setGames(response);
                 });
             });
@@ -616,6 +618,8 @@ window.onload = function() {
             this.twitch.on('loadTwitchChannels', function(event, game) {
                 self.twitch.set('mode', 'channels');
                 Crossbar.rpc('getTwitchChannels', {game: game}, function(response) {
+                    console.log('getTwitchChannels');
+                    console.log(response);
                     Twitch.setChannels(response);
                 });
             });
