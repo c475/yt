@@ -231,7 +231,10 @@ class Mediacenter(ApplicationSession):
             print(data)
             data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
             if data['uid'] is not None:
-                return TwitchController().getTopGames()
+                try:
+                    return TwitchController().getTopGames()
+                except Exception, e:
+                    print(e)
 
         # get channels by game
         def getTwitchChannels(data):
