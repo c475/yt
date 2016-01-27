@@ -603,6 +603,7 @@ window.onload = function() {
             });
 
             this.twitch.on('getGamesPage', function(event, page) {
+                console.log('PAGE: ' + page);
                 var games = self.twitch.get('games');
                 var perPage = self.twitch.get('perPage');
                 self.search.set('visibleResultsGames', games.slice((page - 1) * perPage, page * perPage));
@@ -610,6 +611,7 @@ window.onload = function() {
             });
 
             this.twitch.on('getChannelsPage', function(event, page) {
+                console.log('PAGE: ' + page);
                 var channels = self.twitch.get('channels');
                 var perPage = self.twitch.get('perPage');
                 self.search.set('visibleResultsChannels', channels.slice((page - 1) * perPage, page * perPage));
