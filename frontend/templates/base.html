@@ -127,6 +127,19 @@ window.onload = function() {
 
                     UI.history.update();
                 });
+
+
+                self.subscribe('twitch', function(data) {
+                    var action = data[0];
+                    var extra = data[1];
+
+                    if(action === 'start') {
+                        self.rpc('endVideo');
+                        Twitch.start(extra);
+                    } else {
+                        Twitch.end();
+                    }
+                });
             };
 
             this.connection.onclose = function(reason, details) {
@@ -197,6 +210,31 @@ window.onload = function() {
         publish: function(endpoint, args) {
             this.session.publish(endpoint, args);
         }
+    };
+
+
+    var Twitch = {
+
+        initialize: function() {
+            return null;
+        },
+
+        start: function(stream) {
+            return null;
+        },
+
+        stop: function(stream) {
+            return null;
+        },
+
+        setGames: function(games) {
+            UI.twitch.set('games', games['top']);
+        },
+
+        setChannels: function(channels) {
+            UI.twitch.set('channels', channels['streams']);
+        }
+
     };
 
 
@@ -423,10 +461,13 @@ window.onload = function() {
                 Crossbar.rpc('getVideoHistory', {page: historyPage}, function(response) {
                     self.history.set('videos', response);
                 });
-            }
-
-            if(page === 'home') {
+            } else if(page === 'home') {
                 this.chatboxScroll();
+            } else if(page === 'twitch') {
+                this.twitch.set('mode', 'games');
+                Crossbar.rpc('getTwitchTopGames', null, function(response) {
+                    Twitch.setGames(response);
+                });
             }
 
             if(page !== 'home') {
@@ -447,7 +488,8 @@ window.onload = function() {
                 this.playlist,
                 this.search,
                 this.player,
-                this.chat
+                this.chat,
+                this.twitch
             ];
 
             this.search.observe("query", function(query) {
@@ -564,6 +606,20 @@ window.onload = function() {
                 window.location = '/logout/';
             });
 
+            this.twitch.on('loadTwitchGames', function(event) {
+                this.twitch.set('mode', 'games');
+                Crossbar.rpc('getTwitchTopGames', null, function(response) {
+                    Twitch.setGames(response);
+                });
+            });
+
+            this.twitch.on('loadTwitchChannels', function(event, game) {
+                self.twitch.set('mode', 'channels');
+                Crossbar.rpc('getTwitchChannels', {game: game}, function(response) {
+                    Twitch.setChannels(response);
+                });
+            });
+
             this.chat.push('chats', {
                 user: {
                     username: 'Joining'
@@ -656,6 +712,18 @@ window.onload = function() {
                 active: false,
                 activeOn: ['profile'],
                 user: User
+            }
+        }),
+
+        twitch: new Ractive({
+            el: '#twitch',
+            template: '#twitch-template',
+            data: {
+                active: false,
+                activeOn: ['twitch'],
+                mode: 'games',
+                games: [],
+                channels: []
             }
         }),
 

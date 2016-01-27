@@ -33,6 +33,8 @@ from backend.controllers.Youtube import Youtube
 from backend.controllers.Users import Users
 from backend.controllers.Chats import Chats
 from backend.controllers.System import System
+from backend.controllers.TwitchController import TwitchController
+
 
 from credentials import CROSSBAR_KEY, CROSSBAR_SALT
 
@@ -216,11 +218,43 @@ class Mediacenter(ApplicationSession):
 
         def logout(data):
             printendpoint('logout')
+            print(data)
             data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
             if data['uid'] is not None:
                 Users(user=data['uid'], room=data['room']).logout()
                 REDIS_SOCKETS.delete(data['socket'])
                 self.publish(data['room'] + '.users', 'list', Users(room=data['room']).getActiveUsers())
+
+        # get twitch game listing
+        def getTwitchTopGames(data):
+            printendpoint('getTwitchTopGames')
+            print(data)
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                return TwitchController().getTopGames()
+
+        # get channels by game
+        def getTwitchChannels(data):
+            printendpoint('getTwitchChannels')
+            print(data)
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                return TwitchController().channelsByGame(data['game'])
+
+        def startTwitchStream(data):
+            printendpoint('startTwitchStream')
+            print(data)
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                self.publish(data['room'] + '.twitch', 'start', TwitchController(data['room']).startStream(data['stream']))
+
+        def endTwitchStream(data):
+            printendpoint('endTwitchStream')
+            print(data)
+            data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
+            if data['uid'] is not None:
+                self.publish(data['room'] + '.twitch', 'end', TwitchController(data['room']).endStream(data['stream']))
+
 
         yield self.register(initialize, 'initialize')
         yield self.register(sendChat, 'sendChat')
@@ -232,3 +266,8 @@ class Mediacenter(ApplicationSession):
         yield self.register(endVideo, 'endVideo')
         yield self.register(getVideoHistory, 'getVideoHistory')
         yield self.register(logout, 'logout')
+
+        yield self.register(getTwitchTopGames, 'getTwitchTopGames')
+        yield self.register(getTwitchChannels, 'getTwitchChannels')
+        yield self.register(startTwitchStream, 'startTwitchStream')
+        yield self.register(endTwitchStream, 'endTwitchStream')
