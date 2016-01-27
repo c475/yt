@@ -4,8 +4,8 @@
 
     {{ #if mode === 'games' }}
 
-        {{ #each games }}
         <ul class="media-list">
+            {{ #each games }}
             <li class="media playlist-item search-result" on-click="loadTwitchChannels:{{ game.name }}">
                 <div class="media-left">
                     <img class="media-object" src="{{ game.box.small }}" />
@@ -16,13 +16,13 @@
                     <p style="color: white;">Viewers: {{ viewers }}</p>
                 </div>
             </li>
+            {{ /each }}
         </ul>
-        {{ /each }}
 
     {{ else }}
 
-        {{ #each channels }}
         <ul class="media-list">
+            {{ #each channels }}
             <li class="media playlist-item search-result" on-click="streamChannel:{{ channel }}">
                 <div class="media-left">
                     <img class="media-object" src="{{ preview.medium }}" />
@@ -33,8 +33,8 @@
                     <p style="color: white;">Viewers: {{ viewers }}</p>
                 </div>
             </li>
+            {{ /each }}
         </ul>
-        {{ /each }}
 
     {{ /if }}
 
