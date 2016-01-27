@@ -602,14 +602,14 @@ window.onload = function() {
                 self.search.set('page', page);
             });
 
-            this.search.on('getGamesPage', function(event, page) {
+            this.twitch.on('getGamesPage', function(event, page) {
                 var games = self.twitch.get('games');
                 var perPage = self.twitch.get('perPage');
                 self.search.set('visibleResultsGames', games.slice((page - 1) * perPage, page * perPage));
                 self.search.set('currentPageGames', page);
             });
 
-            this.search.on('getChannelsPage', function(event, page) {
+            this.twitch.on('getChannelsPage', function(event, page) {
                 var channels = self.twitch.get('channels');
                 var perPage = self.twitch.get('perPage');
                 self.search.set('visibleResultsChannels', channels.slice((page - 1) * perPage, page * perPage));
