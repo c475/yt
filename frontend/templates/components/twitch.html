@@ -4,7 +4,7 @@
 
     {{ #if mode === 'games' }}
 
-        <div style="text-align: center; height: 38px;">
+        <div style="text-align: center; height: 38px; margin-top: 16px;">
             <ul class="pagination" style="margin: 0 0 0 0;">
                 {{ #each gamesPages }}
                 <li>
@@ -18,7 +18,7 @@
 
         <ul class="media-list">
             {{ #each visibleResultsGames }}
-            <li class="media playlist-item search-result twitch-item" on-click="loadTwitchChannels:{{ game.name }}">
+            <li class="media playlist-item search-result twitch-game" on-click="loadTwitchChannels:{{ game.name }}">
                 <div class="media-left">
                     <img class="media-object" src="{{ game.box.small.replace('http://', 'https://') }}" />
                 </div>
@@ -33,7 +33,7 @@
 
     {{ elseif mode === 'channels' }}
 
-        <div style="text-align: center; height: 38px;">
+        <div style="text-align: center; height: 38px; margin-top: 16px;">
             <ul class="pagination" style="margin: 0 0 0 0;">
                 {{ #each channelsPages }}
                 <li>
@@ -47,9 +47,9 @@
 
         <ul class="media-list">
             {{ #each visibleResultsChannels }}
-            <li class="media playlist-item search-result twitch-item" on-click="streamChannel:{{ channel }}">
+            <li class="media playlist-item search-result twitch-channel" on-click="streamChannel:{{ channel }}">
                 <div class="media-left">
-                    <img class="media-object" src="{{ preview.medium.replace('http://', 'https://') }}" />
+                    <img class="media-object" src="{{ preview.small.replace('http://', 'https://') }}" />
                 </div>
                 <div class="media-body">
                     <h5 class="media-heading">{{ channel.status }}</h5>
