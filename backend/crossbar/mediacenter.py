@@ -231,12 +231,7 @@ class Mediacenter(ApplicationSession):
             print(data)
             data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
             if data['uid'] is not None:
-                try:
-                    games = TwitchController().getTopGames()
-                    print(games)
-                    return games
-                except Exception, e:
-                    print(e)
+                return TwitchController().getTopGames()
 
         # get channels by game
         def getTwitchChannels(data):
@@ -246,6 +241,7 @@ class Mediacenter(ApplicationSession):
             if data['uid'] is not None:
                 return TwitchController().channelsByGame(data['game'])
 
+        # start up that iframe...
         def startTwitchStream(data):
             printendpoint('startTwitchStream')
             print(data)
@@ -253,6 +249,7 @@ class Mediacenter(ApplicationSession):
             if data['uid'] is not None:
                 self.publish(data['room'] + '.twitch', 'start', TwitchController(data['room']).startStream(data['stream']))
 
+        # stop that iframe...
         def endTwitchStream(data):
             printendpoint('endTwitchStream')
             print(data)
