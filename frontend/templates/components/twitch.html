@@ -4,6 +4,18 @@
 
     {{ #if mode === 'games' }}
 
+        <div style="text-align: center; height: 38px;">
+            <ul class="pagination" style="margin: 0 0 0 0;">
+                {{ #each gamesPages }}
+                <li>
+                    <a href="#" class="{{ this === currentPageGames ? 'pagination-active' : ''}}" on-click="getGamesPage:{{ this }}">
+                        {{ this }}
+                    </a>
+                </li>
+                {{ /each }}
+            </ul>
+        </div>
+
         <ul class="media-list">
             {{ #each games }}
             <li class="media playlist-item search-result twitch-item" on-click="loadTwitchChannels:{{ game.name }}">
@@ -19,7 +31,19 @@
             {{ /each }}
         </ul>
 
-    {{ else }}
+    {{ elseif mode === 'channels' }}
+
+        <div style="text-align: center; height: 38px;">
+            <ul class="pagination" style="margin: 0 0 0 0;">
+                {{ #each channelsPages }}
+                <li>
+                    <a href="#" class="{{ this === currentPageChannels ? 'pagination-active' : ''}}" on-click="getChannelsPa:{{ this }}">
+                        {{ this }}
+                    </a>
+                </li>
+                {{ /each }}
+            </ul>
+        </div>
 
         <ul class="media-list">
             {{ #each channels }}
@@ -35,6 +59,10 @@
             </li>
             {{ /each }}
         </ul>
+
+    {{ else }}
+
+        <iframe class="videoplayer" src="{{ streamingChannel }}" frameborder="0" scrolling="no" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>
 
     {{ /if }}
 
