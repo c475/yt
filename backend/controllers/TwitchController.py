@@ -29,7 +29,7 @@ class TwitchController(object):
         return Twitch.objects.filter(room=self.room).exclude(start=None).filter(stop=None)
 
     def getTopGames(self):
-        games = self.session.get(self.endpoint + 'games/top/')
+        games = self.session.get(self.endpoint + 'games/top/?limit=100')
         return games.json()
 
     def channelsByGame(self, game):
