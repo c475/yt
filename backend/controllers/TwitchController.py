@@ -1,6 +1,6 @@
 import requests
 import datetime
-from backend.models import Twitch
+from backend.models import Twitch, Room
 
 from django.forms.models import model_to_dict
 
