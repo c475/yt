@@ -667,8 +667,8 @@ window.onload = function() {
                 });
             });
 
-            this.twitch.on('streamChannel', function(event, channel) {
-                Crossbar.rpc('startTwitchStream', {channel: channel});
+            this.twitch.on('streamChannel', function(event, stream) {
+                Crossbar.rpc('startTwitchStream', {stream: stream});
             });
 
             this.twitch.on('stopChannel', function(event) {
