@@ -45,7 +45,7 @@ class TwitchController(object):
         return channels.json()
 
     def startStream(self, user, stream):
-        url = 'https://player.twitch.com/{}?embed=1'.format(stream['name'])
+        url = 'https://player.twitch.tv/?channel={}'.format(stream['name'])
 
         stream = Twitch.objects.create(
             game=stream['game'],
