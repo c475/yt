@@ -16,7 +16,7 @@ class TwitchController(object):
         })
 
         if room is not None:
-            room = Twitch.objects.filter(name=room)
+            room = Room.objects.filter(name=room)
             if room.exists():
                 self.room = room[0]
             else:
