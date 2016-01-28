@@ -53,7 +53,8 @@ class TwitchController(object):
             url=url,
             streamer=stream['name'],
             user_id=user,
-            start=datetime.datetime.now()
+            start=datetime.datetime.now(),
+            room=self.room
         )
 
         stream = model_to_dict(stream)
