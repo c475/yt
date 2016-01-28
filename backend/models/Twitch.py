@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Twitch(models.Model):
+    game = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
     url = models.CharField(max_length=128)
     streamer = models.CharField(max_length=128)

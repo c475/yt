@@ -131,11 +131,10 @@ window.onload = function() {
 
                 self.subscribe('twitch', function(data) {
                     var action = data[0];
-                    var extra = data[1];
 
                     if(action === 'start') {
-                        self.rpc('endVideo');
-                        Twitch.start(extra);
+                        var channel = data[1];
+                        Twitch.start(channel);
                     } else {
                         Twitch.end();
                     }
@@ -220,16 +219,20 @@ window.onload = function() {
         },
 
         start: function(stream) {
+            UI.twitch.set('mode', 'stream');
+            UI.twitch.set('streamingChannel', stream.frame);
+            UI.navbar.set('activeTwitchStream', true);
             return null;
         },
 
         stop: function(stream) {
-            return null;
+            UI.twitch.set('streamingChannel', '<h1>No active stream</h1>');
+            UI.navbar.set('activeTwitchStream', false);
         },
 
         setGames: function(games) {
-            games = games['top']
-            var maxPages = UI.twitch.get('perPage');
+            games = games['top'];
+            var maxPages = UI.twitch.get('perPageGames');
             var pages = [];
 
             for(var i = 1; i <= Math.floor(games.length / maxPages); i++) {
@@ -244,7 +247,7 @@ window.onload = function() {
 
         setChannels: function(channels) {
             channels = channels['streams'];
-            var maxPages = UI.twitch.get('perPage');
+            var maxPages = UI.twitch.get('perPageChannels');
             var pages = [];
 
             for(var i = 1; i <= Math.floor(channels.length / maxPages); i++) {
@@ -605,7 +608,7 @@ window.onload = function() {
             this.twitch.on('getGamesPage', function(event, page) {
                 console.log('PAGE: ' + page);
                 var games = self.twitch.get('games');
-                var perPage = self.twitch.get('perPage');
+                var perPage = self.twitch.get('perPageGames');
                 self.twitch.set('visibleResultsGames', games.slice((page - 1) * perPage, page * perPage));
                 self.twitch.set('currentPageGames', page);
             });
@@ -613,7 +616,7 @@ window.onload = function() {
             this.twitch.on('getChannelsPage', function(event, page) {
                 console.log('PAGE: ' + page);
                 var channels = self.twitch.get('channels');
-                var perPage = self.twitch.get('perPage');
+                var perPage = self.twitch.get('perPageChannels');
                 self.twitch.set('visibleResultsChannels', channels.slice((page - 1) * perPage, page * perPage));
                 self.twitch.set('currentPageChannels', page);
             });
@@ -664,6 +667,19 @@ window.onload = function() {
                 });
             });
 
+            this.twitch.on('streamChannel', function(event, channel) {
+                Crossbar.rpc('startTwitchStream', {channel: channel});
+            });
+
+            this.twitch.on('stopChannel', function(event) {
+                Crossbar.rpc('stopTwitchStream');
+            });
+
+            this.navbar.on('goToTwitchStream', function(event) {
+                self.navigate('twitch');
+                self.twitch.set('mode', 'stream');
+            });
+
             this.chat.push('chats', {
                 user: {
                     username: 'Joining'
@@ -677,7 +693,8 @@ window.onload = function() {
             template: "#navbar-template",
             data: {
                 view: "home",
-                room: State.room
+                room: State.room,
+                activeTwitchStream: false
             }
         }),
 
@@ -770,7 +787,8 @@ window.onload = function() {
                 games: [],
                 channels: [],
 
-                perPage: 10,
+                perPageGames: 10,
+                perPageChannels: 5,
 
                 gamesPages: [],
                 channelsPages: [],
@@ -780,6 +798,8 @@ window.onload = function() {
 
                 visibleResultsGames: [],
                 visibleResultsChannels: [],
+
+                streamingChannel: '<h1>No active stream</h1>'
             }
         }),
 

@@ -8,7 +8,7 @@
             <ul class="pagination" style="margin: 0 0 0 0;">
                 {{ #each gamesPages }}
                 <li>
-                    <a href="#" class="{{ this === currentPageGames ? 'pagination-active' : ''}}" on-click="getGamesPage:{{ this }}">
+                    <a href="#" class="{{ this === currentPageGames ? 'pagination-active' : '' }}" on-click="getGamesPage:{{ this }}">
                         {{ this }}
                     </a>
                 </li>
@@ -37,7 +37,7 @@
             <ul class="pagination" style="margin: 0 0 0 0;">
                 {{ #each channelsPages }}
                 <li>
-                    <a href="#" class="{{ this === currentPageChannels ? 'pagination-active' : ''}}" on-click="getChannelsPage:{{ this }}">
+                    <a href="#" class="{{ this === currentPageChannels ? 'pagination-active' : '' }}" on-click="getChannelsPage:{{ this }}">
                         {{ this }}
                     </a>
                 </li>
@@ -62,7 +62,7 @@
 
     {{ else }}
 
-        <iframe class="videoplayer" src="{{ streamingChannel }}" frameborder="0" scrolling="no" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>
+        {{ streamingChannel }}
 
     {{ /if }}
 

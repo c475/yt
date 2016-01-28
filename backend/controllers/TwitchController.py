@@ -45,16 +45,21 @@ class TwitchController(object):
         return channels.json()
 
     def startStream(self, user, stream):
+        url = 'https://player.twitch.com/{}?embed=1'.format(stream['name'])
+
         stream = Twitch.objects.create(
-            title=stream['title'],
-            url=stream['url'],
-            streamer=stream['streamer'],
+            game=stream['game'],
+            title=stream['status'],
+            url=url,
+            streamer=stream['name'],
             user_id=user,
             start=datetime.datetime.now()
         )
 
         stream = model_to_dict(stream)
         stream['start'] = stream['start'].strftime('%Y-%m-%d %H:%M:%S')
+        stream['frame'] = '<iframe class="videoplayer" src="{}" frameborder="0" scrolling="no" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>'.format(stream.url)
+
         return stream
 
     def endStream(self):

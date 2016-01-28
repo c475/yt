@@ -1,4 +1,5 @@
 {% verbatim %}
+
 <div class="navbar navbar-inverse">
 
     <div class="container" style="float: left;">
@@ -21,9 +22,13 @@
                 {{ usersOrChat === 'chat' ? 'Users' : 'Chat' }}
             </button>
             <button class="nav-button btn btn-danger" on-click="logout">Logout</button>
+            {{ #if activeTwitchStream }}
+                <button class="nav-button btn btn-danger" on-click="goToTwitchStream">Twitch</button>
+            {{ /if }}
         </div>
 
     </div>
 
 </div>
+
 {% endverbatim %}
