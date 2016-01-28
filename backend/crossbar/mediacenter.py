@@ -247,7 +247,7 @@ class Mediacenter(ApplicationSession):
             print(data)
             data['uid'] = int(REDIS_SOCKETS.get(data['socket']))
             if data['uid'] is not None:
-                self.publish(data['room'] + '.twitch', 'start', TwitchController(data['room']).startStream(data['stream']))
+                self.publish(data['room'] + '.twitch', 'start', TwitchController(data['room']).startStream(data['uid'], data['stream']))
 
         # stop that iframe...
         def endTwitchStream(data):
