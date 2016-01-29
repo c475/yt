@@ -31,7 +31,7 @@ class TwitchController(object):
     def getTopGames(self):
         games = self.session.get(self.endpoint + 'games/top/?limit=100')
 
-        print(channels.json())
+        print(games.json())
 
         return games.json()
 
