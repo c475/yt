@@ -30,6 +30,9 @@ class TwitchController(object):
 
     def getTopGames(self):
         games = self.session.get(self.endpoint + 'games/top/?limit=100')
+
+        print(channels.json())
+
         return games.json()
 
     def channelsByGame(self, game):
@@ -41,6 +44,8 @@ class TwitchController(object):
                 'stream_type': 'live'
             }
         )
+
+        print(channels.json())
 
         return channels.json()
 
