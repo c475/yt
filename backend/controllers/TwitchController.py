@@ -59,7 +59,6 @@ class TwitchController(object):
 
         stream = model_to_dict(stream)
         stream['start'] = stream['start'].strftime('%Y-%m-%d %H:%M:%S')
-        stream['frame'] = '<iframe class="videoplayer" src="{}" frameborder="0" scrolling="no" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>'.format(stream['url'])
 
         return stream
 
