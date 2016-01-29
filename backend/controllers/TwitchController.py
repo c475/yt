@@ -31,9 +31,13 @@ class TwitchController(object):
     def getTopGames(self):
         games = self.session.get(self.endpoint + 'games/top/?limit=100')
 
-        print(games.json())
+        games_json = games.json()['top']
 
-        return games.json()
+        for game in games_json:
+            for box in game['game']['box'].keys():
+                game['game']['box'][box] = game['game']['box'][box].replace('http://', 'https://')
+
+        return games_json
 
     def channelsByGame(self, game):
         channels = self.session.get(
