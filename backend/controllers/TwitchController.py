@@ -49,8 +49,6 @@ class TwitchController(object):
             }
         )
 
-        print(channels.json())
-
         return channels.json()
 
     def startStream(self, user, stream):
@@ -67,6 +65,7 @@ class TwitchController(object):
         )
 
         stream = model_to_dict(stream)
+        stream['frame'] = '<iframe class="videoplayer" src="{}&html5" frameborder="0" scrolling="no" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>'.format(stream['url'])
         stream['start'] = stream['start'].strftime('%Y-%m-%d %H:%M:%S')
 
         return stream

@@ -219,12 +219,15 @@ window.onload = function() {
         },
 
         start: function(stream) {
-            window.open(stream.url);
-            return null;
+            UI.twitch.set('mode', 'streaming');
+            UI.twitch.set('streamingChannel', stream.frame);
+            UI.navbar.set('activeTwitchStream', true);
         },
 
         stop: function(stream) {
+            UI.twitch.set('mode', 'games');
             UI.twitch.set('streamingChannel', '<h1>No active stream</h1>');
+            UI.navbar.set('activeTwitchStream', false);
         },
 
         setGames: function(games) {
