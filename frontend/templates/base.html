@@ -693,6 +693,7 @@ window.onload = function() {
             data: {
                 view: "home",
                 room: State.room,
+                activeTwitchStream: false
             }
         }),
 
@@ -796,6 +797,8 @@ window.onload = function() {
 
                 visibleResultsGames: [],
                 visibleResultsChannels: [],
+
+                streamingChannel: '<h1>No active stream!</h1>'
             }
         }),
 
