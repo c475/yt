@@ -56,7 +56,7 @@
                   "port": 8080,
                   "tls": {
                      "key": "/etc/ssl/private/mediacenter.key",
-                     "certificate": "/etc/ssl/certs/mediacenter.crt",
+                     "certificate": "/etc/ssl/certs/ytdjb.crt",
                      "ciphers": "ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AES:RSA+3DES:!ADH:!AECDH:!MD5:!DSS"
                   }
                },
